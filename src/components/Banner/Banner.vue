@@ -35,12 +35,10 @@ export default {
     message: {
       type: String,
       default: null,
-      // @TODO add validator?
     },
     status: {
       type: String,
       default: null,
-      // @TODO add validator?
     },
   },
   computed: {
