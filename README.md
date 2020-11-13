@@ -20,6 +20,13 @@ npm run test:unit
 npm run lint
 ```
 
+### Publish package
+```
+lerna publish
+```
+
+
+
 ## NOT BEING USED FOR VUE DEVELOPMENT
 
 ### Compiles and hot-reloads for development
