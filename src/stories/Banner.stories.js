@@ -14,8 +14,8 @@ const Template = (args, { argTypes }) => ({
   template: '<MyBanner v-bind="$props" />',
 });
 
-export const Status = Template.bind({});
-Status.args = {
+export const Types = Template.bind({});
+Types.args = {
   status: 'success',
   message: 'My initial message - pls test without message'
 };
