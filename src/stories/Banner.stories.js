@@ -1,4 +1,4 @@
-import MyBanner from '../components/Banner/Banner';
+import MyBanner from '../packages/components/Banner/Banner';
 
 export default {
   title: 'MOJ-Kit/Banner',
