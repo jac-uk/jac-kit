@@ -49,3 +49,4 @@ export default {
     To close or cancel the modal, removes above blocking elements and styling, emits a 'closed' event which can be listen in parent to trigger behaviour following a modal being dismissed/declined.
     Linked to the _optional_ secondary button togglable with the _cancelable_ prop.
 
+It can be used with custom content.
