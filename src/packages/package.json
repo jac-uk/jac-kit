@@ -6,7 +6,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jac-uk/kit.git"
-  },
-  "gitHead": "98db22d787c2aff699e6971277e762bf66a2206f"
+    "url": "https://github.com/jac-uk/jac-kit.git"
+  }
 }
