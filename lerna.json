@@ -1,7 +1,8 @@
 {
   "packages": [
     "src/packages/",
-    "src/packages/*"
+    "src/packages/*",
+    "src/packages/components/*"
   ],
   "version": "independent",
   "command": {
