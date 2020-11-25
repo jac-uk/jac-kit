@@ -1,5 +1,5 @@
 // IMPORT STYLES here
-// import '../src/index.css';
+import 'style-loader!css-loader!sass-loader!../src/main.scss';
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },

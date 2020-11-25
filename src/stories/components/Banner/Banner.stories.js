@@ -1,7 +1,7 @@
-import MyBanner from '../packages/components/Banner/Banner';
+import MyBanner from '../../../packages/components/Banner/Banner';
 
 export default {
-  title: 'MOJ-Kit/Banner',
+  title: 'JAC-Kit/Banner',
   component: MyBanner,
   argTypes: {
     status: { control: { type: 'select', options: ['success', 'warning', 'information'] } }
