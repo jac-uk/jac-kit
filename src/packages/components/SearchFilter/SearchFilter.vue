@@ -69,7 +69,6 @@
 </template>
 
 <script>
-
 import FilterButton from "./FilterButton";
 
 export default {
@@ -122,52 +121,52 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  // hr {
-  //   padding: 0;
-  //   margin: 0;
-  // }
+hr {
+  padding: 0;
+  margin: 0;
+}
 
-  // .container {
-  //   border: 1px solid black;
-  //   position: absolute;
-  //   right: 0;
-  //   top: 0;
-  //   z-index: 11;
-  //   background-color: white;
-  // }
+.container {
+  border: 1px solid black;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 11;
+  background-color: white;
+}
 
-  // .footer-div > button {
-  //   width: 40%;
-  // }
+.footer-div > button {
+  width: 40%;
+}
 
-  // .content {
-  //   overflow: auto;
-  // }
+.content {
+  overflow: auto;
+}
 
-  // .scrollable {
-  //   overflow-y: auto;
-  //   max-height: 70vh;
-  // }
+.scrollable {
+  overflow-y: auto;
+  max-height: 70vh;
+}
 
-  // .header-div {
-  //   margin: 0;
-  // }
+.header-div {
+  margin: 0;
+}
 
-  // .footer-div {
-  //   text-align: center;
-  // }
+.footer-div {
+  text-align: center;
+}
 
-  // .clear-all {
-  //   padding-top: 2em;
-  // }
+.clear-all {
+  padding-top: 2em;
+}
 
-  // .slide-enter-active,
-  // .slide-leave-active {
-  //   transition: transform 0.75s ease-in-out;
-  // }
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.75s ease-in-out;
+}
 
-  // .slide-enter,
-  // .slide-leave-to {
-  //   transform: translateX(300%);
-  // }
+.slide-enter,
+.slide-leave-to {
+  transform: translateX(300%);
+}
 </style>
