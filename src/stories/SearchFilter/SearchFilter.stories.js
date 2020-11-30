@@ -1,26 +1,46 @@
-// import SearchFilter from "../packages/components/Banner/Banner";
+import SearchFilter from "../../packages/components/SearchFilter/SearchFilter";
 
-// export default {
-//   title: "JAC-Kit/SearchFilter",
-//   component: SearchFilter,
-//   argTypes: {
-//     status: {
-//       control: {
-//         type: "select",
-//         options: ["success", "warning", "information"]
-//       }
-//     }
-//   }
-// };
+const checkbox = {
+  type: "checkbox",
+  title: "Checkbox Example",
+  options: ["one", "two", "three"]
+};
 
-// const Template = (args, { argTypes }) => ({
-//   props: Object.keys(argTypes),
-//   components: { SearchFilter },
-//   template: '<SearchFilter v-bind="$props" />'
-// });
+const dateRange = {
+  type: "dateRange",
+  title: "Date Range Example"
+};
 
-// export const Types = Template.bind({});
-// Types.args = {
-//   status: "success",
-//   message: "My initial message - pls test without message"
-// };
+const keyword = {
+  type: "keyword",
+  title: "keyword"
+};
+
+export default {
+  title: "JAC-Kit/SearchFilter",
+  component: SearchFilter,
+  argTypes: {
+    terms: {
+      control: {
+        type: "check",
+        options: {
+          checkbox: checkbox,
+          dateRange: dateRange,
+          keyword: keyword
+        }
+      }
+    }
+  }
+};
+
+const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { SearchFilter },
+  template: '<SearchFilter v-bind="$props" />'
+});
+
+export const Types = Template.bind({});
+Types.args = {
+  showTab: true,
+  terms: [dateRange]
+};

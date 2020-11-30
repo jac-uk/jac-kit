@@ -31,19 +31,7 @@
           <div class="scrollable">
             <div v-for="(term, index) in terms" :key="term.title">
               <div v-if="term.type === 'checkbox'">
-                <CheckboxGroup
-                  :id="`filter-${term.title}-${index}`"
-                  v-model="selected[`${term.title}`]"
-                  :label="term.title"
-                  hint="Select all that apply."
-                >
-                  <CheckboxItem
-                    v-for="(option, i) in term.options"
-                    :key="i"
-                    :value="option"
-                    :label="option"
-                  />
-                </CheckboxGroup>
+                checkboxs
               </div>
               <div v-if="term.type === 'keyword'">
                 <legend
@@ -51,22 +39,10 @@
                 >
                   {{ term.title }}
                 </legend>
-                <TextField
-                  :id="`keyword-${term.title}-${index}`"
-                  v-model="selected[`${term.title}`]"
-                />
+                text
               </div>
               <div v-if="term.type === 'dateRange'">
-                <DateInput
-                  :id="`${term.title}-${index}-from`"
-                  v-model="selected[`${term.title}-from`]"
-                  :label="`${term.title} from`"
-                />
-                <DateInput
-                  :id="`${term.title}-${index}-to`"
-                  v-model="selected[`${term.title}-to`]"
-                  :label="`${term.title} to`"
-                />
+                Dates
               </div>
             </div>
           </div>
@@ -93,19 +69,12 @@
 </template>
 
 <script>
-// import CheckboxGroup from "@/components/Form/CheckboxGroup";
-// import CheckboxItem from "@/components/Form/CheckboxItem";
-// import TextField from "@/components/Form/TextField";
-// import DateInput from "@/components/Form/DateInput";
-// import FilterButton from "@/components/Filter/FilterButton";
+
+import FilterButton from "./FilterButton";
 
 export default {
   components: {
-    // CheckboxGroup,
-    // CheckboxItem,
-    // TextField,
-    // DateInput,
-    // FilterButton
+    FilterButton
   },
   props: {
     terms: {
@@ -151,53 +120,54 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
-hr {
-  padding: 0;
-  margin: 0;
-}
+  // hr {
+  //   padding: 0;
+  //   margin: 0;
+  // }
 
-.container {
-  border: 1px solid black;
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 11;
-  background-color: white;
-}
+  // .container {
+  //   border: 1px solid black;
+  //   position: absolute;
+  //   right: 0;
+  //   top: 0;
+  //   z-index: 11;
+  //   background-color: white;
+  // }
 
-.footer-div > button {
-  width: 40%;
-}
+  // .footer-div > button {
+  //   width: 40%;
+  // }
 
-.content {
-  overflow: auto;
-}
+  // .content {
+  //   overflow: auto;
+  // }
 
-.scrollable {
-  overflow-y: auto;
-  max-height: 70vh;
-}
+  // .scrollable {
+  //   overflow-y: auto;
+  //   max-height: 70vh;
+  // }
 
-.header-div {
-  margin: 0;
-}
+  // .header-div {
+  //   margin: 0;
+  // }
 
-.footer-div {
-  text-align: center;
-}
+  // .footer-div {
+  //   text-align: center;
+  // }
 
-.clear-all {
-  padding-top: 2em;
-}
+  // .clear-all {
+  //   padding-top: 2em;
+  // }
 
-.slide-enter-active,
-.slide-leave-active {
-  transition: transform 0.75s ease-in-out;
-}
+  // .slide-enter-active,
+  // .slide-leave-active {
+  //   transition: transform 0.75s ease-in-out;
+  // }
 
-.slide-enter,
-.slide-leave-to {
-  transform: translateX(300%);
-}
+  // .slide-enter,
+  // .slide-leave-to {
+  //   transform: translateX(300%);
+  // }
 </style>
