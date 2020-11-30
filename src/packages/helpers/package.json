@@ -1,6 +1,6 @@
 {
-  "name": "@jac-uk/banner",
-  "version": "0.0.5",
+  "name": "@jac-uk/helpers",
+  "version": "0.0.2",
   "publishConfig": {
     "access": "public"
   },
