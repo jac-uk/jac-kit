@@ -1,4 +1,4 @@
-import SearchFilter from "../../packages/components/SearchFilter/SearchFilter";
+import SearchFilter from "../../../packages/components/SearchFilter/SearchFilter";
 
 const checkbox = {
   type: "checkbox",

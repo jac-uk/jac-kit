@@ -1,4 +1,4 @@
-import FilterButton from "../../packages/components/SearchFilter/FilterButton";
+import FilterButton from "../../../packages/components/SearchFilter/FilterButton";
 
 export default {
   title: "JAC-Kit/FilterButton",
