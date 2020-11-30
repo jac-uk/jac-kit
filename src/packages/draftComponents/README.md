@@ -1,1 +1,2 @@
-This is set of components developed during 2019-2020 as part of the jac-uk/admin
+This is a set of components developed during 2019-2020 as part of the jac-uk/admin.
+
