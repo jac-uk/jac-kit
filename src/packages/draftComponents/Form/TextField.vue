@@ -1,7 +1,7 @@
 <template>
   <div
     class="govuk-form-group"
-    :class="{'govuk-form-group--error': hasError}"
+    :class="{ 'govuk-form-group--error': hasError }"
   >
     <label
       :for="id"
@@ -23,7 +23,7 @@
       :id="id"
       v-model="text"
       class="govuk-input"
-      :class="[inputClass, {'govuk-input--error': hasError}]"
+      :class="[inputClass, { 'govuk-input--error': hasError }]"
       :type="fieldType"
       :autocomplete="autocomplete"
       @change="validate"
@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import FormField from '@/components/Form/FormField';
-import FormFieldError from '@/components/Form/FormFieldError';
+import FormField from './FormField';
+import FormFieldError from './FormFieldError';
 
 export default {
   components: {

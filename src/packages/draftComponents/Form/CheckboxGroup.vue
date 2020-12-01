@@ -2,7 +2,7 @@
   <div
     :id="id"
     class="govuk-form-group"
-    :class="{'govuk-form-group--error': hasError}"
+    :class="{ 'govuk-form-group--error': hasError }"
   >
     <fieldset
       class="govuk-fieldset"
@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import FormField from '@/components/Form/FormField';
-import FormFieldError from '@/components/Form/FormFieldError';
+import FormField from './FormField';
+import FormFieldError from './FormFieldError';
 
 export default {
   name: 'CheckboxGroup',
@@ -45,7 +45,7 @@ export default {
   props: {
     value: {
       required: true,
-      validator: (value) => (value instanceof Array || value === null || value === undefined),
+      validator: value => value instanceof Array || value === null || value === undefined,
     },
   },
   computed: {

@@ -25,30 +25,55 @@
           >
             Clear all
           </a>
-          <hr />
+          <hr>
         </div>
         <div class="content">
           <div class="scrollable">
-            <div v-for="(term, index) in terms" :key="term.title">
+            <div
+              v-for="(term, index) in terms"
+              :key="term.title"
+            >
               <div v-if="term.type === 'checkbox'">
-                checkboxs
+                <CheckboxGroup
+                  :id="`filter-${term.title}-${index}`"
+                  v-model="selected[`${term.title}`]"
+                  :label="term.title"
+                  hint="Select all that apply."
+                >
+                  <CheckboxItem
+                    v-for="(option, i) in term.options"
+                    :key="i"
+                    :value="option"
+                    :label="option"
+                  />
+                </CheckboxGroup>
               </div>
               <div v-if="term.type === 'keyword'">
-                <legend
-                  class="govuk-fieldset__legend govuk-fieldset__legend--m govuk-!-margin-bottom-2"
-                >
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m govuk-!-margin-bottom-2">
                   {{ term.title }}
                 </legend>
-                text
+                <TextField
+                  :id="`keyword-${term.title}-${index}`"
+                  v-model="selected[`${term.title}`]"
+                />
               </div>
               <div v-if="term.type === 'dateRange'">
-                Dates
+                <DateInput
+                  :id="`${term.title}-${index}-from`"
+                  v-model="selected[`${term.title}-from`]"
+                  :label="`${term.title} from`"
+                />
+                <DateInput
+                  :id="`${term.title}-${index}-to`"
+                  v-model="selected[`${term.title}-to`]"
+                  :label="`${term.title} to`"
+                />
               </div>
             </div>
           </div>
         </div>
         <div class="footer-div">
-          <hr />
+          <hr>
           <button
             class="govuk-button govuk-!-margin-2 govuk-button--secondary"
             :disabled="!anySelected"
@@ -69,22 +94,32 @@
 </template>
 
 <script>
-import FilterButton from "./FilterButton";
+import CheckboxGroup from '@/draftComponents/Form/CheckboxGroup';
+import TextField from '@/draftComponents/Form/TextField';
+
+import CheckboxItem from '@/draftComponents/Form/CheckboxItem';
+import DateInput from '@/draftComponents/Form/DateInput';
+
+import FilterButton from '@/components/SearchFilter/FilterButton';
 
 export default {
   components: {
-    FilterButton
+    CheckboxGroup,
+    CheckboxItem,
+    TextField,
+    DateInput,
+    FilterButton,
   },
   props: {
     terms: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       showTab: false,
-      selected: {}
+      selected: {},
     };
   },
   computed: {
@@ -105,7 +140,7 @@ export default {
         result += this.selected[type].length;
       });
       return result;
-    }
+    },
   },
   methods: {
     toggleTab() {
@@ -115,12 +150,11 @@ export default {
       Object.keys(this.selected).forEach(type => {
         this.selected[type] = [];
       });
-    }
-  }
+    },
+  },
 };
 </script>
-
-<style lang="css" scoped>
+<style lang="scss" scoped>
 hr {
   padding: 0;
   margin: 0;

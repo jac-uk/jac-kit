@@ -1,23 +1,23 @@
-import { shallowMount, createLocalVue } from "@vue/test-utils";
+import { shallowMount, createLocalVue } from '@vue/test-utils';
 
 const mocks = {
   route: {
-    name: "name-of-current-route",
+    name: 'name-of-current-route',
     params: {
-      id: "abc123"
-    }
+      id: 'abc123',
+    },
   },
   router: {
     push: jest.fn(),
-    replace: jest.fn()
+    replace: jest.fn(),
   },
   store: {
     dispatch: jest.fn(),
     state: {
       auth: {
         currentUser: {
-          role: "superadmin"
-        }
+          role: 'superadmin',
+        },
       },
       vacancy: {
         record: {
@@ -25,35 +25,35 @@ const mocks = {
           referenceNumber: null,
           isCourtOrTribunal: null,
           appointmentType: null,
-          welshRequirement: null
-        }
+          welshRequirement: null,
+        },
       },
       candidate: {
-        record: {}
+        record: {},
       },
       application: {
-        record: { progress: { started: true } }
+        record: { progress: { started: true } },
       },
       applications: {
-        records: []
+        records: [],
       },
       qualifyingTest: {
         record: {
-          title: null
-        }
+          title: null,
+        },
       },
       qualifyingTestResponses: {
-        record: {}
-      }
+        record: {},
+      },
     },
     getters: {
-      "vacancy/getCloseDate": new Date(),
-      "vacancy/id": jest.fn(),
-      "application/data": () => jest.fn(),
-      "vacancies/bind": () => jest.fn(), //see views/vacancies.spec.js
-      "qualifyingTest/data": () => jest.fn()
-    }
-  }
+      'vacancy/getCloseDate': new Date(),
+      'vacancy/id': jest.fn(),
+      'application/data': () => jest.fn(),
+      'vacancies/bind': () => jest.fn(), //see views/vacancies.spec.js
+      'qualifyingTest/data': () => jest.fn(),
+    },
+  },
 };
 
 const localVue = createLocalVue();
@@ -63,7 +63,7 @@ const createTestSubject = (
   customMountOptions = {
     mocks: {},
     stubs: [],
-    propsData: {}
+    propsData: {},
   }
 ) => {
   return shallowMount(component, {
@@ -72,10 +72,10 @@ const createTestSubject = (
       $route: mocks.route,
       $router: mocks.router,
       $store: mocks.store,
-      ...customMountOptions.mocks
+      ...customMountOptions.mocks,
     },
     stubs: [...customMountOptions.stubs],
-    propsData: { ...customMountOptions.propsData }
+    propsData: { ...customMountOptions.propsData },
   });
 };
 

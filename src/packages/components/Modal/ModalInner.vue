@@ -16,7 +16,10 @@
           Cancel
         </button>
       </span>
-      <button class="govuk-button govuk-button--success info-btn--modal--success" @click="confirmModal">
+      <button
+        class="govuk-button govuk-button--success info-btn--modal--success"
+        @click="confirmModal"
+      >
         {{ buttonText }}
       </button>
     </div>
@@ -25,7 +28,7 @@
 
 <script>
 export default {
-  name: "ModalInner",
+  name: 'ModalInner',
   props: {
     cancelable: {
       type: Boolean,

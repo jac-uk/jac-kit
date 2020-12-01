@@ -1,5 +1,8 @@
 <template>
-  <div v-if="modalOpen" class="modal-mask">
+  <div
+    v-if="modalOpen"
+    class="modal-mask"
+  >
     <div class="modal">
       <div class="container">
         <slot />
@@ -10,7 +13,7 @@
 
 <script>
 export default {
-  name: "Modal",
+  name: 'Modal',
   data(){
     return {
       modalOpen: false,
@@ -19,11 +22,11 @@ export default {
   methods: {
     openModal() {
       this.modalOpen = true;
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     },
     closeModal() {
       this.modalOpen = false;
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     },
   },
 };

@@ -1,17 +1,17 @@
-import { createTestSubject } from "../helpers";
-import SearchFilter from "@/components/SearchFilter/SearchFilter";
+import { createTestSubject } from '../helpers';
+import SearchFilter from '@/components/SearchFilter/SearchFilter';
 
-xdescribe("components/SearchFilter", () => {
+xdescribe('components/SearchFilter', () => {
   let wrapper;
 
-  describe("props", () => {
+  describe('props', () => {
     let prop;
-    describe("terms", () => {
+    describe('terms', () => {
       beforeEach(() => {
         prop = SearchFilter.props.terms;
       });
 
-      it("are required", () => {
+      it('are required', () => {
         expect(prop.required).toBe(true);
       });
 
@@ -46,7 +46,7 @@ xdescribe("components/SearchFilter", () => {
     });
   });
 
-  describe("template", () => {
+  describe('template', () => {
     beforeEach(() => {
       wrapper = createTestSubject(SearchFilter, {
         propsData: {
@@ -64,42 +64,42 @@ xdescribe("components/SearchFilter", () => {
             //       type: 'dateRange',
             //       title: 'Open Date',
             //     },
-          ]
+          ],
         },
-        stubs: ["CheckboxGroup", "CheckboxItem", "TextField", "DateInput"],
-        mocks: []
+        stubs: ['CheckboxGroup', 'CheckboxItem', 'TextField', 'DateInput'],
+        mocks: [],
       });
     });
 
-    it("renders the component", () => {
+    it('renders the component', () => {
       expect(wrapper.exists()).toBeTruthy();
     });
 
-    describe("when showTab is false", () => {
+    describe('when showTab is false', () => {
       beforeEach(() => {
         wrapper.setData({
-          showTab: false
+          showTab: false,
         });
       });
 
       it("shows 'show filter' button", () => {
-        expect(wrapper.find(".container").exists()).toBeFalse();
+        expect(wrapper.find('.container').exists()).toBeFalse();
       });
 
-      it("does not show filter tab", () => {
-        expect(wrapper.find(".container").exists()).toBeFalse();
+      it('does not show filter tab', () => {
+        expect(wrapper.find('.container').exists()).toBeFalse();
       });
     });
 
-    describe("when showTab is true", () => {
+    describe('when showTab is true', () => {
       beforeEach(() => {
         wrapper.setData({
-          showTab: true
+          showTab: true,
         });
       });
 
-      it("shows filter tab", () => {
-        expect(wrapper.find(".container").exists()).toBeTrue();
+      it('shows filter tab', () => {
+        expect(wrapper.find('.container').exists()).toBeTrue();
       });
 
       describe("when given 'checkbox' type term ", () => {
@@ -107,46 +107,46 @@ xdescribe("components/SearchFilter", () => {
           wrapper.setProps({
             terms: [
               {
-                type: "checkbox",
-                title: "Checkbox",
-                options: ["one", "two", "three"]
-              }
-            ]
+                type: 'checkbox',
+                title: 'Checkbox',
+                options: ['one', 'two', 'three'],
+              },
+            ],
           });
         });
 
         it("renders a checkboxgroup for each term with 'checkbox' type", () => {
-          expect(wrapper.find("checkboxgroup-stub").exists()).toBeTrue();
+          expect(wrapper.find('checkboxgroup-stub').exists()).toBeTrue();
         });
 
         it("doesn't render a dateinput", () => {
-          expect(wrapper.findAll("dateinput-stub").length).toBe(0);
+          expect(wrapper.findAll('dateinput-stub').length).toBe(0);
         });
 
         it("doesn't render a textfield", () => {
-          expect(wrapper.find("textfield-stub").exists()).not.toBeTrue();
+          expect(wrapper.find('textfield-stub').exists()).not.toBeTrue();
         });
 
         it("renders a checkboxitem for each option within 'checkbox' term", () => {
-          expect(wrapper.findAll("checkboxitem-stub").length).toBe(3);
+          expect(wrapper.findAll('checkboxitem-stub').length).toBe(3);
         });
 
         it("renders a checkboxitem for each option within 'checkbox' term", () => {
           wrapper.setProps({
             terms: [
               {
-                type: "checkbox",
-                title: "Checkbox",
-                options: ["one", "two", "three"]
+                type: 'checkbox',
+                title: 'Checkbox',
+                options: ['one', 'two', 'three'],
               },
               {
-                type: "checkbox",
-                title: "Checkbox 2",
-                options: ["one", "two", "three"]
-              }
-            ]
+                type: 'checkbox',
+                title: 'Checkbox 2',
+                options: ['one', 'two', 'three'],
+              },
+            ],
           });
-          expect(wrapper.findAll("checkboxgroup-stub").length).toBe(2);
+          expect(wrapper.findAll('checkboxgroup-stub').length).toBe(2);
         });
       });
 
@@ -155,23 +155,23 @@ xdescribe("components/SearchFilter", () => {
           wrapper.setProps({
             terms: [
               {
-                type: "keyword",
-                title: "Keyword"
-              }
-            ]
+                type: 'keyword',
+                title: 'Keyword',
+              },
+            ],
           });
         });
 
         it("doesn't render a checkboxgroup", () => {
-          expect(wrapper.find("checkboxgroup-stub").exists()).not.toBeTrue();
+          expect(wrapper.find('checkboxgroup-stub').exists()).not.toBeTrue();
         });
 
         it("doesn't render a dateinput", () => {
-          expect(wrapper.findAll("dateinput-stub").length).toBe(0);
+          expect(wrapper.findAll('dateinput-stub').length).toBe(0);
         });
 
-        it("renders a textfield", () => {
-          expect(wrapper.find("textfield-stub").exists()).toBeTrue();
+        it('renders a textfield', () => {
+          expect(wrapper.find('textfield-stub').exists()).toBeTrue();
         });
       });
 
@@ -180,61 +180,61 @@ xdescribe("components/SearchFilter", () => {
           wrapper.setProps({
             terms: [
               {
-                type: "dateRange",
-                title: "open Date"
-              }
-            ]
+                type: 'dateRange',
+                title: 'open Date',
+              },
+            ],
           });
         });
 
         it("doesn't render a checkboxgroup", () => {
-          expect(wrapper.find("checkboxgroup-stub").exists()).not.toBeTrue();
+          expect(wrapper.find('checkboxgroup-stub').exists()).not.toBeTrue();
         });
 
         it("doesn't render a textfield", () => {
-          expect(wrapper.find("textfield-stub").exists()).not.toBeTrue();
+          expect(wrapper.find('textfield-stub').exists()).not.toBeTrue();
         });
 
-        it("renders two dateinputs (from and to)", () => {
-          expect(wrapper.findAll("dateinput-stub").length).toBe(2);
+        it('renders two dateinputs (from and to)', () => {
+          expect(wrapper.findAll('dateinput-stub').length).toBe(2);
         });
       });
 
-      describe("combinations of terms", () => {
-        it("can render multiples of all", () => {
+      describe('combinations of terms', () => {
+        it('can render multiples of all', () => {
           wrapper.setProps({
             terms: [
               {
-                type: "checkbox",
-                title: "Status",
-                options: ["one", "two", "three"]
+                type: 'checkbox',
+                title: 'Status',
+                options: ['one', 'two', 'three'],
               },
               {
-                type: "checkbox",
-                title: "Status1",
-                options: ["one", "two", "three"]
+                type: 'checkbox',
+                title: 'Status1',
+                options: ['one', 'two', 'three'],
               },
               {
-                type: "keyword",
-                title: "keyword"
+                type: 'keyword',
+                title: 'keyword',
               },
               {
-                type: "keyword",
-                title: "keyword2"
+                type: 'keyword',
+                title: 'keyword2',
               },
               {
-                type: "dateRange",
-                title: "open Date"
+                type: 'dateRange',
+                title: 'open Date',
               },
               {
-                type: "dateRange",
-                title: "Close Date"
-              }
-            ]
+                type: 'dateRange',
+                title: 'Close Date',
+              },
+            ],
           });
-          expect(wrapper.findAll("checkboxgroup-stub").length).toBe(2);
-          expect(wrapper.findAll("textfield-stub").length).toBe(2);
-          expect(wrapper.findAll("dateinput-stub").length).toBe(4);
+          expect(wrapper.findAll('checkboxgroup-stub').length).toBe(2);
+          expect(wrapper.findAll('textfield-stub').length).toBe(2);
+          expect(wrapper.findAll('dateinput-stub').length).toBe(4);
         });
       });
     });

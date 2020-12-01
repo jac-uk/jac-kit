@@ -1,7 +1,7 @@
 <template>
   <div
     class="govuk-form-group"
-    :class="{'govuk-form-group--error': hasError}"
+    :class="{ 'govuk-form-group--error': hasError }"
   >
     <fieldset
       class="govuk-fieldset"
@@ -32,9 +32,7 @@
         :id="id"
         class="govuk-date-input"
       >
-        <template
-          v-if="type === 'datetime'"
-        >
+        <template v-if="type === 'datetime'">
           <div class="govuk-date-input__item">
             <div class="govuk-form-group">
               <label
@@ -134,11 +132,20 @@
 </template>
 
 <script>
-import parseAndClipNumber from '@/helpers/Form/parseAndClipNumber';
-import validateYear from '@/helpers/Form/validateYear';
-import zeroPad from '@/helpers/Form/zeroPad';
-import FormField from '@/components/Form/FormField';
-import FormFieldError from '@/components/Form/FormFieldError';
+// import parseAndClipNumber from '@/helpers/Form/parseAndClipNumber';
+// import validateYear from '@/helpers/Form/validateYear';
+// import zeroPad from '@/helpers/Form/zeroPad';
+const parseAndClipNumber = () => {
+  console.log('parseandclip');
+};
+const validateYear = () => {
+  console.log('validateyear');
+};
+const zeroPad = () => {
+  console.log('ZeroPad');
+};
+import FormField from './FormField';
+import FormFieldError from './FormFieldError';
 
 export default {
   components: {
@@ -152,11 +159,11 @@ export default {
     },
     type: {
       default: 'date',
-      validator: (value) => (['date', 'month', 'datetime'].indexOf(value) !== -1),
+      validator: value => ['date', 'month', 'datetime'].indexOf(value) !== -1,
     },
     value: {
       required: true,
-      validator: (value) => (value instanceof Date || value === null || value === undefined),
+      validator: value => value instanceof Date || value === null || value === undefined,
     },
   },
   data() {
@@ -254,11 +261,7 @@ export default {
   },
   methods: {
     datesAreEqual(date1, date2) {
-      return (
-        date1 instanceof Date &&
-        date2 instanceof Date &&
-        date1.toISOString() === date2.toISOString()
-      );
+      return date1 instanceof Date && date2 instanceof Date && date1.toISOString() === date2.toISOString();
     },
   },
 };

@@ -6,7 +6,10 @@
     >
       {{ showTab ? "Hide filters" : "Show filters" }}
     </button>
-    <span v-if="numOfFilters" class="badge">
+    <span
+      v-if="numOfFilters"
+      class="badge"
+    >
       {{ numOfFilters }}
     </span>
   </div>
@@ -17,13 +20,13 @@ export default {
   props: {
     numOfFilters: {
       type: Number,
-      default: 0
+      default: 0,
     },
     showTab: {
       type: Boolean,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>
 

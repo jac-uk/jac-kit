@@ -1,7 +1,7 @@
 module.exports = {
-  preset: "@vue/cli-plugin-unit-jest",
-  setupFilesAfterEnv: ["jest-extended"],
+  preset: '@vue/cli-plugin-unit-jest',
+  setupFilesAfterEnv: ['jest-extended'],
   moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/src/packages/$1"
-  }
+    '^@/(.*)$': '<rootDir>/src/packages/$1',
+  },
 };
