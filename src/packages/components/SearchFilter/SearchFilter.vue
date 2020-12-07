@@ -94,11 +94,10 @@
 </template>
 
 <script>
-import CheckboxGroup from '@/draftComponents/Form/CheckboxGroup';
-import TextField from '@/draftComponents/Form/TextField';
-
-import CheckboxItem from '@/draftComponents/Form/CheckboxItem';
-import DateInput from '@/draftComponents/Form/DateInput';
+import CheckboxGroup from '../../draftComponents/Form/CheckboxGroup';
+import TextField from '../../draftComponents/Form/TextField';
+import CheckboxItem from '../../draftComponents/Form/CheckboxItem';
+import DateInput from '../../draftComponents/Form/DateInput';
 
 import FilterButton from './FilterButton';
 
