@@ -2,7 +2,7 @@
 
 The story so far...
 
-Our three main repositories (admin, apply and assessments) all have a local copy of the same set of components and helper files. Rather than maintain each copy independently we made the decision to centralise our shared code.
+JAC's digital platform has three main applications (admin, apply and assessments). All have a local copy of the same set of components and helper files. Rather than maintain each copy independently we made the decision to centralise our shared code.
 
 We considered a number of options such as submodules, symlinks and monorepo yet decided to set up a library package and use Github Packages to include the library in our repositories. The JAC Kit was born...
 
@@ -10,7 +10,7 @@ So far we have imported `draftComponents`, `helpers` and `tests` into the JAC Ki
 
 Over time we will be adding a new, tidied set of `components` utilising [Storybook](https://storybook.js.org) to help develop and document these components.
 
-Primarily the JAC Kit is for our own benefit (code sharing, easier component development). That said we develop in the open and you never know there might be something useful to the wider community.
+Primarily the JAC Kit is for our own benefit (code sharing, [component-driven development](https://www.componentdriven.org/)). That said we develop in the open and - you never know - there might be something useful to the wider community.
 
 ## Dependencies ##
 
