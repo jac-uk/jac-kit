@@ -132,18 +132,9 @@
 </template>
 
 <script>
-// import parseAndClipNumber from '@/helpers/Form/parseAndClipNumber';
-// import validateYear from '@/helpers/Form/validateYear';
-// import zeroPad from '@/helpers/Form/zeroPad';
-const parseAndClipNumber = () => {
-  console.log('parseandclip');
-};
-const validateYear = () => {
-  console.log('validateyear');
-};
-const zeroPad = () => {
-  console.log('ZeroPad');
-};
+import parseAndClipNumber from '../../helpers/Form/parseAndClipNumber';
+import validateYear from '../../helpers/Form/validateYear';
+import zeroPad from '../../helpers/Form/zeroPad';
 import FormField from './FormField';
 import FormFieldError from './FormFieldError';
 

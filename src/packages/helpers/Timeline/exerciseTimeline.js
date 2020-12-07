@@ -1,4 +1,4 @@
-import { isDate, formatDate } from '@/helpers/date';
+import { isDate, formatDate } from '../date';
 
 const getDateString = (date, format) => {
   return isDate(date) ? formatDate(date, format) : null;
@@ -32,7 +32,7 @@ const createSelectionDay = (selectionDay) => {
     date: selectionDay.selectionDayStart,
     dateString: null,
   };
-  
+
   const selectionDayStart = getDateString(selectionDay.selectionDayStart);
   const selectionDayEnd = getDateString(selectionDay.selectionDayEnd);
 
@@ -178,7 +178,7 @@ const exerciseTimeline = (data) => {
           },
         );
       }
-    }    
+    }
   }
 
   if (data.contactIndependentAssessors) {
