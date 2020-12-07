@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import FormField from '@/components/Form/FormField';
-import FormFieldError from '@/components/Form/FormFieldError';
+import FormField from './FormField';
+import FormFieldError from './FormFieldError';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export default {
@@ -89,11 +89,11 @@ export default {
     border: 2px solid black;
     .ck-toolbar {
       background-color: transparent;
-    }    
+    }
   }
   .ck-editor__main {
     border: 2px solid black;
-    border-top: none;    
+    border-top: none;
   }
 }
 

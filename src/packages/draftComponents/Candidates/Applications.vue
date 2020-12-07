@@ -7,9 +7,9 @@
         </h2>
       </div>
     </div> -->
-    
+
     <Table
-      v-if="!noApplications" 
+      v-if="!noApplications"
       data-key="id"
       :data="applicationRecords"
       :columns="[
@@ -23,7 +23,7 @@
           {{ row.exercise.name }}
         </TableCell>
         <TableCell>
-          {{ row.status | lookup }}{{ row.status && row.stage ? ' / ' : '' }}{{ row.stage }} 
+          {{ row.status | lookup }}{{ row.status && row.stage ? ' / ' : '' }}{{ row.stage }}
         </TableCell>
         <TableCell>
           <RouterLink :to="{ name: 'exercise-application', params: { id: row.exercise.id, applicationId: row.id } }">
@@ -34,13 +34,13 @@
     </Table>
     <p v-if="noApplications">
       There are no applications
-    </p>   
+    </p>
   </div>
 </template>
 
 <script>
-import Table from '@/components/Page/Table/Table'; 
-import TableCell from '@/components/Page/Table/TableCell'; 
+import Table from '../Table/Table';
+import TableCell from '../Table/TableCell';
 
 export default {
   components: {

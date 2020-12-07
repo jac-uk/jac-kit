@@ -16,7 +16,7 @@
       {{ value | formatDate }}
     </span>
     <span v-else-if="typeof(value) == 'object' && Array.isArray(value)">
-      <ul 
+      <ul
         v-if="Array.isArray(value)"
         class="govuk-list"
       >
@@ -28,7 +28,7 @@
         </li>
       </ul>
     </span>
-    <table 
+    <table
       v-else-if="typeof(value) == 'object'"
       class="govuk-table"
     >
@@ -52,12 +52,12 @@
     </table>
     <span v-else>
       {{ value }}
-    </span>    
+    </span>
   </div>
 </template>
 
 <script>
-import JsonRenderer from '@/components/JsonRenderer';
+import JsonRenderer from './JsonRenderer';
 
 export default {
   name: 'JsonRenderer',

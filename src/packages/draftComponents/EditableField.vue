@@ -77,10 +77,10 @@
 </template>
 
 <script>
-import TextField from '@/components/Form/TextField';
-import TextareaInput from '@/components/Form/TextareaInput';
-import DateInput from '@/components/Form/DateInput';
-import formatEmail from '@/helpers/Form/formatEmail';
+import TextField from './Form/TextField';
+import TextareaInput from './Form/TextareaInput';
+import DateInput from './Form/DateInput';
+import formatEmail from '../helpers/Form/formatEmail';
 
 export default {
   components: {

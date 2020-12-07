@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import FormField from '@/components/Form/FormField';
-import FormFieldError from '@/components/Form/FormFieldError';
+import FormField from './FormField';
+import FormFieldError from './FormFieldError';
 
 export default {
   components: {

@@ -48,8 +48,8 @@
 <script>
 import firebase from '@firebase/app';
 import '@firebase/storage';
-import FormField from '@/components/Form/FormField';
-import FormFieldError from '@/components/Form/FormFieldError';
+import FormField from './FormField';
+import FormFieldError from './FormFieldError';
 
 export default {
   components: {
@@ -156,7 +156,7 @@ export default {
       if (!file) {
         this.setError('File upload failed, please try again [1]');
         return false;
-      } 
+      }
       if (!this.validFileExtension(file.name)) {
         this.setError(`Invalid file type. Choose from: ${this.acceptableExtensions}`);
         return false;

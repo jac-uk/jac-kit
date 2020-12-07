@@ -71,8 +71,8 @@
 <script>
 import parseAndClipNumber from '@/helpers/Form/parseAndClipNumber';
 import zeroPad from '@/helpers/Form/zeroPad';
-import FormField from '@/components/Form/FormField';
-import FormFieldError from '@/components/Form/FormFieldError';
+import FormField from './FormField';
+import FormFieldError from './FormFieldError';
 
 export default {
   components: {

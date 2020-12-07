@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import EventRenderer from '@/components/Page/EventRenderer';
+import EventRenderer from '../EventRenderer';
 
 export default {
   components: {

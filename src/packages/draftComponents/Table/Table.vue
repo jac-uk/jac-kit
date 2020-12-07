@@ -122,7 +122,7 @@
 </template>
 
 <script>
-import Search from '@/components/Search';
+import Search from '../Search';
 
 export default {
   components: {

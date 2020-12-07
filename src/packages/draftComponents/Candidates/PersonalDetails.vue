@@ -6,7 +6,7 @@
     <h2 class="govuk-heading-l">
       Personal details
       <span class="govuk-hint">
-        Any changes made here will not update the details on the most recent application. 
+        Any changes made here will not update the details on the most recent application.
         Please go to the Personal Details section to make the change.
       </span>
     </h2>
@@ -17,7 +17,7 @@
           Full Name
         </dt>
         <dd class="govuk-summary-list__value">
-          <EditableField 
+          <EditableField
             :value="candidate.fullName"
             field="fullName"
             @changefield="changeUserDetails"
@@ -30,7 +30,7 @@
           Email address
         </dt>
         <dd class="govuk-summary-list__value">
-          <EditableField 
+          <EditableField
             :value="candidate.email"
             field="email"
             type="email"
@@ -44,7 +44,7 @@
           Phone number
         </dt>
         <dd class="govuk-summary-list__value">
-          <EditableField 
+          <EditableField
             :value="candidate.phone"
             field="phone"
             @changefield="changeUserDetails"
@@ -57,7 +57,7 @@
           Date of birth
         </dt>
         <dd class="govuk-summary-list__value">
-          <EditableField 
+          <EditableField
             :value="candidate.dateOfBirth"
             field="dateOfBirth"
             type="date"
@@ -71,7 +71,7 @@
           NI Number
         </dt>
         <dd class="govuk-summary-list__value">
-          <EditableField 
+          <EditableField
             :value="candidate.nationalInsuranceNumber | formatNIN"
             field="nationalInsuranceNumber"
             @changefield="changeUserDetails"
@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import EditableField from '@/components/EditableField';
+import EditableField from '../EditableField';
 
 export default {
   components: {

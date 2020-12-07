@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import formatEmail from '@/helpers/Form/formatEmail';
+import formatEmail from '../../helpers/Form/formatEmail';
 
 export default {
   props: {
