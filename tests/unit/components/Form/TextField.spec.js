@@ -1,5 +1,5 @@
-import { createTestSubject } from '../../helpers';
-import TextField from '@/components/Form/TextField';
+import { createTestSubject } from '../../helpers.js';
+import TextField from '../../../../src/packages/draftComponents/Form/TextField';
 
 describe('components/Form/TextField', () => {
   describe('props', () => {
@@ -19,7 +19,7 @@ describe('components/Form/TextField', () => {
       });
 
     });
-    
+
     describe('value', () => {
       beforeEach(() => {
         prop = TextField.props.value;

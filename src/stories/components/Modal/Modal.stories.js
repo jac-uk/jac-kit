@@ -1,10 +1,10 @@
-import MyModal from '@/components/Modal/Modal';
-import ModalInner from '@/components/Modal/ModalInner';
+import MyModal from '@/draftComponents/Modal/Modal';
+import ModalInner from '@/draftComponents/Modal/ModalInner';
 
 export default {
   title: 'JAC-Kit/Modal',
   decorators: [
-    () => ({ 
+    () => ({
       methods: {
         openModal() {
           this.$children[0].$refs.modalRef.openModal();

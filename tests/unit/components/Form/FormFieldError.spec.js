@@ -1,6 +1,6 @@
 import { createTestSubject } from '../../helpers';
 
-import FormFieldError from '@/components/Form/FormFieldError';
+import FormFieldError from '@/draftComponents/Form/FormFieldError';
 
 describe('components/Form/FormFieldError', () => {
     let prop;
@@ -44,7 +44,7 @@ describe('components/Form/FormFieldError', () => {
                 propsData: {},
             });
         });
-        
+
         it('renders the component', () => {
             expect(wrapper.exists()).toBe(true);
         });

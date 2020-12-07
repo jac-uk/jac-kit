@@ -1,5 +1,5 @@
 import { createTestSubject } from '../../helpers';
-import AddToFavouritesButton from '@/components/Page/AddToFavouritesButton';
+import AddToFavouritesButton from '@/draftComponents/AddToFavouritesButton';
 
 describe('components/Form/AddToFavouritesButton', () => {
     describe('props', () => {

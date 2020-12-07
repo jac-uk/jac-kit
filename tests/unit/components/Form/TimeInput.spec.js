@@ -1,5 +1,5 @@
 import { createTestSubject } from '../../helpers';
-import TimeInput from '@/components/Form/TimeInput';
+import TimeInput from '@/draftComponents/Form/TimeInput';
 import zeroPad from '@/helpers/Form/zeroPad';
 import parseAndClipNumber from '@/helpers/Form/parseAndClipNumber';
 
@@ -266,7 +266,7 @@ describe('components/TimeInput', () => {
           expect(wrapper.findAll('.govuk-date-input__label').at(1).attributes().for).toBe(`${id}-minute`);
         });
       });
-    });  
+    });
 
   });
 });

@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
-import CheckboxGroup from '@/components/Form/CheckboxGroup';
-import CheckboxItem from '@/components/Form/CheckboxItem';
+import CheckboxGroup from '@/draftComponents/Form/CheckboxGroup';
+import CheckboxItem from '@/draftComponents/Form/CheckboxItem';
 
 const createTestSubject = () => {
   const checkboxItems = ['one', 'two'].map(number => {

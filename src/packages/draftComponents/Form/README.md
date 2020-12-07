@@ -45,7 +45,7 @@ If type is not provided, the component is rendered using the default type "text"
 
 # Radios and Checkboxes
 
-[GOV.UK Radios](https://design-system.service.gov.uk/components/radios/) can be created using the `RadioGroup` and `RadioItem` 
+[GOV.UK Radios](https://design-system.service.gov.uk/components/radios/) can be created using the `RadioGroup` and `RadioItem`
 components.
 
 Similarly, [GOV.UK Checkboxes](https://design-system.service.gov.uk/components/checkboxes/) can be created using the
@@ -54,11 +54,11 @@ Similarly, [GOV.UK Checkboxes](https://design-system.service.gov.uk/components/c
 Usage is the same between both pairs of components.
 
 Radios and Checkboxes support the following features:
-- Items with hints 
-([Radios](https://design-system.service.gov.uk/components/radios/#radio-items-with-hints), 
+- Items with hints
+([Radios](https://design-system.service.gov.uk/components/radios/#radio-items-with-hints),
 [Checkboxes](https://design-system.service.gov.uk/components/checkboxes/#checkbox-items-with-hints))
-- Conditionally revealed content 
-([Radios](https://design-system.service.gov.uk/components/radios/#conditionally-revealing-content), 
+- Conditionally revealed content
+([Radios](https://design-system.service.gov.uk/components/radios/#conditionally-revealing-content),
 [Checkboxes](https://design-system.service.gov.uk/components/checkboxes/#conditionally-revealing-content))
 
 #### `RadioGroup` and `CheckboxGroup` props
@@ -76,7 +76,7 @@ Hint text will be displayed as a GOV.UK-styled hint underneath the label.
 This must be unique on the current page. It's used to link `<input>` elements with their associated `<label>` elements.
 
 ##### `value` (required)
-The `v-model` directive is used to create two-way data bindings (it's passed from parent component as v-model prop). The `value` 
+The `v-model` directive is used to create two-way data bindings (it's passed from parent component as v-model prop). The `value`
 prop is supplied by the `v-model` binding, so does not need to be specified when using `v-model`.
 
 #### `RadioItem` and `CheckboxItem` props
@@ -120,8 +120,8 @@ Hint text will be displayed as a GOV.UK-styled hint underneath the label.
 </template>
 
 <script>
-import RadioGroup from '@/components/Form/RadioGroup';
-import RadioItem from '@/components/Form/RadioItem';
+import RadioGroup from '@/draftComponents/Form/RadioGroup';
+import RadioItem from '@/draftComponents/Form/RadioItem';
 
 export default {
   components: {
@@ -189,9 +189,9 @@ In this example, we wrap the `<RadioItem></RadioItem>` element around conditiona
 </template>
 
 <script>
-import RadioGroup from '@/components/Form/RadioGroup';
-import RadioItem from '@/components/Form/RadioItem';
-import TextField from '@/components/Form/TextField';
+import RadioGroup from '@/draftComponents/Form/RadioGroup';
+import RadioItem from '@/draftComponents/Form/RadioItem';
+import TextField from '@/draftComponents/Form/TextField';
 
 export default {
   components: {

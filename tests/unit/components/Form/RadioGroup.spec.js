@@ -1,6 +1,6 @@
 import { createTestSubject } from '../../helpers';
 
-import RadioGroup from '@/components/Form/RadioGroup';
+import RadioGroup from '@/draftComponents/Form/RadioGroup';
 
 describe('components/Form/RadioGroup', () => {
   it('component name is "RadioGroup"', () => {
@@ -38,7 +38,7 @@ describe('components/Form/RadioGroup', () => {
       });
     });
   });
-  
+
   describe('component instance', () => {
     let wrapper;
   beforeEach(() => {
@@ -182,5 +182,5 @@ describe('components/Form/RadioGroup', () => {
     });
   });
   });
-  
+
 });

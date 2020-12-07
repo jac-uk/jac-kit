@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
-import SelectionDay from '@/components/RepeatableFields/SelectionDay';
-import DateInput from '@/components/Form/DateInput';
+import SelectionDay from '@/draftComponents/RepeatableFields/SelectionDay';
+import DateInput from '@/draftComponents/Form/DateInput';
 
 const createTestSubject = (props) => {
   return shallowMount(SelectionDay, {

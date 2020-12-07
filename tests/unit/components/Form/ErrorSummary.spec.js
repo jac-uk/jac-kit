@@ -1,5 +1,5 @@
 import { createTestSubject } from '../../helpers';
-import ErrorSummary from '@/components/Form/ErrorSummary';
+import ErrorSummary from '@/draftComponents/Form/ErrorSummary';
 
 describe('components/ErrorSummary', () => {
 
@@ -29,15 +29,15 @@ describe('components/ErrorSummary', () => {
         },
       });
     });
-    
+
     it('renders', () => {
       expect(wrapper.exists()).toBe(true);
     });
-    
+
     describe('template', () => {
       describe('with errors', () => {
         beforeEach(()=>{
-          
+
         });
         it('template tests', () => {
         });
@@ -48,7 +48,7 @@ describe('components/ErrorSummary', () => {
         });
       });
     });
-    
+
   });
 
 });

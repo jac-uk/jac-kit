@@ -1,19 +1,19 @@
 import { createTestSubject } from '../helpers';
-import Warning from '@/components/Warning';
+import Warning from '@/draftComponents/Warning';
 
 describe('components/Warning', () => {
   let wrapper;
   const testMessage = 'This is a test message';
 
   beforeEach(() => {
-    wrapper = createTestSubject(Warning, { 
+    wrapper = createTestSubject(Warning, {
       propsData: {
         message: testMessage,
       },
       stubs: [],
       mocks: [],
     });
-  }); 
+  });
 
   it('renders the component', () => {
     expect(wrapper.exists()).toBeTruthy();

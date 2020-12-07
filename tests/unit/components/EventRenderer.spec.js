@@ -1,5 +1,5 @@
 import { createTestSubject } from '../../helpers';
-import EventRenderer from '@/components/Page/EventRenderer';
+import EventRenderer from '@/draftComponents/Page/EventRenderer';
 
 describe('components/Form/EventRenderer', () => {
     describe('props', () => {

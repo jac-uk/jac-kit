@@ -1,5 +1,5 @@
 import { createTestSubject } from '../../helpers';
-import TabsList from '@/components/Page/TabsList';
+import TabsList from '@/draftComponents/Page/TabsList';
 
 describe('components/TabsList', () => {
     describe('props', () => {
@@ -8,11 +8,11 @@ describe('components/TabsList', () => {
             beforeEach(() => {
                 prop = TabsList.props.tabs;
             });
-            
+
             it('is an Array', () => {
                 expect(prop.type()).toBeArray();
             });
-            
+
             it('is required', () => {
                 expect(prop.required).toBe(true);
             });
@@ -23,7 +23,7 @@ describe('components/TabsList', () => {
             });
             it('is a string', () => {
                 expect(prop.type()).toBeString();
-            });  
+            });
             it('defaults to empty string', () => {
                 expect(prop.default).toBe('');
             });
@@ -51,14 +51,14 @@ describe('components/TabsList', () => {
                 stubs: [],
             });
         });
-        
+
         it('renders the component', () => {
             expect(wrapper.exists()).toBe(true);
         });
 
         describe('methods', () => {
             describe('showTab method', () => {
-                beforeEach(() => {    
+                beforeEach(() => {
                     wrapper.vm.showTab({ ref: mockTabs[1].ref });
                 });
                 it('sets active tab as selected tab', () => {

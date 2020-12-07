@@ -1,5 +1,5 @@
 import { createTestSubject } from '../../helpers';
-import CheckboxItem from '@/components/Form/CheckboxItem';
+import CheckboxItem from '@/draftComponents/Form/CheckboxItem';
 
 describe('components/Form/CheckboxItem', () => {
   it('component name is "CheckboxItem"', () => {
@@ -85,7 +85,7 @@ describe('components/Form/CheckboxItem', () => {
     let wrapper;
     beforeEach(() => {
       wrapper = createTestSubject(CheckboxItem,{
-        propsData: { 
+        propsData: {
           label: 'Example checkbox item',
           value: ['example-value'],
           content: 'Conditional content',

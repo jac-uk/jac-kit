@@ -1,5 +1,5 @@
 import { createTestSubject } from '../../helpers';
-import TextareaInput from '@/components/Form/TextareaInput';
+import TextareaInput from '@/draftComponents/Form/TextareaInput';
 
 describe('components/Form/TextareaInput', () => {
   describe('props', () => {
@@ -32,7 +32,7 @@ describe('components/Form/TextareaInput', () => {
       it('defaults as \'\'', () => {
         expect(prop.default).toBe('');
       });
-      
+
     });
 
   });

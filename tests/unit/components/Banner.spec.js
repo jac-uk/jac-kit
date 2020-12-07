@@ -10,7 +10,7 @@ const createTestSubject = (propsData) => {
 
 import { shallowMount } from '@vue/test-utils';
 
-import Banner from '@/components/Page/Banner';
+import Banner from '@/draftComponents/Page/Banner';
 
 describe('components/Page/Banner', () => {
   describe('props', () => {
@@ -38,7 +38,7 @@ describe('components/Page/Banner', () => {
       });
     });
   });
-  
+
   describe('component instance', () => {
     describe('when status = success', () => {
     const wrapper = createTestSubject({ message: 'mockMessage', status: 'success' });
@@ -105,11 +105,11 @@ describe('components/Page/Banner', () => {
 
     describe('when status is empty', () => {
       const wrapper = createTestSubject({ message: 'mockMessage', status: '' });
-  
+
       it('renders the component', () => {
         expect(wrapper.exists()).toBe(true);
       });
-  
+
       describe('template', () => {
         describe('divs', () => {
           describe('container div', () => {

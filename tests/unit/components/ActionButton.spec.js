@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import ActionButton from '@/components/ActionButton';
+import ActionButton from '@/draftComponents/ActionButton';
 
 describe('components/ActionButton', () => {
   let wrapper;
@@ -73,5 +73,5 @@ describe('components/ActionButton', () => {
       });
     });
   });
-  
+
 });

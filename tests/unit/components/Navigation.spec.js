@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 
-import Navigation from '@/components/Page/Navigation';
+import Navigation from '@/draftComponents/Page/Navigation';
 
 describe('components/Page/Navigation', () => {
 const navPages = [

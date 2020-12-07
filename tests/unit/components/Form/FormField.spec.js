@@ -1,6 +1,6 @@
 import { createTestSubject } from '../../helpers';
 
-import FormField from '@/components/Form/FormField';
+import FormField from '@/draftComponents/Form/FormField';
 
 describe('components/Form/FormField', () => {
 
@@ -20,7 +20,7 @@ describe('components/Form/FormField', () => {
         expect(prop.default).toBe('');
       });
     });
-    
+
     describe('label', () => {
       beforeEach(() => {
         prop = FormField.props.label;
@@ -110,7 +110,7 @@ describe('components/Form/FormField', () => {
           expect(prop.default).toBe(0);
       });
     });
-    
+
   });
 
   describe('component instance', () => {
@@ -119,7 +119,7 @@ describe('components/Form/FormField', () => {
       id: 'mockId',
       label: 'mock label',
     };
-  
+
     beforeEach(() => {
       wrapper = createTestSubject(FormField, {
         mocks: {},
@@ -137,8 +137,8 @@ describe('components/Form/FormField', () => {
 
     beforeEach(() => {
       data = wrapper.vm.$data;
-    });    
-    
+    });
+
     it('has errorMessage', () => {
       expect(data).toContainKeys(['errorMessage']);
     });
@@ -203,10 +203,10 @@ describe('components/Form/FormField', () => {
   describe('methods', () => {
     describe('handleValidate', () => {
       xit('sets checkErrors to true', () => {
-        
+
       });
       xit('calls validate method', () => {
-        
+
       });
     });
 
@@ -260,7 +260,7 @@ describe('components/Form/FormField', () => {
           });
         });
         describe('pattern errors', () =>{
-          
+
         });
       });
 
@@ -275,7 +275,7 @@ describe('components/Form/FormField', () => {
       });
 
       it('emits $root event', () => {
-        const $root = { 
+        const $root = {
           $emit: jest.fn(),
         };
         const wrapper = createTestSubject(FormField, {
@@ -283,20 +283,20 @@ describe('components/Form/FormField', () => {
           stubs: [],
         });
         wrapper.vm.$root = $root;
-      
+
         wrapper.vm.setError('testError');
-      
+
         expect($root.$emit).toHaveBeenCalled();
       });
     });
 });
 
-  /** 
+  /**
    * @TODO check responds to 'validate' event
    * @TODO check cleans up after itself (i.e. removes event listener for 'validate')
    * @TODO lots of tests for methods, in particular validate() and setError()
    */
-  
+
   });
 
 });

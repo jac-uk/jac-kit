@@ -1,9 +1,9 @@
 import { mount } from '@vue/test-utils';
-import RepeatableFields from '@/components/RepeatableFields';
+import RepeatableFields from '@/draftComponents/RepeatableFields';
 // import TextField to test with a component
-import TextField from '@/components/Form/TextField';
+import TextField from '@/draftComponents/Form/TextField';
 // import SelectionExerciseOfficer to test slot
-import SelectionExerciseOfficer from '@/components/RepeatableFields/SelectionExerciseOfficer';
+import SelectionExerciseOfficer from '@/draftComponents/RepeatableFields/SelectionExerciseOfficer';
 
 const createTestSubject = (props) => {
   return mount(RepeatableFields, {

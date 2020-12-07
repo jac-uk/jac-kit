@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import Timeline from '@/components/Page/Timeline';
+import Timeline from '@/draftComponents/Page/Timeline';
 
 const testTimelineData = [
   { entry: 'Test1', date: 'Test2' },

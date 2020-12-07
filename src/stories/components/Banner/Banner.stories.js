@@ -1,4 +1,4 @@
-import Banner from '@/components/Banner/Banner';
+import Banner from '@/draftComponents/Banner/Banner';
 
 export default {
   title: 'JAC-Kit/Banner',

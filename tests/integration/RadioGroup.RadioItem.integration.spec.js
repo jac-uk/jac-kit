@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
-import RadioGroup from '@/components/Form/RadioGroup';
-import RadioItem from '@/components/Form/RadioItem';
+import RadioGroup from '@/draftComponents/Form/RadioGroup';
+import RadioItem from '@/draftComponents/Form/RadioItem';
 
 const createTestSubject = () => {
   const radioItems = ['one', 'two'].map(number => {

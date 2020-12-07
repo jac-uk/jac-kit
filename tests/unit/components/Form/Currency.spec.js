@@ -1,5 +1,5 @@
 import { createTestSubject } from '../../helpers';
-import Currency from '@/components/Form/Currency';
+import Currency from '@/draftComponents/Form/Currency';
 
 describe('components/Form/Currency', () => {
   describe('props', () => {
@@ -31,7 +31,7 @@ describe('components/Form/Currency', () => {
       stubs: ['FormFieldError'],
     });
   });
-  
+
   it('renders the component', () => {
     expect(wrapper.exists()).toBe(true);
   });
@@ -128,24 +128,24 @@ describe('components/Form/Currency', () => {
       });
     });
   });
-  
+
   describe('computed', () => {
     describe('currencyInput', () => {
       beforeEach(() => {
         wrapper.setProps({ value: 'test123' });
       });
-      
+
       it('get', () => {
         expect(wrapper.vm.currencyInput).toBe(wrapper.vm.value);
       });
-      
+
       xit('set', () => {
         wrapper.vm.currencyInput = '321tset';
         expect(wrapper.vm.value).toBe('??');
       });
     });
-  });    
-  
+  });
+
   describe('`v-model` interface', () => {
     describe('when `currencyInput` changes', () => {
       it('emits an input event with the new value', () => {
@@ -153,7 +153,7 @@ describe('components/Form/Currency', () => {
         expect(wrapper.emitted().input).toEqual([['25']]);
       });
     });
-    
+
     describe('when value prop changes', () => {
       it('updates the `currencyInput` computed property', () => {
         wrapper.setProps({ value: 25 });

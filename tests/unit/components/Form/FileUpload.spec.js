@@ -35,7 +35,7 @@ jest.mock('@firebase/storage', () => ({
 import '@firebase/app';
 import '@firebase/storage';
 
-import FileUpload from '@/components/Form/FileUpload';
+import FileUpload from '@/draftComponents/Form/FileUpload';
 
 describe('components/Form/FileUpload', () => {
 
@@ -64,11 +64,11 @@ describe('components/Form/FileUpload', () => {
         beforeEach(() => {
           prop = FileUpload.props.value;
         });
-  
+
         it('is not required', () => {
           expect(prop.required).toBeFalsy();
         });
-  
+
         it('has type String', () => {
           expect(prop.type()).toBeString();
         });
@@ -76,18 +76,18 @@ describe('components/Form/FileUpload', () => {
         it('has default value of \'\'', () => {
           expect(prop.default).toBe('');
         });
-        
+
       });
 
       describe('name', () => {
         beforeEach(() => {
           prop = FileUpload.props.name;
         });
-  
+
         it('is required', () => {
           expect(prop.required).toBe(true);
         });
-  
+
         it('has type String', () => {
           expect(prop.type()).toBeString();
         });
@@ -102,7 +102,7 @@ describe('components/Form/FileUpload', () => {
         beforeEach(() => {
           prop = FileUpload.props.messages;
         });
-  
+
         it('has type Object', () => {
           expect(prop.type()).toBeObject();
         });
@@ -393,7 +393,7 @@ describe('components/Form/FileUpload', () => {
 
         expect(wrapper.vm.validFileExtension('original name.layers.of.indirection.pdf')).toBeTruthy();
       });
-      
+
       it('rejects file with unrecognised extension', () => {
         const setName = 'filename';
         wrapper.setProps({ name: setName });

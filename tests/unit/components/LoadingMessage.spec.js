@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import LoadingMessage from '@/components/LoadingMessage';
+import LoadingMessage from '@/draftComponents/LoadingMessage';
 
 xdescribe('components/LoadingMessage', () => {
   const createWrapper = (loadFailedValue) => {

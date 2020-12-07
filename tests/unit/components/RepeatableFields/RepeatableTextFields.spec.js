@@ -1,12 +1,12 @@
-import TextField from '@/components/Form/TextField';
+import TextField from '@/draftComponents/Form/TextField';
 import { shallowMount } from '@vue/test-utils';
 
 // repeatable components
-import DraftingJudge from '@/components/RepeatableFields/DraftingJudge';
-import StatutoryConsultee from '@/components/RepeatableFields/StatutoryConsultee';
-import SelectionExerciseOfficer from '@/components/RepeatableFields/SelectionExerciseOfficer';
-import AssignedCommissioner from '@/components/RepeatableFields/AssignedCommissioner';
-import OtherShortlistingMethod from '@/components/RepeatableFields/OtherShortlistingMethod';
+import DraftingJudge from '@/draftComponents/RepeatableFields/DraftingJudge';
+import StatutoryConsultee from '@/draftComponents/RepeatableFields/StatutoryConsultee';
+import SelectionExerciseOfficer from '@/draftComponents/RepeatableFields/SelectionExerciseOfficer';
+import AssignedCommissioner from '@/draftComponents/RepeatableFields/AssignedCommissioner';
+import OtherShortlistingMethod from '@/draftComponents/RepeatableFields/OtherShortlistingMethod';
 
 // add repeatable text component to this array
 const repeatableTextFields = [

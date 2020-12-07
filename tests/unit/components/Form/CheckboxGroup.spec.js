@@ -1,5 +1,5 @@
 import { createTestSubject } from '../../helpers';
-import CheckboxGroup from '@/components/Form/CheckboxGroup';
+import CheckboxGroup from '@/draftComponents/Form/CheckboxGroup';
 
 describe('components/Form/CheckboxGroup', () => {
 
@@ -64,8 +64,8 @@ describe('components/Form/CheckboxGroup', () => {
           id: '',
         },
       });
-    });  
-    
+    });
+
     describe('`v-model` interface', () => {
       it('renders successfully', () => {
         expect(wrapper.exists()).toBeTrue();

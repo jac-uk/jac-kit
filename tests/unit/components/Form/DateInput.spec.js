@@ -1,8 +1,8 @@
 import { createTestSubject } from '../../helpers';
-import DateInput from '@/components/Form/DateInput';
+import DateInput from '@/draftComponents/Form/DateInput';
 
 xdescribe('components/DateInput', () => {
-  
+
   describe('props', () => {
     describe('type', () => {
       let prop;
@@ -235,7 +235,7 @@ xdescribe('components/DateInput', () => {
               expect(wrapper.vm.month).toBe(1);
             });
           });
-        });    
+        });
       });
     describe('yearInput', () => {
         describe('getter', () => {
@@ -245,18 +245,18 @@ xdescribe('components/DateInput', () => {
               expect(wrapper.vm.yearInput).toBe(null);
             });
           });
-  
+
           describe('given `year` is a number', () => {
             it('returns `year` as a number', () => {
               wrapper.setData({ year: 1986 });
               const value = wrapper.vm.yearInput;
-  
+
               expect(typeof value).toBe('number');
               expect(value).toBe(1986);
             });
           });
         });
-  
+
         describe('setter', () => {
           describe('given a non-numeric value', () => {
             it('sets `year` to null', () => {
@@ -264,7 +264,7 @@ xdescribe('components/DateInput', () => {
               expect(wrapper.vm.year).toBe(null);
             });
           });
-  
+
           describe('given a numeric string', () => {
             it('sets `year` to the integer value of the string', () => {
               wrapper.vm.yearInput = '1986';
@@ -280,28 +280,28 @@ xdescribe('components/DateInput', () => {
             expect(wrapper.vm.dateConstructor).toHaveLength(3);
             expect(wrapper.vm.dateConstructor).toEqual([1980, 3, 12]);
           });
-        
+
           it('adjusts month to be zero-indexed, as required by Date constructor', () => {
             wrapper.setData({ day: 1, month: 1, year: 1960 });
             expect(wrapper.vm.dateConstructor).toEqual([1960, 0, 1]);
-        
+
             wrapper.setData({ day: 25, month: 12, year: 1960 });
             expect(wrapper.vm.dateConstructor).toEqual([1960, 11, 25]);
           });
       });
-        
+
       describe('given property type="month"', () => {
         beforeEach(() => {
           wrapper.setProps({ type: 'month' });
         });
-        
+
         describe('and `month` and `year` fields are set', () => {
           it('returns an array of Date constructor arguments', () => {
             wrapper.setData({ month: 4, year: 1980 });
             expect(wrapper.vm.dateConstructor).toHaveLength(3);
             expect(wrapper.vm.dateConstructor).toEqual([1980, 3, 1]);
           });
-          
+
           it('adjusts month to be zero-indexed, as required by Date constructor', () => {
             wrapper.setData({ month: 1, year: 1960 });
             expect(wrapper.vm.dateConstructor).toEqual([1960, 0, 1]);
@@ -310,7 +310,7 @@ xdescribe('components/DateInput', () => {
           });
         });
       });
-      
+
       describe('given at least one field is null', () => {
         const nullValueCombinations = [
           ['`day` is null',                      { day: null, month: 4,    year: 1980 }],
@@ -321,13 +321,13 @@ xdescribe('components/DateInput', () => {
           ['`month` and `year` are null',        { day: 12,   month: null, year: null }],
           ['`day`, `month` and `year` are null', { day: null, month: null, year: null }],
         ];
-        
+
         it.each(nullValueCombinations)('returns null (%s)', (label, data) => {
           wrapper.setData(data);
           expect(wrapper.vm.dateConstructor).toBe(null);
         });
       });
-    });    
+    });
     describe('date', () => {
       describe('getter', () => {
           describe('given the date is not set (`dateConstructor` returns null)', () => {
@@ -340,7 +340,7 @@ xdescribe('components/DateInput', () => {
             it('returns a Date object', () => {
               expect(wrapper.vm.date).toBeInstanceOf(Date);
             });
-              
+
             it('is created as a UTC Date', () => {
               wrapper.setData({ day: 1, month: 6, year: 2018 });
               const args = wrapper.vm.dateConstructor;
@@ -390,11 +390,11 @@ xdescribe('components/DateInput', () => {
         mockDateSetter = jest.fn();
         DateInput.computed.date.set = mockDateSetter;
       });
-      
+
       afterEach(() => {
         DateInput.computed.date.set = realDateSetter;
       });
-      
+
       describe('given the new `value` is different from the current `date`', () => {
         it('sets `date` to equal the new `value`', () => {
           firstDate = new Date('1960-01-01');
@@ -434,7 +434,7 @@ xdescribe('components/DateInput', () => {
         });
       });
     });
-    
+
     describe('when the internal `date` Date object changes', () => {
       it('emits an `input` event', () => {
         const newDate = new Date('1985-06-17');
@@ -454,7 +454,7 @@ xdescribe('components/DateInput', () => {
       expect(wrapper.vm.date).toEqual(value);
     });
     });
-    
+
     describe('input fields', () => {
       beforeEach(() => {
         wrapper.setProps({ value: new Date('2018-01-01') });
@@ -485,12 +485,12 @@ xdescribe('components/DateInput', () => {
               });
             });
           });
-        
+
           describe('given property type="month"', () => {
             beforeEach(() => {
               wrapper.setProps({ type: 'month' });
             });
-        
+
           describe('Day input', () => {
             it('is not rendered', () => {
               const input = wrapper.find({ ref: 'dayInput' });
@@ -498,13 +498,13 @@ xdescribe('components/DateInput', () => {
             });
           });
         });
-        
+
         describe('Month input', () => {
           let input;
           beforeEach(() => {
             input = wrapper.find({ ref: 'monthInput' });
           });
-        
+
               describe('is lazily bound to `monthInput`', () => {
                 it('displays the value of `monthInput`', () => {
                   expect(input.element.value).toBe(wrapper.vm.monthInput);
@@ -522,13 +522,13 @@ xdescribe('components/DateInput', () => {
                 });
               });
             });
-        
+
             describe('Year input', () => {
               let input;
               beforeEach(() => {
                 input = wrapper.find({ ref: 'yearInput' });
               });
-        
+
               describe('is lazily bound to `yearInput`', () => {
                 it('displays the value of `yearInput`', () => {
                   expect(input.element.value).toBe(wrapper.vm.yearInput.toString());
@@ -545,8 +545,8 @@ xdescribe('components/DateInput', () => {
                   expect(wrapper.vm.yearInput).toBe(2018);
                   });
                 });
-              });    
-              
+              });
+
     });
   });
 

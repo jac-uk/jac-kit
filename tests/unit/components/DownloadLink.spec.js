@@ -32,7 +32,7 @@ jest.mock('@firebase/storage', () => ({
 import '@firebase/app';
 import '@firebase/storage';
 
-import DownloadLink from '@/components/DownloadLink';
+import DownloadLink from '@/draftComponents/DownloadLink';
 
 describe('components/DownloadLink', () => {
   let wrapper;
@@ -59,7 +59,7 @@ describe('components/DownloadLink', () => {
       // const localVue = createLocalVue();
       const mockGetDownloadURL = jest.fn()
       .mockName('getDownloadURL');
-      
+
       const mockHref = 'mock href';
 
       it('should call .getDownloadURL()', () => {

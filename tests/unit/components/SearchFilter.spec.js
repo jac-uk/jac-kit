@@ -1,5 +1,5 @@
 import { createTestSubject } from '../helpers';
-import SearchFilter from '@/components/Filter/SearchFilter';
+import SearchFilter from '@/draftComponents/Filter/SearchFilter';
 
 describe('components/SearchFilter', () => {
   let wrapper;
@@ -49,7 +49,7 @@ describe('components/SearchFilter', () => {
 
   describe('template', () => {
     beforeEach(() => {
-      wrapper = createTestSubject(SearchFilter, { 
+      wrapper = createTestSubject(SearchFilter, {
         propsData: {
           terms: [
           //     {
@@ -70,23 +70,23 @@ describe('components/SearchFilter', () => {
         stubs: [],
         mocks: [],
       });
-    }); 
-  
+    });
+
     it('renders the component', () => {
       expect(wrapper.exists()).toBeTruthy();
     });
-    
+
     describe('when showTab is false', () => {
       beforeEach(() => {
         wrapper.setData({
           showTab: false,
         });
       });
-      
+
       it('shows \'show filter\' button', () => {
         expect(wrapper.find('.container').exists()).toBeFalse();
       });
-      
+
       it('does not show filter tab', () => {
         expect(wrapper.find('.container').exists()).toBeFalse();
       });
@@ -94,12 +94,12 @@ describe('components/SearchFilter', () => {
       xit('button text is \'Show filters\'', () => {
         expect(wrapper.find('div .govuk-button').text()).toBe('Show filters');
       });
-      
+
       xit('toggles showTab on click', () => {
         wrapper.find('div .govuk-button').trigger('click');
         expect(wrapper.vm.showTab).toBe(true);
       });
-      
+
     });
 
     describe('when showTab is true', () => {
@@ -116,7 +116,7 @@ describe('components/SearchFilter', () => {
       xit('button text is \'Hide filters\'', () => {
         expect(wrapper.find('div .govuk-button').text()).toBe('Hide filters');
       });
-      
+
       xit('toggles showTab on click', () => {
         wrapper.find('div .govuk-button').trigger('click');
         expect(wrapper.vm.showTab).toBe(false);
@@ -213,7 +213,7 @@ describe('components/SearchFilter', () => {
         });
 
       });
-      
+
       describe('combinations of terms', () => {
 
         it('can render multiples of all', () => {
@@ -252,7 +252,7 @@ describe('components/SearchFilter', () => {
 
       });
     });
-    
+
   });
 });
 

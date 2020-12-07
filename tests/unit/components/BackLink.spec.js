@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import BackLink from '@/components/BackLink';
+import BackLink from '@/draftComponents/BackLink';
 
 xdescribe('components/BackLink', () => {
   let wrapper;

@@ -1,25 +1,25 @@
 example usage:
 <template>
   <div>
-    <button 
+    <button
       @click="openModal"
     >
       openModal
     </button>
 
-    <Modal 
+    <Modal
       ref="modalRef"
     >
-      <component 
-        :is="`UploadAssessment`" 
-        v-bind="uploadAsssessmentProps" 
+      <component
+        :is="`UploadAssessment`"
+        v-bind="uploadAsssessmentProps"
         @close="closeModal"
       />
     </Modal>
   </div>
 </template>
 <script>
-import Modal from '@/components/Page/Modal';
+import Modal from '@/draftComponents/Page/Modal';
 import { auth } from '@/firebase';
 
 export default {
