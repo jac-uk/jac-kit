@@ -1,4 +1,4 @@
-import clipNumber from '@/helpers/Form/clipNumber';
+import clipNumber from './clipNumber';
 
 const parseAndClipNumber = (val, min, max) => {
   val = parseInt(val);
