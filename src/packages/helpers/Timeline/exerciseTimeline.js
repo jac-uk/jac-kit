@@ -76,7 +76,7 @@ const exerciseTimeline = (data) => {
         entry: 'Open for applications',
         date: data.applicationOpenDate,
         dateString: getDateString(data.applicationOpenDate),
-      },
+      }
     );
   }
 
@@ -97,7 +97,7 @@ const exerciseTimeline = (data) => {
           entry: 'Shortlisting outcome',
           date: data.shortlistingOutcomeDate,
           dateString: getDateString(data.shortlistingOutcomeDate, 'month'),
-        },
+        }
       );
     }
 
@@ -124,7 +124,7 @@ const exerciseTimeline = (data) => {
             entry: 'Situational judgement qualifying test (QT)',
             date: getDateAndTime(data.situationalJudgementTestDate, data.situationalJudgementTestStartTime),
             dateString: getDateAndTimeString(data.situationalJudgementTestDate, data.situationalJudgementTestStartTime, data.situationalJudgementTestEndTime),
-          },
+          }
         );
       }
       if (data.situationalJudgementTestOutcome) {
@@ -133,7 +133,7 @@ const exerciseTimeline = (data) => {
             entry: 'Situational judgement QT outcome to candidates',
             date: data.situationalJudgementTestOutcome,
             dateString: getDateString(data.situationalJudgementTestOutcome),
-          },
+          }
         );
       }
     }
@@ -145,7 +145,7 @@ const exerciseTimeline = (data) => {
             entry: 'Critical analysis qualifying test (QT)',
             date: getDateAndTime(data.criticalAnalysisTestDate, data.criticalAnalysisTestStartTime),
             dateString: getDateAndTimeString(data.criticalAnalysisTestDate, data.criticalAnalysisTestStartTime, data.criticalAnalysisTestEndTime),
-          },
+          }
         );
       }
       if (data.criticalAnalysisTestOutcome) {
@@ -154,7 +154,7 @@ const exerciseTimeline = (data) => {
             entry: 'Critical analysis QT outcome to candidates',
             date: data.criticalAnalysisTestOutcome,
             dateString: getDateString(data.criticalAnalysisTestOutcome),
-          },
+          }
         );
       }
     }
@@ -166,7 +166,7 @@ const exerciseTimeline = (data) => {
             entry: 'Scenario test',
             date: getDateAndTime(data.scenarioTestDate, data.scenarioTestStartTime),
             dateString: getDateAndTimeString(data.scenarioTestDate, data.scenarioTestStartTime, data.scenarioTestEndTime),
-          },
+          }
         );
       }
       if (data.scenarioTestOutcome) {
@@ -175,7 +175,7 @@ const exerciseTimeline = (data) => {
             entry: 'Scenario test outcome to candidates',
             date: data.scenarioTestOutcome,
             dateString: getDateString(data.scenarioTestOutcome),
-          },
+          }
         );
       }
     }
@@ -187,7 +187,7 @@ const exerciseTimeline = (data) => {
         entry: 'JAC Contacts Independent Assessors',
         date: data.contactIndependentAssessors,
         dateString: getDateString(data.contactIndependentAssessors),
-      },
+      }
     );
   }
 
@@ -197,7 +197,7 @@ const exerciseTimeline = (data) => {
         entry: 'Return date for independent assessments',
         date: data.independentAssessmentsReturnDate,
         dateString: getDateString(data.independentAssessmentsReturnDate),
-      },
+      }
     );
   }
 
@@ -207,7 +207,7 @@ const exerciseTimeline = (data) => {
         entry: 'Eligibility SCC',
         date: data.eligibilitySCCDate,
         dateString: getDateString(data.eligibilitySCCDate),
-      },
+      }
     );
   }
   if (data.selectionDays && data.selectionDays.length > 0) {
@@ -224,7 +224,7 @@ const exerciseTimeline = (data) => {
         entry: 'Character Checks',
         date: data.characterChecksDate,
         dateString: getDateString(data.characterChecksDate),
-      },
+      }
     );
   }
 
@@ -234,7 +234,7 @@ const exerciseTimeline = (data) => {
         entry: 'Character Checks return',
         date: data.characterChecksReturnDate,
         dateString: getDateString(data.characterChecksReturnDate),
-      },
+      }
     );
   }
 
@@ -244,7 +244,7 @@ const exerciseTimeline = (data) => {
         entry: 'Statutory consultation',
         date: data.statutoryConsultationDate,
         dateString: getDateString(data.statutoryConsultationDate),
-      },
+      }
     );
   }
 
@@ -254,7 +254,7 @@ const exerciseTimeline = (data) => {
         entry: 'Character and Selection SCC',
         date: data.characterAndSCCDate,
         dateString: getDateString(data.characterAndSCCDate),
-      },
+      }
     );
   }
 
