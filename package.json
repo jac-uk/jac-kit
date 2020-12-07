@@ -9,7 +9,8 @@
     "test": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "storybook": "start-storybook -p 6006 --no-dll",
-    "build-storybook": "build-storybook --no-dll"
+    "build-storybook": "build-storybook --no-dll",
+    "publish": "lerna publish"
   },
   "dependencies": {
     "@ministryofjustice/frontend": "0.0.17-alpha",
