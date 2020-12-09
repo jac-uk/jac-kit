@@ -14,6 +14,8 @@
   },
   "dependencies": {
     "@ministryofjustice/frontend": "0.0.17-alpha",
+    "@storybook/addons": "^6.1.10",
+    "@storybook/theming": "^6.1.10",
     "core-js": "^3.6.5",
     "govuk-frontend": "^3.8.0",
     "vue": "^2.6.11"
@@ -36,6 +38,9 @@
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-vue": "^6.2.2",
+    "firebase": "^7.24.0",
+    "firebase-admin": "^9.4.1",
+    "firebase-mock": "^2.3.2",
     "jest-extended": "^0.11.5",
     "lerna": "^3.22.1",
     "prettier": "^1.19.1",
