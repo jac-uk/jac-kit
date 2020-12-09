@@ -1,4 +1,4 @@
-import { slugify } from '@/filters';
+import { slugify } from '@/filters/filters';
 
 describe('slugify', () => {
   it('returns string', () => {

@@ -1,4 +1,4 @@
-import { candidateHasIssues } from '@/filters';
+import { candidateHasIssues } from '@/filters/filters';
 
 describe('given candidate with no issues', () => {
   it('returns string `no`', () => {

@@ -1,4 +1,4 @@
-import { lookup } from '@/filters';
+import { lookup } from '@/filters/filters';
 
 describe('lookup`', () => {
   describe('given `legal``', () => {

@@ -1,4 +1,4 @@
-import { formatCurrency } from '@/filters';
+import { formatCurrency } from '@/filters/filters';
 
 describe('Format Currency', () => {
   it('returns a string in GBP', () => {

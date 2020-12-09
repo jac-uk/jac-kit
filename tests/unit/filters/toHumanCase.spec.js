@@ -1,4 +1,4 @@
-import { toHumanCase } from '@/filters';
+import { toHumanCase } from '@/filters/filters';
 
 describe('toHumanCase', () => {
   it('returns ??', () => {

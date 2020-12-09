@@ -1,4 +1,4 @@
-import { createTestSubject } from '../../helpers';
+import { createTestSubject } from '../helpers';
 import AddToFavouritesButton from '@/draftComponents/AddToFavouritesButton';
 
 describe('components/Form/AddToFavouritesButton', () => {

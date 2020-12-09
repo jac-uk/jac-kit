@@ -1,4 +1,4 @@
-import { formatDate } from '@/filters';
+import { formatDate } from '@/filters/filters';
 
 describe('Format Date', () => {
   describe('valid date', () => {
@@ -21,20 +21,20 @@ describe('Format Date', () => {
       [[1,1,2003], 'longdatetime', 'January 1, 2003, 12:00 AM'],
       [[1,1,2003], null , '1/1/2003'],
     ];
-    
+
     it.each(validTypes)('when given %s with type %s returns %o', async (value, type, result) => {
       expect(formatDate(value, type)).toBe(result);
     });
   });
   describe('invalid date', () => {
-    
+
     const invalidTypes = [
       ['string', 'string'],
       [null, null],
       [undefined, undefined],
       [[], []],
     ];
-    
+
     it.each(invalidTypes)('when given %o', (value, result) => {
       expect(formatDate(value)).toEqual(result);
     });

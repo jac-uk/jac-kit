@@ -1,4 +1,4 @@
-import { toCSV } from '@/filters';
+import { toCSV } from '@/filters/filters';
 
 describe('toCSV', () => {
   it('returns comma separated values', () => {

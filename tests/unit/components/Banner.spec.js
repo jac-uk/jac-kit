@@ -10,7 +10,7 @@ const createTestSubject = (propsData) => {
 
 import { shallowMount } from '@vue/test-utils';
 
-import Banner from '@/draftComponents/Page/Banner';
+import Banner from '@/draftComponents/Banner';
 
 describe('components/Page/Banner', () => {
   describe('props', () => {

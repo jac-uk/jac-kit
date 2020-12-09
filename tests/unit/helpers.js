@@ -1,4 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
+const firebase = require('firebase-admin');
+const Timestamp = firebase.firestore.Timestamp;
 
 const mocks = {
   route: {
@@ -80,5 +82,6 @@ const createTestSubject = (component, customMountOptions = {
 
 export {
   mocks,
-  createTestSubject
+  createTestSubject,
+  Timestamp
 };

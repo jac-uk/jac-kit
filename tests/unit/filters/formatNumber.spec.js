@@ -1,4 +1,4 @@
-import { formatNumber } from '@/filters';
+import { formatNumber } from '@/filters/filters';
 
 describe('formatNumber', () => {
   it('returns a number', () => {

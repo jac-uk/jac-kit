@@ -1,5 +1,5 @@
-import MyModal from '@/draftComponents/Modal/Modal';
-import ModalInner from '@/draftComponents/Modal/ModalInner';
+import MyModal from '@/components/Modal/Modal';
+import ModalInner from '@/components/Modal/ModalInner';
 
 export default {
   title: 'JAC-Kit/Modal',

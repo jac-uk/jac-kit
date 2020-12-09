@@ -1,4 +1,4 @@
-import { showAlternative } from '@/filters';
+import { showAlternative } from '@/filters/filters';
 
 describe('showAlternative', () => {
   it('show true value', () => {

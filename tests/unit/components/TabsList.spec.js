@@ -1,5 +1,5 @@
-import { createTestSubject } from '../../helpers';
-import TabsList from '@/draftComponents/Page/TabsList';
+import { createTestSubject } from '../helpers';
+import TabsList from '@/draftComponents/TabsList';
 
 describe('components/TabsList', () => {
     describe('props', () => {

@@ -1,4 +1,4 @@
-import { heldFeePaidJudicialRole } from '@/filters';
+import { heldFeePaidJudicialRole } from '@/filters/filters';
 
   describe('when input value is string `fee-paid-court-post`', () => {
     it('returns string `Yes`', () => {

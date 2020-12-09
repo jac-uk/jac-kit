@@ -1,4 +1,4 @@
-import { formatEstimatedDate } from '@/filters';
+import { formatEstimatedDate } from '@/filters/filters';
 
 describe('formatEstimatedDate', () => {
   it('returns month string', () => {

@@ -1,5 +1,5 @@
 import { createTestSubject } from '../helpers';
-import SearchFilter from '@/draftComponents/Filter/SearchFilter';
+import SearchFilter from '@/components/SearchFilter/SearchFilter';
 
 describe('components/SearchFilter', () => {
   let wrapper;

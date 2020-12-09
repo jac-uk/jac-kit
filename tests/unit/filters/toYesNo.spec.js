@@ -1,4 +1,4 @@
-import { toYesNo } from '@/filters';
+import { toYesNo } from '@/filters/filters';
 
 describe('returns `No`', () => {
   it(' when given false Boolean', () => {

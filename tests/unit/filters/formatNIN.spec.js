@@ -1,4 +1,4 @@
-import { formatNIN } from '@/filters';
+import { formatNIN } from '@/filters/filters';
 
 describe('Format NIN', () => {
   it('returns string capitalised', () => {
