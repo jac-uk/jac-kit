@@ -1,18 +1,8 @@
-// @TODO@ import monikas test helpers
-const createTestSubject = (propsData) => {
-  return shallowMount(Banner, {
-    propsData: {
-      ...propsData,
-    },
-    stubs: ['RouterLink'],
-  });
-};
-
-import { shallowMount } from '@vue/test-utils';
+import { createTestSubject } from '../helpers';
 
 import Banner from '@/draftComponents/Banner';
 
-describe('components/Page/Banner', () => {
+describe('components/Banner', () => {
   describe('props', () => {
     let prop;
     describe('message', () => {
@@ -41,7 +31,7 @@ describe('components/Page/Banner', () => {
 
   describe('component instance', () => {
     describe('when status = success', () => {
-    const wrapper = createTestSubject({ message: 'mockMessage', status: 'success' });
+    const wrapper = createTestSubject(Banner, { message: 'mockMessage', status: 'success' });
 
       it('renders the component', () => {
         expect(wrapper.exists()).toBe(true);

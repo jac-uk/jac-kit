@@ -1,29 +1,15 @@
-import { shallowMount } from '@vue/test-utils';
+import { createTestSubject } from '../helpers';
 
 import Navigation from '@/draftComponents/Navigation';
 
-describe('components/Page/Navigation', () => {
+describe('components/Navigation', () => {
 const navPages = [
   { page: 'Test', name: 'nav-test-name1' },
   { page: 'Test2', name: 'nav-test-name2' },
 ];
 
-const createTestSubject = (propsData) => {
-  return shallowMount(Navigation, {
-    propsData: {
-      ...propsData,
-    },
-    stubs: ['RouterLink'],
-    mocks: {
-      $route: {
-        name: 'nav-test-name1',
-      },
-    },
-  });
-};
-
   it('renders the component', () => {
-    const wrapper = createTestSubject({ pages: navPages });
+    const wrapper = createTestSubject(Navigation, { pages: navPages });
     expect(wrapper.exists()).toBe(true);
   });
 

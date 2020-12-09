@@ -1,4 +1,4 @@
-import { shallowMount } from '@vue/test-utils';
+import { createTestSubject } from '../helpers';
 import Timeline from '@/draftComponents/Timeline';
 
 const testTimelineData = [
@@ -6,17 +6,9 @@ const testTimelineData = [
   { entry: 'Test3', date: 'Test4' },
 ];
 
-const createTestSubject = (propsData) => {
-  return shallowMount(Timeline, {
-    propsData: {
-      ...propsData,
-    },
-  });
-};
-
-xdescribe('components/Page/Timeline', () => {
+xdescribe('components/Timeline', () => {
   it('renders the component', () => {
-    const wrapper = createTestSubject({ data: testTimelineData });
+    const wrapper = createTestSubject(Timeline, { data: testTimelineData });
     expect(wrapper.exists()).toBe(true);
   });
 

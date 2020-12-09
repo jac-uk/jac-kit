@@ -1,40 +1,38 @@
 import { createTestSubject } from '../helpers';
 
-const mockGetDownloadURL = jest.fn()
-  .mockName('getDownloadURL');
-const mockRef = jest.fn()
-  .mockName('ref')
-  .mockReturnValue({
-    getDownloadURL: mockGetDownloadURL,
-  });
+// const mockGetDownloadURL = jest.fn()
+//   .mockName('getDownloadURL');
+// const mockRef = jest.fn()
+//   .mockName('ref')
+//   .mockReturnValue({
+//     getDownloadURL: mockGetDownloadURL,
+//   });
 
-jest.mock('@firebase/app', () => ({
-    __esModule: true,
-    default: {
-      apps: [],
-      initializeApp: () => {},
-      auth: jest.fn(),
-      storage: jest.fn()
-        .mockImplementation(() => ({
-          ref: mockRef,
-        })),
-    },
-  })
-);
+// jest.mock('@firebase/app', () => ({
+//     __esModule: true,
+//     default: {
+//       apps: [],
+//       initializeApp: () => {},
+//       auth: jest.fn(),
+//       storage: jest.fn()
+//         .mockImplementation(() => ({
+//           ref: mockRef,
+//         })),
+//     },
+//   })
+// );
 
-jest.mock('@firebase/storage', () => ({
-  __esModule: true,
-  default: {
-    registerService: jest.fn(), // required by firebase/app
-  },
-}));
+// jest.mock('@firebase/storage', () => ({
+//   __esModule: true,
+//   default: {
+//     registerService: jest.fn(), // required by firebase/app
+//   },
+// }));
 
-import '@firebase/app';
-import '@firebase/storage';
+// import DownloadLink from '@/draftComponents/DownloadLink';
+let DownloadLink;
 
-import DownloadLink from '@/draftComponents/DownloadLink';
-
-describe('components/DownloadLink', () => {
+xdescribe('components/DownloadLink', () => {
   let wrapper;
   const mockProps = {
     exerciseId: 'mock_id',
@@ -55,8 +53,7 @@ describe('components/DownloadLink', () => {
   });
 
   describe('lifecycle hooks', () => {
-    xdescribe('mounted', () => {
-      // const localVue = createLocalVue();
+    describe('mounted', () => {
       const mockGetDownloadURL = jest.fn()
       .mockName('getDownloadURL');
 

@@ -59,8 +59,9 @@ describe('components/Form/TextareaInput', () => {
   describe('template', () => {
     describe('label', () => {
       it('sets the label to the value of the `label` prop', () => {
-        wrapper.setProps({ label: 'My Form Label' });
-        expect(wrapper.find('label').text()).toBe('My Form Label');
+        wrapper.setProps({ label: 'My Form Label' }).then(()=>{
+          expect(wrapper.find('label').text()).toBe('My Form Label');
+        });
       });
     });
 
@@ -68,8 +69,9 @@ describe('components/Form/TextareaInput', () => {
       let hint;
       describe('when the prop is set', () => {
         beforeEach(() => {
-          wrapper.setProps({ hint: 'my_hint' });
-          hint = wrapper.find('.govuk-hint');
+          wrapper.setProps({ hint: 'my_hint' }).then(()=>{
+            hint = wrapper.find('.govuk-hint');
+          });
         });
 
         it('shows a hint', () => {
@@ -93,13 +95,15 @@ describe('components/Form/TextareaInput', () => {
 
     describe('id', () => {
       it('sets <label> `for` attribute', () => {
-        wrapper.setProps({ id: 'my_unique_key' });
-        expect(wrapper.find('label').attributes().for).toBe('my_unique_key');
+        wrapper.setProps({ id: 'my_unique_key' }).then(()=>{
+          expect(wrapper.find('label').attributes().for).toBe('my_unique_key');
+        });
       });
 
       it('sets <textarea> `id` attribute', () => {
-        wrapper.setProps({ id: 'my_unique_key' });
-        expect(wrapper.find('textarea').attributes().id).toBe('my_unique_key');
+        wrapper.setProps({ id: 'my_unique_key' }).then(()=>{
+          expect(wrapper.find('textarea').attributes().id).toBe('my_unique_key');
+        });
       });
     });
 
@@ -109,8 +113,9 @@ describe('components/Form/TextareaInput', () => {
       });
 
       it('sets the rows to the value of the `rows` prop', () => {
-        wrapper.setProps({ rows: '2' });
-        expect(wrapper.find('textarea').attributes().rows).toBe('2');
+        wrapper.setProps({ rows: '2' }).then(()=>{
+          expect(wrapper.find('textarea').attributes().rows).toBe('2');
+        });
       });
     });
   });
@@ -118,8 +123,9 @@ describe('components/Form/TextareaInput', () => {
   describe('`v-model` interface', () => {
     describe('when text changes', () => {
       it('emits an input event with the new value', () => {
-        wrapper.setData({ text: 'new-value' });
-        expect(wrapper.emitted().input).toEqual([['new-value']]);
+        wrapper.setData({ text: 'new-value' }).then(()=>{
+          expect(wrapper.emitted().input).toEqual([['new-value']]);
+        });
       });
     });
 

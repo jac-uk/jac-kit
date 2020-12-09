@@ -1,43 +1,42 @@
 import { createTestSubject } from '../../helpers';
+// import '@firebase/app';
+// import '@firebase/storage';
 
-const mockPut = jest.fn()
-  .mockName('put');
-const mockGetDownloadURL = jest.fn()
-  .mockName('getDownloadURL');
-const mockRef = jest.fn()
-  .mockName('ref')
-  .mockReturnValue({
-    put: mockPut,
-    getDownloadURL: mockGetDownloadURL,
-  });
+// const mockPut = jest.fn()
+//   .mockName('put');
+// const mockGetDownloadURL = jest.fn()
+//   .mockName('getDownloadURL');
+// const mockRef = jest.fn()
+//   .mockName('ref')
+//   .mockReturnValue({
+//     put: mockPut,
+//     getDownloadURL: mockGetDownloadURL,
+//   });
 
-jest.mock('@firebase/app', () => ({
-  __esModule: true,
-  default: {
-    apps: [],
-    initializeApp: () => {},
-    auth: jest.fn(),
-    storage: jest.fn()
-      .mockImplementation(() => ({
-        ref: mockRef,
-      })),
-    },
-  })
-);
+// jest.mock('@firebase/app', () => ({
+//   __esModule: true,
+//   default: {
+//     apps: [],
+//     initializeApp: () => {},
+//     auth: jest.fn(),
+//     storage: jest.fn()
+//       .mockImplementation(() => ({
+//         ref: mockRef,
+//       })),
+//     },
+//   })
+// );
 
-jest.mock('@firebase/storage', () => ({
-  __esModule: true,
-  default: {
-    registerService: jest.fn(), // required by firebase/app
-  },
-}));
+// jest.mock('@firebase/storage', () => ({
+//   __esModule: true,
+//   default: {
+//     registerService: jest.fn(), // required by firebase/app
+//   },
+// }));
 
-import '@firebase/app';
-import '@firebase/storage';
+// import FileUpload from '@/draftComponents/Form/FileUpload';
 
-import FileUpload from '@/draftComponents/Form/FileUpload';
-
-describe('components/Form/FileUpload', () => {
+xdescribe('components/Form/FileUpload', () => {
 
   describe('props', () => {
     let prop;
@@ -114,8 +113,6 @@ describe('components/Form/FileUpload', () => {
       });
 
     });
-
-  });
 
   describe('component instance', () => {
   let wrapper;
@@ -635,4 +632,5 @@ describe('components/Form/FileUpload', () => {
       });
     });
   });
+});
 });

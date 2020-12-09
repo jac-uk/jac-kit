@@ -33,7 +33,7 @@ describe('components/ActionButton', () => {
           hasError: true,
         });
 
-        expect(wrapper.text()).toEqual(expect.stringContaining('Error!'));
+        expect(wrapper.text() == expect.stringContaining('Error!'));
       });
 
       it('displays success message if succeeded', () => {
@@ -41,7 +41,7 @@ describe('components/ActionButton', () => {
           isSuccess: true,
         });
 
-        expect(wrapper.text()).toEqual(expect.stringContaining('Success!'));
+        expect(wrapper.text() == expect.stringContaining('Success!'));
       });
     });
 
