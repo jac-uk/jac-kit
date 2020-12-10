@@ -28,7 +28,7 @@ const getDateAndTimeString = (date, startTime, endTime) => {
 
 const createSelectionDay = (selectionDay) => {
   const selectionDayEntry = {
-    entry: `Selection Day - ${  selectionDay.selectionDayLocation || 'Location TBC' }`,
+    entry: `Selection Day - ${  selectionDay.selectionDayLocation}`,
     date: selectionDay.selectionDayStart,
     dateString: null,
   };
@@ -163,7 +163,7 @@ const exerciseTimeline = (data) => {
       if (data.scenarioTestDate) {
         timeline.push(
           {
-            entry: 'Scenario qualifying test (QT)',
+            entry: 'Scenario test',
             date: getDateAndTime(data.scenarioTestDate, data.scenarioTestStartTime),
             dateString: getDateAndTimeString(data.scenarioTestDate, data.scenarioTestStartTime, data.scenarioTestEndTime),
           }
@@ -172,7 +172,7 @@ const exerciseTimeline = (data) => {
       if (data.scenarioTestOutcome) {
         timeline.push(
           {
-            entry: 'Scenario QT outcome to candidates',
+            entry: 'Scenario test outcome to candidates',
             date: data.scenarioTestOutcome,
             dateString: getDateString(data.scenarioTestOutcome),
           }
@@ -210,7 +210,6 @@ const exerciseTimeline = (data) => {
       }
     );
   }
-
   if (data.selectionDays && data.selectionDays.length > 0) {
     for (let i = 0; i < data.selectionDays.length; i++) {
       if (data.selectionDays[i].selectionDayStart) {
@@ -294,7 +293,7 @@ const exerciseTimeline = (data) => {
       }
     );
   }
-  
+
   return timeline;
 };
 

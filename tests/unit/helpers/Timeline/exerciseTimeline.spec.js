@@ -45,7 +45,7 @@ describe('@/helpers/Timeline/exerciseTimeline', () => {
           expect(exerciseTimeline(data)).toContainEqual({
             date: data.scenarioTestDate,
             dateString: '11 November 2012 - 9:05 am to 9:00 pm',
-            entry: 'Scenario qualifying test (QT)',
+            entry: 'Scenario test',
           });
         });
       });
@@ -96,7 +96,7 @@ describe('@/helpers/Timeline/exerciseTimeline', () => {
     });
     
     describe('when one of the dates is not available', () => {
-      it('contains `Location TBC` where location is missing', () => {
+      it('contains `undefined` where location is missing', () => {
         const data = {
           selectionDays: [{
             selectionDayStart: new Date('Sun Nov 11 2012 09:05:00 GMT+0000 (Greenwich Mean Time)'),
@@ -105,7 +105,7 @@ describe('@/helpers/Timeline/exerciseTimeline', () => {
         expect(exerciseTimeline(data)).toEqual([{
           date: data.selectionDays[0].selectionDayStart,
           dateString: '',
-          entry: 'Selection Day - Location TBC',
+          entry: 'Selection Day - undefined',
         }]);
       });
     });
