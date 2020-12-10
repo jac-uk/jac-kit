@@ -61,7 +61,7 @@ export default {
         if (page.params.status == this.$route.path.split('/')[this.$route.path.split('/').length - 3]){ 
           // check if the status param matches route path 3rd from last item (draft/applied/withdrawn) 
           result = page.params.status == this.$route.path.split('/')[this.$route.path.split('/').length - 3];
-        } else {
+        } else if (page.title) {
           // else check the last word in the route path matches the page title (to lowercase)
           result = this.$route.path.split('/')[this.$route.path.split('/').length - 1] == page.title.toLowerCase();
         }
