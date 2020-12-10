@@ -3,17 +3,8 @@ import { createTestSubject } from '../helpers';
 import Navigation from '@/draftComponents/Navigation';
 
 describe('components/Navigation', () => {
-const navPages = [
-  { page: 'Test', name: 'nav-test-name1' },
-  { page: 'Test2', name: 'nav-test-name2' },
-];
 
-  it('renders the component', () => {
-    const wrapper = createTestSubject(Navigation, { pages: navPages });
-    expect(wrapper.exists()).toBe(true);
-  });
-
-  describe('properties', () => {
+  describe('props', () => {
     let prop;
 
     describe('data', () => {
@@ -34,43 +25,87 @@ const navPages = [
       beforeEach(() => {
         prop = Navigation.props.title;
       });
-
+      
       it('is optional', () => {
         expect(prop.required).not.toBe(true);
       });
-
+      
       it('has default value', () => {
         expect(prop.default).toBe('');
       });
-
+      
       it('should be string', () => {
         expect(prop.type).toBe(String);
       });
     });
   });
-
+  
   describe('template', () => {
+    const navPages = [
+      { page: 'Test', name: 'nav-test-name1' },
+      { page: 'Test2', name: 'nav-test-name2' },
+    ];
+    
+    let wrapper;
+    
+    beforeEach(() => {
+      wrapper = createTestSubject(Navigation, { 
+        mocks: {},
+        stubs: ['router-link'],
+        propsData: {
+          pages: navPages,
+        },
+      });
+    });
+    
+    it('renders the component', () => {
+      expect(wrapper.exists()).toBe(true);
+    });
+    
     it('renders items that is passed as prop', () => {
-      const wrapper = createTestSubject({ pages: navPages });
       expect(wrapper.findAll('li').length).toBe(2);
     });
-
-    it('does not render if items array is empty', () => {
-      const wrapper = createTestSubject({ pages: [] });
+    
+    it('does not render if items array is empty', async () => {
+      await wrapper.setProps({ pages: [] });
       expect(wrapper.findAll('li').length).toBe(0);
     });
-
-    it('sets aria-label with label prop', () => {
-      const wrapper = createTestSubject({ pages: navPages, title: 'MyTestLabel' });
+    
+    it('sets aria-label with label prop', async () => {
+      await wrapper.setProps({ title: 'MyTestLabel' });
       expect(wrapper.find('nav').attributes('aria-label')).toBe('MyTestLabel');
     });
-
-    xdescribe('aria-current attribute', () => {
+    
+    describe('selected tabs', () => {
+      beforeEach( async () => {
+        navPages.push({ 
+          page: 'Test2', 
+          on: true, 
+          name: 'nav-test-name2', 
+          params: {
+            nav: 'current',
+            status: '',
+          },
+        });
+        wrapper = await createTestSubject(Navigation, { 
+          mocks: {},
+          stubs: ['router-link'],
+          propsData: {
+            pages: navPages,
+          },
+        });
+      });
       it('is set for a link which is currently active', () => {
-        const wrapper = createTestSubject({ items: navPages });
-        const links = wrapper.findAll('.nav-link');
-        expect(links.at(0).attributes()).toHaveProperty('aria-current');
+        const links = wrapper.findAll('li');
+        expect(links.at(1).classes()).toEqual(['moj-side-navigation__item']);
+        expect(links.at(2).classes()).toEqual(['moj-side-navigation__item', 'moj-side-navigation__item--active']);
+        expect(links.at(0).classes()).toEqual(['moj-side-navigation__item']);
+      });
+      it('is set for a link which is currently active', () => {
+        const links = wrapper.findAll('router-link-stub');
+        expect(links.at(0).attributes()).not.toHaveProperty('aria-current');
         expect(links.at(1).attributes()).not.toHaveProperty('aria-current');
+        expect(links.at(2).attributes()).toHaveProperty('aria-current');
       });
     });
   });

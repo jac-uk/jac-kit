@@ -1,12 +1,6 @@
 import vuexfireSerialize from '@/helpers/vuexfireSerialize';
 import convertFirestoreTimestampsToDates from '@/helpers/convertFirestoreTimestampsToDates';
-<<<<<<< HEAD:tests/unit/helpers/vuexfireSerialize.spec.js
 import { Timestamp } from '../helpers';
-=======
-import firebase from '@/firebase';
-let firebase;
-const Timestamp = firebase.firestore.Timestamp;
->>>>>>> no failing tests:tests/unit/helpers/vuexfireSerialize.xspec.js
 
 const createMockSnapshot = async (data) => {
   const mockFirebase = (require('firebase-mock')).MockFirebaseSdk();

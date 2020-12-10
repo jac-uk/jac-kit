@@ -61,14 +61,15 @@ describe('components/TimeInput', () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  xdescribe('computed properties', () => {
-    // let wrapper;
-    // beforeEach(() => {
-      // wrapper = createTestSubject(new Date(2019, 7, 22, 15, 45));
-    // });
+  describe('computed properties', () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        value: new Date(2019, 7, 22, 15, 45),
+      });
+    });
     describe('hourInput', () => {
       describe('getter', () => {
-        xit('calls zeroPad function', () => {
+        it('calls zeroPad function', () => {
           expect(zeroPad).toHaveBeenCalledWith(15);
         });
       });
@@ -79,9 +80,9 @@ describe('components/TimeInput', () => {
         });
       });
     });
-    xdescribe('minuteInput', () => {
+    describe('minuteInput', () => {
       describe('getter', () => {
-        xit('calls zeroPad function', () => {
+        it('calls zeroPad function', () => {
           expect(zeroPad).toHaveBeenCalledWith(45);
         });
       });
@@ -94,7 +95,7 @@ describe('components/TimeInput', () => {
     });
     describe('dateConstructor', () => {
       describe('and `hours` and `minutes` fields are set', () => {
-        xit('returns an array of Date constructor arguments', () => {
+        it('returns an array of Date constructor arguments', () => {
           expect(wrapper.vm.dateConstructor).toHaveLength(5);
           expect(wrapper.vm.dateConstructor).toEqual([0, 0, 0, 15, 45]);
         });
@@ -237,7 +238,7 @@ describe('components/TimeInput', () => {
           expect(wrapper.find('#testid-hint').text()).toBe(hint);
         });
         it('does not display when not provided', () => {
-          wrapper.setProps({ id: 'testid' })
+          wrapper.setProps({ id: 'testid' });
           expect(wrapper.find('#testid-hint').exists()).toBe(false);
         });
         it('sets aria-described by with the value of hint id', () => {

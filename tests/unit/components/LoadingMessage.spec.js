@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils';
 import LoadingMessage from '@/draftComponents/LoadingMessage';
 
-xdescribe('components/LoadingMessage', () => {
+describe('components/LoadingMessage', () => {
   const createWrapper = (loadFailedValue) => {
     return shallowMount(LoadingMessage, {
       propsData: {

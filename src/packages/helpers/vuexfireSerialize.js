@@ -1,4 +1,4 @@
-let formatDate = (value) => {
+const formatDate = (value) => {
   if (value !== null && value !== undefined) {
     if (value._seconds) {
       value = new Date(1e3 * value._seconds + value._nanoseconds / 1e6);
@@ -6,7 +6,8 @@ let formatDate = (value) => {
     if (value.seconds) {
       value = new Date(1e3 * value.seconds + value.nanoseconds / 1e6);
     }
-}
+  }
+};
 // import convertFirestoreTimestampsToDates from './convertFirestoreTimestampsToDates';
 
 /**

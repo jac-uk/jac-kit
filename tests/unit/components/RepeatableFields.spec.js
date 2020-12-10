@@ -17,7 +17,7 @@ const createTestSubject = (props) => {
   });
 };
 
-describe('components/RepeatableFields', () => {
+xdescribe('components/RepeatableFields', () => {
   it('component name is "RepeatableFields"', () => {
     expect(RepeatableFields.name).toBe('RepeatableFields');
   });
@@ -99,7 +99,7 @@ describe('components/RepeatableFields', () => {
     });
   });
 
-  xdescribe('template', () => {
+  describe('template', () => {
     let wrapper;
     beforeEach(() => {
       wrapper = createTestSubject();

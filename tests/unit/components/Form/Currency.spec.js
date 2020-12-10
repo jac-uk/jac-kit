@@ -106,7 +106,7 @@ describe('components/Form/Currency', () => {
         });
       });
 
-      xdescribe('input', () => {
+      describe('input', () => {
         beforeEach(()=>{
           wrapper.setProps({ id: 'my_unique_key' });
         });
@@ -125,7 +125,7 @@ describe('components/Form/Currency', () => {
         });
       });
 
-      xdescribe('currency label span', () => {
+      describe('currency label span', () => {
         it('contains \'£\' text', () => {
           expect(wrapper.find('span').text()).toBe('£');
         });
@@ -135,7 +135,7 @@ describe('components/Form/Currency', () => {
       });
     });
 
-    xdescribe('computed', () => {
+    describe('computed', () => {
       describe('currencyInput', () => {
         beforeEach(() => {
           wrapper.setProps({ value: 'test123' });
@@ -152,7 +152,7 @@ describe('components/Form/Currency', () => {
       });
     });
 
-    xdescribe('`v-model` interface', () => {
+    describe('`v-model` interface', () => {
     describe('when `currencyInput` changes', () => {
       it('emits an input event with the new value', () => {
         wrapper.setData({ currencyInput: '25' });

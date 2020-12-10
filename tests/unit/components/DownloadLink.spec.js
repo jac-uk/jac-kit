@@ -1,38 +1,37 @@
 import { createTestSubject } from '../helpers';
 
-// const mockGetDownloadURL = jest.fn()
-//   .mockName('getDownloadURL');
-// const mockRef = jest.fn()
-//   .mockName('ref')
-//   .mockReturnValue({
-//     getDownloadURL: mockGetDownloadURL,
-//   });
+const mockGetDownloadURL = jest.fn()
+  .mockName('getDownloadURL');
+const mockRef = jest.fn()
+  .mockName('ref')
+  .mockReturnValue({
+    getDownloadURL: mockGetDownloadURL,
+  });
 
-// jest.mock('@firebase/app', () => ({
-//     __esModule: true,
-//     default: {
-//       apps: [],
-//       initializeApp: () => {},
-//       auth: jest.fn(),
-//       storage: jest.fn()
-//         .mockImplementation(() => ({
-//           ref: mockRef,
-//         })),
-//     },
-//   })
-// );
+jest.mock('@firebase/app', () => ({
+    __esModule: true,
+    default: {
+      apps: [],
+      initializeApp: () => {},
+      auth: jest.fn(),
+      storage: jest.fn()
+        .mockImplementation(() => ({
+          ref: mockRef,
+        })),
+    },
+  })
+);
 
-// jest.mock('@firebase/storage', () => ({
-//   __esModule: true,
-//   default: {
-//     registerService: jest.fn(), // required by firebase/app
-//   },
-// }));
+jest.mock('@firebase/storage', () => ({
+  __esModule: true,
+  default: {
+    registerService: jest.fn(), // required by firebase/app
+  },
+}));
 
-// import DownloadLink from '@/draftComponents/DownloadLink';
-let DownloadLink;
+import DownloadLink from '@/draftComponents/DownloadLink';
 
-xdescribe('components/DownloadLink', () => {
+describe('components/DownloadLink', () => {
   let wrapper;
   const mockProps = {
     exerciseId: 'mock_id',
@@ -59,7 +58,7 @@ xdescribe('components/DownloadLink', () => {
 
       const mockHref = 'mock href';
 
-      it('should call .getDownloadURL()', () => {
+      xit('should call .getDownloadURL()', () => {
         createTestSubject(DownloadLink, {
           propsData: mockProps,
           stubs: [],
@@ -71,10 +70,10 @@ xdescribe('components/DownloadLink', () => {
         expect(mockGetDownloadURL).toHaveBeenCalled();
       });
 
-      it('should set linkHref if .getDownloadURL() returned download url', async () => {
+      xit('should set linkHref if .getDownloadURL() returned download url', async () => {
         expect.assertions(1);
 
-        const wrapper = createTestSubject(DownloadLink, {
+        const wrapper = await createTestSubject(DownloadLink, {
           mocks: {
             getDownloadURL: mockGetDownloadURL
             .mockReturnValue(mockHref),
@@ -83,7 +82,6 @@ xdescribe('components/DownloadLink', () => {
           propsData: mockProps,
         });
 
-        await wrapper.vm.$nextTick();
         expect(wrapper.vm.linkHref).toEqual(mockHref);
       });
 
@@ -107,7 +105,7 @@ xdescribe('components/DownloadLink', () => {
 
   describe('methods', () => {
 
-    xdescribe('getDownloadURL()', () => {
+    describe('getDownloadURL()', () => {
       it('returns false if filename not set', async () => {
         expect.assertions(1);
 

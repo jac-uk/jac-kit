@@ -1,10 +1,6 @@
-<<<<<<< HEAD:tests/unit/filters/formatCurrency.spec.js
 import { formatCurrency } from '@/filters/filters';
-=======
-import { formatCurrency } from '@/filters'; 
->>>>>>> no failing tests:tests/unit/filters/formatCurrency.xspec.js
 
-xdescribe('Format Currency', () => {
+describe('Format Currency', () => {
   it('returns a string in GBP', () => {
     expect(formatCurrency('124000')).toBe('£124,000.00');
   });

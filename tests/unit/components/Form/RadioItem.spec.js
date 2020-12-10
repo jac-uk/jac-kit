@@ -49,7 +49,7 @@ const createTestSubject = (options) => {
   return radios.find(RadioItem);
 };
 
-xdescribe('components/Form/RadioItem', () => {
+describe('components/Form/RadioItem', () => {
   it('component name is "RadioItem"', () => {
     expect(RadioItem.name).toBe('RadioItem');
   });
@@ -74,10 +74,10 @@ xdescribe('components/Form/RadioItem', () => {
     /* eslint-enable no-console */
   });
 
-  xdescribe('properties', () => {
+  describe('properties', () => {
     let prop;
 
-    xdescribe('label', () => {
+    describe('label', () => {
       beforeEach(() => {
         prop = RadioItem.props.label;
       });
@@ -91,7 +91,7 @@ xdescribe('components/Form/RadioItem', () => {
       });
     });
 
-    xdescribe('value', () => {
+    describe('value', () => {
       beforeEach(() => {
         prop = RadioItem.props.value;
       });
@@ -119,7 +119,7 @@ xdescribe('components/Form/RadioItem', () => {
       });
     });
 
-    xdescribe('hint', () => {
+    describe('hint', () => {
       beforeEach(() => {
         prop = RadioItem.props.hint;
       });
@@ -134,10 +134,10 @@ xdescribe('components/Form/RadioItem', () => {
     });
   });
 
-  xdescribe('data', () => {
+  describe('data', () => {
     let subject;
 
-    xdescribe('hasConditionalContent', () => {
+    describe('hasConditionalContent', () => {
       it('is true when slot content was supplied', () => {
         subject = createTestSubject({
           label: 'Example radio item',
@@ -157,7 +157,7 @@ xdescribe('components/Form/RadioItem', () => {
     });
   });
 
-  xdescribe('template', () => {
+  describe('template', () => {
     let subject;
     beforeEach(() => {
       subject = createTestSubject();
@@ -168,7 +168,7 @@ xdescribe('components/Form/RadioItem', () => {
       expect(item.exists()).toBe(true);
     });
 
-    xdescribe('radio input', () => {
+    describe('radio input', () => {
       let input;
       beforeEach(() => {
         input = subject.find('input[type=radio]');
@@ -183,7 +183,7 @@ xdescribe('components/Form/RadioItem', () => {
       });
     });
 
-    xdescribe('label', () => {
+    describe('label', () => {
       let label;
       beforeEach(() => {
         label = subject.find('label');
@@ -209,9 +209,9 @@ xdescribe('components/Form/RadioItem', () => {
       expect(label.attributes('for')).toBe(input.attributes('id'));
     });
 
-    xdescribe('hint', () => {
+    describe('hint', () => {
       let hint;
-      xdescribe('when the `hint` prop is set', () => {
+      describe('when the `hint` prop is set', () => {
         beforeEach(() => {
           subject = createTestSubject({
             label: 'My label',
@@ -235,7 +235,7 @@ xdescribe('components/Form/RadioItem', () => {
         });
       });
 
-      xdescribe('when the `hint` prop is not set', () => {
+      describe('when the `hint` prop is not set', () => {
         beforeEach(() => {
           subject = createTestSubject({
             label: 'My label',
@@ -255,9 +255,9 @@ xdescribe('components/Form/RadioItem', () => {
       });
     });
 
-    xdescribe('conditional content', () => {
-      xdescribe('when the radio value is selected', () => {
-        xdescribe('and conditional content was given', () => {
+    describe('conditional content', () => {
+      describe('when the radio value is selected', () => {
+        describe('and conditional content was given', () => {
           it('renders conditional content', () => {
             subject = createTestSubject({
               value: 'selected-radio-value',
@@ -268,7 +268,7 @@ xdescribe('components/Form/RadioItem', () => {
           });
         });
 
-        xdescribe('and conditional content was not given', () => {
+        describe('and conditional content was not given', () => {
           it('does not render conditional content', () => {
             subject = createTestSubject({
               value: 'selected-radio-value',
@@ -279,7 +279,7 @@ xdescribe('components/Form/RadioItem', () => {
         });
       });
 
-      xdescribe('when the radio value is not selected', () => {
+      describe('when the radio value is not selected', () => {
         it('does not render conditional content', () => {
           subject = createTestSubject({
             value: 'not-selected-value',

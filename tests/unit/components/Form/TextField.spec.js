@@ -85,7 +85,7 @@ describe('components/Form/TextField', () => {
         describe('when the prop is set', () => {
           beforeEach(() => {
             wrapper.setProps({ 
-              hint: 'my_hint'
+              hint: 'my_hint',
             }).then(()=>{
               hint = wrapper.find('.govuk-hint');
             });
@@ -136,7 +136,7 @@ describe('components/Form/TextField', () => {
         
         it('includes the added value in the <input> `class` attribute', () => {
           wrapper.setProps({ 
-            inputClass: 'my_styling'
+            inputClass: 'my_styling',
           }).then(()=>{
             expect(input.classes()[1]).toBe('my_styling');
           });
@@ -176,10 +176,10 @@ describe('components/Form/TextField', () => {
       });
     });
 
-    xdescribe('autocomplete', () => {
-      it('sets autocomplete for email', () => {
+    describe('autocomplete', () => {
+      it('sets autocomplete for email', async () => {
         const type = 'email';
-        wrapper.setProps({ type });
+        await wrapper.setProps({ type });
 
         expect(wrapper.find('input').attributes('autocomplete')).toBe(type);
       });
