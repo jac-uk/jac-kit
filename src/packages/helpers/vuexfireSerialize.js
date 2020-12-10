@@ -1,14 +1,4 @@
-const formatDate = (value) => {
-  if (value !== null && value !== undefined) {
-    if (value._seconds) {
-      value = new Date(1e3 * value._seconds + value._nanoseconds / 1e6);
-    }
-    if (value.seconds) {
-      value = new Date(1e3 * value.seconds + value.nanoseconds / 1e6);
-    }
-  }
-};
-// import convertFirestoreTimestampsToDates from './convertFirestoreTimestampsToDates';
+import convertFirestoreTimestampsToDates from './convertFirestoreTimestampsToDates';
 
 /**
  * Vuexfire serialize method
@@ -20,7 +10,7 @@ const vuexfireSerialize = (snapshot) => {
   let data = snapshot.data();
 
   // Convert Firestore Timestamp objects to regular JavaScript Date objects
-  data = formatDate(data);
+  data = convertFirestoreTimestampsToDates(data);
 
   // snapshot.data() DOES NOT contain the `id` of the document. By
   // default, Vuefire adds it as a non enumerable property named id.
