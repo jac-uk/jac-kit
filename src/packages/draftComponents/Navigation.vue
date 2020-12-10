@@ -57,7 +57,8 @@ export default {
         if (page.params.nav) {
           const routePath = this.$route.path;
           result = routePath.includes(page.params.nav);
-        } else if (page.params.status == this.$route.path.split('/')[this.$route.path.split('/').length - 3]){ 
+        } 
+        if (page.params.status == this.$route.path.split('/')[this.$route.path.split('/').length - 3]){ 
           // check if the status param matches route path 3rd from last item (draft/applied/withdrawn) 
           result = page.params.status == this.$route.path.split('/')[this.$route.path.split('/').length - 3];
         } else {
