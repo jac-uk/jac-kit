@@ -1,12 +1,73 @@
 <template>
-  <div>
-    <Search
-      v-if="search.length"
-      @search="useSearch"
-    />
+  <div class="jac-table">
+    <div class="govuk-grid-row">
+      <div
+        v-if="search.length"
+        class="govuk-grid-column-one-half"
+      >
+        <Search
+          @search="useSearch"
+        />
+      </div>
+      <div :class="search.length ? 'govuk-grid-column-one-quarter' : 'govuk-grid-column-one-half'">
+        <button
+          type="button"
+          class="btn-filter govuk-button govuk-button--secondary govuk-!-margin-bottom-0"
+          @click="btnToggleSidePanel"
+        >
+          {{ showSidePanel ? "Hide filters" : "Show filters" }}
+        </button>
+        <Badge :number="numberOfFiltersApplied" />
+      </div>
+      <div :class="[search.length ? 'govuk-grid-column-one-quarter' : 'govuk-grid-column-one-half', 'text-right']">
+        <slot name="actions" />
+      </div>
+    </div>
+    <SidePanel :show="showSidePanel">
+      <template #header>
+        <div class="govuk-grid-row govuk-!-padding-top-3 govuk-!-padding-bottom-3">
+          <div class="govuk-grid-column-one-half">
+            <div class="govuk-heading-l govuk-!-margin-bottom-0">
+              Filters
+            </div>
+          </div>
+          <div class="govuk-grid-column-one-half text-right">
+            <a
+              href
+              class="govuk-link"
+              @click.prevent="btnClearFilters"
+            >
+              Clear all
+            </a>
+          </div>
+        </div>
+      </template>
+      <template #default>
+        <CustomForm
+          :fields="filters"
+          :data.sync="filterValues"
+        />
+      </template>
+      <template #footer>
+        <button
+          type="button"
+          class="govuk-button govuk-!-margin-2"
+          @click="btnUpdateFilters"
+        >
+          Apply
+        </button>
+        <button
+          type="button"
+          class="govuk-button govuk-!-margin-2 govuk-button--secondary"
+          @click="btnCancelFilters"
+        >
+          Cancel
+        </button>
+      </template>
+    </SidePanel>
     <table
       v-if="hasData"
-      class="govuk-table"
+      class="govuk-table govuk-!-margin-top-2"
     >
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
@@ -122,11 +183,17 @@
 </template>
 
 <script>
-import Search from '../../draftComponents/Search';
+import Search from './Search';
+import SidePanel from './SidePanel';
+import Badge from './Badge';
+import CustomForm from './CustomForm';
 
 export default {
   components: {
     Search,
+    SidePanel,
+    Badge,
+    CustomForm,
   },
   props: {
     columns: {
@@ -136,6 +203,11 @@ export default {
     data: {
       type: Array,
       required: true,
+    },
+    filters: {
+      type: Array,
+      required: false,
+      default: () => [],
     },
     dataKey: {
       type: String,
@@ -168,6 +240,10 @@ export default {
       orderBy: null,
       direction: null,
       page: 0,
+      showSidePanel: false,
+      filterValues: {},
+      numberOfFiltersApplied: 0,
+      where: [],
     };
   },
   computed: {
@@ -191,6 +267,7 @@ export default {
       if (this.searchTerm) { state.searchTerm = this.searchTerm; }
       if (this.orderBy) { state.orderBy = this.orderBy; }
       if (this.direction) { state.direction = this.direction; }
+      if (this.where) { state.where = this.where; }
       return state;
     },
     showPaging() {
@@ -247,6 +324,92 @@ export default {
       state.pageChange = 1;
       this.$emit('change', state);
     },
+    btnToggleSidePanel() {
+      this.showSidePanel = !this.showSidePanel;
+    },
+    btnCancelFilters() {
+      this.filterValues = {};
+      if (this.numberOfFiltersApplied) {
+        this.filterValues = JSON.parse(JSON.stringify(this.appliedFilterValues));
+      }
+      this.btnToggleSidePanel();
+    },
+    btnClearFilters() {
+      this.filterValues = {};
+      this.appliedFilterValues = {};
+      this.where = [];
+      this.numberOfFiltersApplied = 0;
+      this.$emit('change', this.currentState);
+      this.showSidePanel = false;
+    },
+    btnUpdateFilters() {
+      const where = [];
+      this.appliedFilterValues = JSON.parse(JSON.stringify(this.filterValues));
+      this.numberOfFiltersApplied = 0;
+      // iterate filters and build where clause if a filter value has been chosen
+      this.filters.forEach((filter) => {
+        switch (filter.type) {
+        case 'checkbox':
+          if (this.filterValues[filter.field] && this.filterValues[filter.field].length) {
+            where.push({
+              field: filter.field,
+              comparator: 'in',
+              value: this.filterValues[filter.field],
+            });
+            this.numberOfFiltersApplied += this.filterValues[filter.field].length;
+          }
+          break;
+        case 'dateRange':
+          if (this.filterValues[`${filter.field}-from`] || this.filterValues[`${filter.field}-to`]) {
+            if (this.filterValues[`${filter.field}-from`]) {
+              where.push({
+                field: filter.field,
+                comparator: '>=',
+                value: this.filterValues[`${filter.field}-from`],
+              });
+            }
+            if (this.filterValues[`${filter.field}-to`]) {
+              where.push({
+                field: filter.field,
+                comparator: '<',
+                value: this.filterValues[`${filter.field}-to`],
+              });
+            }
+            this.orderBy = filter.field;  // order by date field
+            this.direction = 'asc';
+            this.numberOfFiltersApplied += 1;
+          }
+          break;
+        case 'customDateRange':
+          if (
+            this.filterValues[`${filter.ident}-field`]
+            && (this.filterValues[`${filter.ident}-from`] || this.filterValues[`${filter.ident}-to`])
+          ) {
+            if (this.filterValues[`${filter.ident}-from`]) {
+              where.push({
+                field: this.filterValues[`${filter.ident}-field`],
+                comparator: '>=',
+                value: this.filterValues[`${filter.ident}-from`],
+              });
+            }
+            if (this.filterValues[`${filter.ident}-to`]) {
+              where.push({
+                field: this.filterValues[`${filter.ident}-field`],
+                comparator: '<',
+                value: this.filterValues[`${filter.ident}-to`],
+              });
+            }
+            this.orderBy = this.filterValues[`${filter.ident}-field`];  // order by date field
+            this.direction = 'asc';
+            this.numberOfFiltersApplied += 1;
+          }
+          break;
+        }
+      });
+      this.where = where;
+      this.$emit('change', this.currentState);
+      this.showSidePanel = false;
+    },
     sortBy(column) {
       if (column.sort && !this.searchTerm) {
         this.page = 0;
@@ -283,3 +446,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.btn-filter {
+  width: 130px;
+}
+</style>

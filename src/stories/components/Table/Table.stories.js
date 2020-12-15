@@ -57,6 +57,14 @@ Types.args = {
     { title: 'City', sort: 'col2' },
   ],
   pageSize: 1,
+  filters: [
+    {
+      title: 'Status',
+      field: 'status',
+      type: 'checkbox',
+      options: ['draft', 'ready', 'approved'],
+    },
+  ],
 };
 Types.storyName = 'Table Component';
 

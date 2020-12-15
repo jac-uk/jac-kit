@@ -37,6 +37,11 @@ const getValueAtObjectPath = (object, path) => {
 const tableQuery = (data, ref, params) => {
   let queryRef = ref;
   if (params) {
+    if (params.where) {
+      params.where.forEach(item => {
+        queryRef = queryRef.where(item.field, item.comparator, item.value);
+      });
+    }
     let orderBy = params.orderBy;
     if (params.searchTerm) {
       const returnSearch = search(params.searchTerm);
