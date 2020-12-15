@@ -1,7 +1,7 @@
 <template>
   <div
     class="govuk-form-group"
-    :class="{'govuk-form-group--error': hasError}"
+    :class="{ 'govuk-form-group--error' : hasError }"
   >
     <label
       :for="id"

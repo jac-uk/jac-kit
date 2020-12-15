@@ -151,19 +151,22 @@ describe('components/SearchFilter', () => {
         });
 
         it('renders a checkboxitem for each option within \'checkbox\' term', () => {
-          wrapper.setProps({ terms: [
-            {
-              type: 'checkbox',
-              title: 'Checkbox',
-              options: ['one', 'two', 'three'],
-            },
-            {
-              type: 'checkbox',
-              title: 'Checkbox 2',
-              options: ['one', 'two', 'three'],
-            },
-          ] });
-          expect(wrapper.findAll('checkboxgroup-stub').length).toBe(2);
+          wrapper.setProps({ 
+            terms: [
+              {
+                type: 'checkbox',
+                title: 'Checkbox',
+                options: ['one', 'two', 'three'],
+              },
+              {
+                type: 'checkbox',
+                title: 'Checkbox 2',
+                options: ['one', 'two', 'three'],
+              },
+            ],
+          }).then(()=>{
+            expect(wrapper.findAll('checkboxgroup-stub').length).toBe(2);
+          });
         });
 
       });
@@ -244,10 +247,11 @@ describe('components/SearchFilter', () => {
               type: 'dateRange',
               title: 'Close Date',
             },
-          ] });
-          expect(wrapper.findAll('checkboxgroup-stub').length).toBe(2);
-          expect(wrapper.findAll('textfield-stub').length).toBe(2);
-          expect(wrapper.findAll('dateinput-stub').length).toBe(4);
+          ] }).then(()=>{
+            expect(wrapper.findAll('checkboxgroup-stub').length).toBe(2);
+            expect(wrapper.findAll('textfield-stub').length).toBe(2);
+            expect(wrapper.findAll('dateinput-stub').length).toBe(4);
+          });
         });
 
       });

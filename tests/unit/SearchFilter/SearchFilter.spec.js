@@ -1,7 +1,7 @@
 import { createTestSubject } from '../helpers';
 import SearchFilter from '@/components/SearchFilter/SearchFilter';
 
-xdescribe('components/SearchFilter', () => {
+describe('components/SearchFilter', () => {
   let wrapper;
 
   describe('props', () => {
@@ -103,8 +103,8 @@ xdescribe('components/SearchFilter', () => {
       });
 
       describe("when given 'checkbox' type term ", () => {
-        beforeEach(() => {
-          wrapper.setProps({
+        beforeEach(async () => {
+          await wrapper.setProps({
             terms: [
               {
                 type: 'checkbox',
@@ -131,8 +131,8 @@ xdescribe('components/SearchFilter', () => {
           expect(wrapper.findAll('checkboxitem-stub').length).toBe(3);
         });
 
-        it("renders a checkboxitem for each option within 'checkbox' term", () => {
-          wrapper.setProps({
+        it("renders a checkboxitem for each option within 'checkbox' term", async () => {
+          await wrapper.setProps({
             terms: [
               {
                 type: 'checkbox',
@@ -151,8 +151,8 @@ xdescribe('components/SearchFilter', () => {
       });
 
       describe("when given 'keyword' type term ", () => {
-        beforeEach(() => {
-          wrapper.setProps({
+        beforeEach( async () => {
+          await wrapper.setProps({
             terms: [
               {
                 type: 'keyword',
@@ -176,8 +176,8 @@ xdescribe('components/SearchFilter', () => {
       });
 
       describe("when given 'dateRange' type term ", () => {
-        beforeEach(() => {
-          wrapper.setProps({
+        beforeEach( async () => {
+          await wrapper.setProps({
             terms: [
               {
                 type: 'dateRange',
@@ -201,8 +201,8 @@ xdescribe('components/SearchFilter', () => {
       });
 
       describe('combinations of terms', () => {
-        it('can render multiples of all', () => {
-          wrapper.setProps({
+        it('can render multiples of all', async () => {
+          await wrapper.setProps({
             terms: [
               {
                 type: 'checkbox',

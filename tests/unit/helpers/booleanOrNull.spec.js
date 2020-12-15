@@ -1,6 +1,6 @@
 import booleanOrNull from '@/helpers/booleanOrNull';
 
-xdescribe('@/helpers/booleanOrNull', () => {
+describe('@/helpers/booleanOrNull', () => {
   it('is a function', () => {
     expect(booleanOrNull).toBeInstanceOf(Function);
   });

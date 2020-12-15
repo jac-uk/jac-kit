@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils';
 import BackLink from '@/draftComponents/BackLink';
 
-xdescribe('components/BackLink', () => {
+describe('components/BackLink', () => {
   let wrapper;
   let link;
   const mockRouter = {

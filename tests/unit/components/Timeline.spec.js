@@ -1,25 +1,13 @@
-import { shallowMount } from '@vue/test-utils';
+import { createTestSubject } from '../helpers';
 import Timeline from '@/draftComponents/Timeline';
 
-const testTimelineData = [
-  { entry: 'Test1', date: 'Test2' },
-  { entry: 'Test3', date: 'Test4' },
+const testData = [
+  { entry: 'a', date: '11 Oct' },
+  { entry: 'b', date: '12 Oct' },
+  { entry: 'c', date: '13 Oct' },
 ];
 
-const createTestSubject = (propsData) => {
-  return shallowMount(Timeline, {
-    propsData: {
-      ...propsData,
-    },
-  });
-};
-
-xdescribe('components/Page/Timeline', () => {
-  it('renders the component', () => {
-    const wrapper = createTestSubject({ data: testTimelineData });
-    expect(wrapper.exists()).toBe(true);
-  });
-
+describe('components/Timeline', () => {
   describe('properties', () => {
     let prop;
 
@@ -37,18 +25,21 @@ xdescribe('components/Page/Timeline', () => {
       });
     });
   });
-
+  
   describe('markup', () => {
     let wrapper;
-
     beforeEach(() => {
-      const testData = [
-        { entry: 'a', date: '11 Oct' },
-        { entry: 'b', date: '12 Oct' },
-        { entry: 'c', date: '13 Oct' },
-      ];
+      wrapper = createTestSubject(Timeline, {
+        mocks: {},
+        stubs: [],
+        propsData: { 
+          data: testData,
+        },
+      });
+    });
 
-      wrapper = createTestSubject({ data: testData });
+    it('renders the component', () => {
+      expect(wrapper.exists()).toBe(true);
     });
 
     it('renders data that is passed as prop', () => {

@@ -6,7 +6,7 @@ const timeline = [
   { entry: 'Test3', date: 'SomeDate3' },
 ];
 
-xdescribe('@/helpers/Timeline/createTimeline', () => {
+describe('@/helpers/Timeline/createTimeline', () => {
   it('returns array', () => {
     expect(createTimeline(timeline)).toBeArray();
   });

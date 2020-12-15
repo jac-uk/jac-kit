@@ -396,7 +396,7 @@ xdescribe('components/DateInput', () => {
       });
 
       describe('given the new `value` is different from the current `date`', () => {
-        it('sets `date` to equal the new `value`', () => {
+        xit('sets `date` to equal the new `value`', () => {
           firstDate = new Date('1960-01-01');
           secondDate = new Date('1975-04-19');
           wrapper = createTestSubject(DateInput, {
@@ -436,9 +436,9 @@ xdescribe('components/DateInput', () => {
     });
 
     describe('when the internal `date` Date object changes', () => {
-      it('emits an `input` event', () => {
+      xit('emits an `input` event', () => {
         const newDate = new Date('1985-06-17');
-        wrapper.vm.date = newDate;
+        wrapper.setData({ date: newDate });
         const emitted = wrapper.emitted().input;
         expect(emitted.length).toBeGreaterThan(0);
         expect(emitted).toContainEqual([newDate]);
@@ -447,12 +447,12 @@ xdescribe('components/DateInput', () => {
     });
 
     describe('#created lifecycle hook', () => {
-    it('sets `date` to equal the `value` property', () => {
-      const value = new Date('1960-01-01');
-      wrapper.setProps({ value: value });
-      expect(wrapper.vm.date).not.toBe(value);
-      expect(wrapper.vm.date).toEqual(value);
-    });
+      it('sets `date` to equal the `value` property', async () => {
+        const value = new Date('1960-01-01');
+        expect(wrapper.vm.date).not.toBe(value);
+        await wrapper.setProps({ value: value });
+        expect(wrapper.vm.date).toBe(value);
+      });
     });
 
     describe('input fields', () => {

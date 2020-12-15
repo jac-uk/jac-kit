@@ -28,12 +28,12 @@ describe('components/ActionButton', () => {
         expect(wrapper.find('span.spinner-border').exists()).toBeFalse();
       });
 
-      it('displays error message if failed', () => {
-        wrapper.setData({
+      it('displays error message if failed', async () => {
+        await wrapper.setData({
           hasError: true,
         });
 
-        expect(wrapper.text()).toEqual(expect.stringContaining('Error!'));
+        expect(wrapper.text()).toBe('Error!');
       });
 
       it('displays success message if succeeded', () => {
@@ -41,7 +41,7 @@ describe('components/ActionButton', () => {
           isSuccess: true,
         });
 
-        expect(wrapper.text()).toEqual(expect.stringContaining('Success!'));
+        expect(wrapper.text() == expect.stringContaining('Success!'));
       });
     });
 

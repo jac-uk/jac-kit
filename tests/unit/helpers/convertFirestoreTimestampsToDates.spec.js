@@ -5,7 +5,7 @@ xdescribe('helpers/convertFirestoreTimestampsToDates', () => {
   const date = new Date('2015-12-23 22:33:44');
   const timestamp = Timestamp.fromDate(date);
 
-  it('converts Firestore Timestamp objects into equivalent Date objects', () => {
+  xit('converts Firestore Timestamp objects into equivalent Date objects', () => {
     const data = {
       name: 'John Smith',
       appliedDate: timestamp,
@@ -20,7 +20,7 @@ xdescribe('helpers/convertFirestoreTimestampsToDates', () => {
     expect(converted.appliedDate).toEqual(date);
   });
 
-  it('converts deeply nested Timestamps', () => {
+  xit('converts deeply nested Timestamps', () => {
     const data = {
       some: {
         deeply: {

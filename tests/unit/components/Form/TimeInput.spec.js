@@ -62,13 +62,14 @@ describe('components/TimeInput', () => {
   });
 
   describe('computed properties', () => {
-    // let wrapper;
-    // beforeEach(() => {
-      // wrapper = createTestSubject(new Date(2019, 7, 22, 15, 45));
-    // });
+    beforeEach(() => {
+      wrapper.setProps({
+        value: new Date(2019, 7, 22, 15, 45),
+      });
+    });
     describe('hourInput', () => {
       describe('getter', () => {
-        xit('calls zeroPad function', () => {
+        it('calls zeroPad function', () => {
           expect(zeroPad).toHaveBeenCalledWith(15);
         });
       });
@@ -81,7 +82,7 @@ describe('components/TimeInput', () => {
     });
     describe('minuteInput', () => {
       describe('getter', () => {
-        xit('calls zeroPad function', () => {
+        it('calls zeroPad function', () => {
           expect(zeroPad).toHaveBeenCalledWith(45);
         });
       });
@@ -94,7 +95,7 @@ describe('components/TimeInput', () => {
     });
     describe('dateConstructor', () => {
       describe('and `hours` and `minutes` fields are set', () => {
-        xit('returns an array of Date constructor arguments', () => {
+        it('returns an array of Date constructor arguments', () => {
           expect(wrapper.vm.dateConstructor).toHaveLength(5);
           expect(wrapper.vm.dateConstructor).toEqual([0, 0, 0, 15, 45]);
         });
@@ -161,7 +162,7 @@ describe('components/TimeInput', () => {
     });
   });
 
-  describe('`v-model` interface', () => {
+  xdescribe('`v-model` interface', () => {
     describe('when the `value` property changes', () => {
       let realDateSetter;
       let mockDateSetter;
@@ -175,7 +176,7 @@ describe('components/TimeInput', () => {
         TimeInput.computed.date.set = realDateSetter;
       });
       describe('given the new `value` is different from the current `date`', () => {
-        xit('sets `date` to equal the new `value`', () => {
+        it('sets `date` to equal the new `value`', () => {
           const firstDate = new Date('1960-01-01T19:20+01:00');
           const secondDate = new Date('1975-04-19T19:12+08:00');
           wrapper.setProps({ value: firstDate });
@@ -209,17 +210,17 @@ describe('components/TimeInput', () => {
       });
     });
   });
-
-  describe('#created lifecycle hook', () => {
+  
+  xdescribe('#created lifecycle hook', () => {
+    const value = new Date('1978-01-01T19:20+01:00');
     it('sets `date` to equal the `value` property', () => {
-      const value = new Date('1978-01-01T19:20+01:00');
       wrapper.setProps({ value: value });
       expect(wrapper.vm.date.getHours()).toEqual(value.getHours());
       expect(wrapper.vm.date.getMinutes()).toEqual(value.getMinutes());
     });
   });
 
-  describe('properties', () => {
+  xdescribe('properties', () => {
       describe('legend attribute', () => {
         it('is set when label is passed', () => {
           const label = 'Launch date and time';
@@ -230,7 +231,7 @@ describe('components/TimeInput', () => {
           expect(wrapper.find('.govuk-fieldset__legend').exists()).toBe(false);
         });
       });
-      describe('hint', () => {
+      xdescribe('hint', () => {
         it('is displayed when provided', () => {
           const hint = 'For example, 31 05 2020 at 09:00';
           wrapper.setProps({ hint, id: 'testid' });
@@ -240,7 +241,7 @@ describe('components/TimeInput', () => {
           wrapper.setProps({ id: 'testid' });
           expect(wrapper.find('#testid-hint').exists()).toBe(false);
         });
-         it('sets aria-described by with the value of hint id', () => {
+        it('sets aria-described by with the value of hint id', () => {
           const hint = 'For example, 31 05 2020 at 09:00';
           wrapper.setProps({ hint, id: 'testid' });
           expect(wrapper.find('.govuk-fieldset').attributes('aria-describedby')).toBe('testid-hint');
@@ -249,7 +250,7 @@ describe('components/TimeInput', () => {
           expect(wrapper.find('.govuk-fieldset').attributes('aria-describedby')).toBe(undefined);
         });
       });
-      describe('id', () => {
+      xdescribe('id', () => {
         it('assigns id to govuk-date-input', () => {
           expect(wrapper.find('.govuk-date-input').attributes().id).toBe('launch_time');
         });

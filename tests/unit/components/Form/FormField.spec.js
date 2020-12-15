@@ -60,25 +60,10 @@ describe('components/Form/FormField', () => {
       });
       it('is an Object', () => {
         expect(prop.type()).toBeObject();
-        });
-        it('defaults as an empty Object', () => {
-            expect(prop.default()).toEqual({});
-        });
-    });
-
-    xdescribe('required', () => {
-      beforeEach(() => {
-        prop = FormField.props.required;
       });
-        it('is not required', () => {
-            expect(prop.required).toTruthy();
-        });
-        it('is a Boolean', () => {
-          expect(prop.type()).toBeBoolean();
-        });
-        it('defaults as undefined', () => {
-            expect(prop.default).toBe(undefined);
-        });
+      it('defaults as an empty Object', () => {
+          expect(prop.default()).toEqual({});
+      });
     });
 
     describe('minLength', () => {
