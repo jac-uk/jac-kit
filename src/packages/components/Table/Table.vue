@@ -11,6 +11,7 @@
       </div>
       <div :class="search.length ? 'govuk-grid-column-one-quarter' : 'govuk-grid-column-one-half'">
         <button
+          v-if="filters.length"
           type="button"
           class="btn-filter govuk-button govuk-button--secondary govuk-!-margin-bottom-0"
           @click="btnToggleSidePanel"
