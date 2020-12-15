@@ -39,8 +39,8 @@
 </template>
 
 <script>
-import Table from '../Table/Table';
-import TableCell from '../Table/TableCell';
+import Table from '../../components/Table/Table';
+import TableCell from '../../components/Table/TableCell';
 
 export default {
   components: {
