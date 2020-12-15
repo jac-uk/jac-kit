@@ -50,7 +50,7 @@ export default {
 
 .side-panel {
   border: 1px solid black;
-  position: absolute;
+  position: fixed;
   right: 0;
   top: 0;
   z-index: 11;
