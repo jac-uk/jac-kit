@@ -71,7 +71,9 @@
       class="govuk-table govuk-!-margin-top-2"
     >
       <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
+        <tr 
+          class="govuk-table__row" 
+        >
           <th
             v-if="multiSelect"
             scope="col"
@@ -117,7 +119,7 @@
         <tr
           v-for="row in data"
           :key="row[dataKey]"
-          class="govuk-table__row"
+          class="govuk-table__row govuk-!-padding-left-2 govuk-!-padding-right-2"
         >
           <td
             v-if="multiSelect"
@@ -143,6 +145,7 @@
             name="row"
             :row="row"
           />
+          <hr>
         </tr>
       </tbody>
     </table>
@@ -448,8 +451,32 @@ export default {
 };
 </script>
 
-<style scoped>
-.btn-filter {
-  width: 130px;
-}
+<style lang="scss" scoped>
+  @mixin mobile-view {
+    @media (max-width: 599px) { @content; }
+  }
+  .btn-filter {
+    width: 130px;
+  }
+  hr {
+    display: none;
+  }
+  @include mobile-view { 
+    .govuk-table__body {
+      border: 1px solid grey;
+    }
+    .govuk-table__head {
+      display: none;
+    }
+    .govuk-table__row {
+      display: grid;
+    }
+    hr {
+      width: 95%;
+      display: block;
+    }
+    tbody > tr:last-child hr {
+      display: none;
+    }
+  }
 </style>

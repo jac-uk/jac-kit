@@ -13,4 +13,8 @@ $moj-assets-path: "~@ministryofjustice/frontend/moj/assets/";
 
 $max-width: 1200px;
 
+@mixin mobile-view {
+  @media (max-width: 599px) { @content; }
+}
+
 @import './packages/helpers/css/global.scss';

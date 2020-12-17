@@ -2,13 +2,15 @@ import Table from '../../../packages/components/Table/Table';
 import TableCell from '../../../packages/components/Table/TableCell';
 
 export default {
-  title: 'JAC-Kit/Table',
-  component: Table,
+  title: 'JAC-Kit/TableCell',
+  component: TableCell,
 };
 
 const columns = [
   { title: 'Name', sort: 'col1' },
   { title: 'City', sort: 'col2' },
+  { title: 'Reference Number', sort: 'col4' },
+  { title: 'Status', sort: 'col3' },
 ];
 
 const Template = (args, { argTypes }) => ({
@@ -37,6 +39,16 @@ const Template = (args, { argTypes }) => ({
         >
           {{ row.col2 }}
         </TableCell>
+        <TableCell 
+          :row='row'
+        >
+          {{ row.col3 }}
+        </TableCell>
+        <TableCell 
+          :row='row'
+        >
+          {{ row.col4 }}
+        </TableCell>
       </template>
     </Table>
   `.trim(),
@@ -48,49 +60,38 @@ Types.args = {
     {
       col1: 'Priscilla Rees',
       col2: 'London',
+      col4: 'applied',
+      col3: '0001',
       id: 1021,
     },
     {
-      col1: 'Zahra Franco',
-      col2: 'Montreal',
-      id: 1022,
-    },
-    {
-      col1: 'Jennifer Jones',
-      col2: 'Paris',
-      id: 1023,
-    },
-    {
-      col1: 'Abigail Lindsay',
+      col1: 'Francisco Reyes',
       col2: 'London',
-      id: 1025,
+      col4: 'pending',
+      col3: '0005',
+      id: 1022,
     },
   ],
   dataKey: 'id',
   columns: columns,
   pageSize: 1,
-  filters: [
-    {
-      title: 'Status',
-      field: 'status',
-      type: 'checkbox',
-      options: ['draft', 'ready', 'approved'],
-    },
-  ],
 };
 Types.storyName = 'Table Component';
 
-export const Search = Template.bind({});
-Search.args = {
-  data: [
-    {
-      col1: 'Priscilla Rees',
-      col2: 'London',
-      id: 1021,
-    },
-  ],
-  search: ['P'],
-  dataKey: 'id',
-  columns: columns,
-};
-Search.storyName = 'Search';
+// export const Search = Template.bind({});
+// Search.args = {
+//   data: [
+//     {
+//       col1: 'Priscilla Rees',
+//       col2: 'London',
+//       id: 1021,
+//     },
+//   ],
+//   search: ['P'],
+//   dataKey: 'id',
+//   columns: [
+//     { title: 'Name', sort: 'col1' },
+//     { title: 'City', sort: 'col2' },
+//   ],
+// };
+// Search.storyName = 'Search';
