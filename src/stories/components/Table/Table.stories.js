@@ -26,13 +26,11 @@ const Template = (args, { argTypes }) => ({
     >
       <template #row="{row}">
         <TableCell 
-          :row='row'
           :title="columns[0].title"
         >
           {{ row.col1 }}
         </TableCell>
         <TableCell 
-          :row='row'
           :title="columns[1].title"
         >
           {{ row.col2 }}
