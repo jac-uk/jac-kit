@@ -10,10 +10,6 @@
 <script>
 export default {
   props: {
-    row: {
-      type: Object,
-      required: true,
-    },
     title: {
       type: String,
       default: '',
@@ -23,9 +19,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  // @mixin mobile-view {
-  //   @media (max-width: 599px) { @content; }
-  // }
+  @mixin mobile-view {
+    @media (max-width: 599px) { @content; }
+  }
   td:before {
     display: none;
   }

@@ -71,9 +71,7 @@
       class="govuk-table govuk-!-margin-top-2"
     >
       <thead class="govuk-table__head">
-        <tr 
-          class="govuk-table__row" 
-        >
+        <tr class="govuk-table__row">
           <th
             v-if="multiSelect"
             scope="col"

@@ -45,11 +45,7 @@ describe('@/helpers/Timeline/exerciseTimeline', () => {
           expect(exerciseTimeline(data)).toContainEqual({
             date: data.scenarioTestDate,
             dateString: '11 November 2012 - 9:05 am to 9:00 pm',
-<<<<<<< HEAD
             entry: 'Scenario test',
-=======
-            entry: 'Scenario qualifying test (QT)',
->>>>>>> no failing tests
           });
         });
       });
