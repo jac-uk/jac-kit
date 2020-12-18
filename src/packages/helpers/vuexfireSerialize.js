@@ -1,5 +1,4 @@
 import convertFirestoreTimestampsToDates from './convertFirestoreTimestampsToDates';
-
 /**
  * Vuexfire serialize method
  *

@@ -210,6 +210,7 @@ const exerciseTimeline = (data) => {
       }
     );
   }
+
   if (data.selectionDays && data.selectionDays.length > 0) {
     for (let i = 0; i < data.selectionDays.length; i++) {
       if (data.selectionDays[i].selectionDayStart) {
@@ -293,7 +294,7 @@ const exerciseTimeline = (data) => {
       }
     );
   }
-
+  
   return timeline;
 };
 
