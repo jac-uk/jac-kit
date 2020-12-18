@@ -1,5 +1,6 @@
 <template>
   <td
+    class="govuk-table__cell"
     :title="title"
   >
     <slot />

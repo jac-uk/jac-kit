@@ -145,7 +145,6 @@
             name="row"
             :row="row"
           />
-          <hr>
         </tr>
       </tbody>
     </table>
@@ -458,10 +457,14 @@ export default {
   .btn-filter {
     width: 130px;
   }
-  hr {
-    display: none;
-  }
+
   @include mobile-view { 
+    tbody > tr > td:last-child {
+      border-bottom: 1px solid #b1b4b6 !important;
+    }
+    tbody > tr > td, tbody > tr:last-child > td:last-child {
+      border-bottom: none !important;
+    }
     .govuk-table__body {
       border: 1px solid grey;
     }
@@ -470,13 +473,6 @@ export default {
     }
     .govuk-table__row {
       display: grid;
-    }
-    hr {
-      width: 95%;
-      display: block;
-    }
-    tbody > tr:last-child hr {
-      display: none;
     }
   }
 </style>
