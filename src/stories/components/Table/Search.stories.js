@@ -1,7 +1,7 @@
 import Search from '../../../packages/components/Table/Search';
 
 export default {
-  title: 'JAC-Kit/Search',
+  title: 'JAC-Kit/Table/Search',
   component: Search,
 };
 

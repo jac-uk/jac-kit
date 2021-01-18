@@ -1,7 +1,7 @@
 import CustomForm from '../../../packages/components/Table/CustomForm';
 
 export default {
-  title: 'JAC-Kit/CustomForm',
+  title: 'JAC-Kit/Table/CustomForm',
   component: CustomForm,
 };
 

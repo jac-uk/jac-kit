@@ -1,7 +1,7 @@
 import Badge from '../../../packages/components/Table/Badge';
 
 export default {
-  title: 'JAC-Kit/Badge',
+  title: 'JAC-Kit/Table/Badge',
   component: Badge,
   argTypes: 'number',
 };
