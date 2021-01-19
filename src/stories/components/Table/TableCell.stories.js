@@ -2,7 +2,7 @@ import Table from '../../../packages/components/Table/Table';
 import TableCell from '../../../packages/components/Table/TableCell';
 
 export default {
-  title: 'JAC-Kit/TableCell',
+  title: 'JAC-Kit/Table/TableCell',
   component: TableCell,
 };
 
@@ -27,24 +27,24 @@ const Template = (args, { argTypes }) => ({
       @change="emittedChange"
     >
       <template #row="{row}">
-        <TableCell 
+        <TableCell
           :row='row'
           :title="columns[0].title"
         >
           {{ row.col1 }}
         </TableCell>
-        <TableCell 
+        <TableCell
           :row='row'
           :title="columns[1].title"
         >
           {{ row.col2 }}
         </TableCell>
-        <TableCell 
+        <TableCell
           :row='row'
         >
           {{ row.col3 }}
         </TableCell>
-        <TableCell 
+        <TableCell
           :row='row'
         >
           {{ row.col4 }}
