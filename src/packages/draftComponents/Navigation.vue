@@ -5,7 +5,7 @@
   >
     <ul class="moj-side-navigation__list">
       <h4
-        v-if="title" 
+        v-if="title"
         class="moj-side-navigation__title"
       >
         {{ title }}
@@ -19,7 +19,7 @@
           :key="pageIndex"
           :class=" isActive(page) ? 'moj-side-navigation__item moj-side-navigation__item--active' : 'moj-side-navigation__item'"
         >
-          <router-link 
+          <router-link
             class="moj-side-navigation__item"
             :to="{name: page.name, params: page.params}"
             :aria-current="page.on ? 'page' : false"
@@ -50,28 +50,29 @@ export default {
     };
   },
   methods: {
-    isActive(page){    
-      let result = false; 
-      // if an application    
-      if (page.params){ 
+    isActive(page){
+      let result = false;
+      // if an application
+      if (page.params){
         if (page.params.nav) {
           const routePath = this.$route.path;
           result = routePath.includes(page.params.nav);
-        } 
-        if (page.params.status == this.$route.path.split('/')[this.$route.path.split('/').length - 3]){ 
-          // check if the status param matches route path 3rd from last item (draft/applied/withdrawn) 
+        }
+        if (page.params.status == this.$route.path.split('/')[this.$route.path.split('/').length - 3]){
+          // check if the status param matches route path 3rd from last item (draft/applied/withdrawn)
           result = page.params.status == this.$route.path.split('/')[this.$route.path.split('/').length - 3];
         } else if (page.title) {
           // else check the last word in the route path matches the page title (to lowercase)
           result = this.$route.path.split('/')[this.$route.path.split('/').length - 1] == page.title.toLowerCase();
         }
-      } 
-      // if the route is an edit, list or back page        
-      else if (this.$route.name.split('-').some(i=>['edit','list','back'].indexOf(i) !== -1)) { 
+      }
+      // if the route is an edit, list or back page
+      else if (this.$route.name.split('-').some(i=>['edit','list','back'].indexOf(i) !== -1)) {
         // check the names match
-        result = page.name.split('-')[2] == this.$route.name.split('-')[2]; 
+        result = page.name.split('-')[2] == this.$route.name.split('-')[2];
       } else {
-        result = this.$route.name == page.name;
+        const name = this.$route.meta.pageName ? this.$route.meta.pageName : this.$route.name;
+        result = name == page.name;
       }
       return result;
     },
