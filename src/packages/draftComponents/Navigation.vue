@@ -71,6 +71,7 @@ export default {
         // check the names match
         result = page.name.split('-')[2] == this.$route.name.split('-')[2];
       } else {
+        // ensure child links are highlighted
         const name = this.$route.meta.pageName ? this.$route.meta.pageName : this.$route.name;
         result = name == page.name;
       }
