@@ -61,7 +61,7 @@ const tableQuery = (data, ref, params) => {
     if (params.pageSize) {
       if (params.pageChange > 0) {
         // page forward
-        if (data.length) {
+        if (data.length && data[data.length - 1]) {
           queryRef = queryRef
             .startAfter(getValueAtObjectPath(data[data.length - 1], orderBy))
             .limit(params.pageSize);
@@ -71,7 +71,7 @@ const tableQuery = (data, ref, params) => {
         }
       } else if (params.pageChange < 0) {
         // page backward
-        if (data.length) {
+        if (data.length && data[0]) {
           queryRef = queryRef
             .endBefore(getValueAtObjectPath(data[0], orderBy))
             .limitToLast(params.pageSize);
