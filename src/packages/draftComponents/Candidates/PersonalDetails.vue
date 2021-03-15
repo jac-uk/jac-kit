@@ -12,7 +12,42 @@
     </h2>
 
     <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
+      <div
+        v-if="candidate.firstName && candidate.lastName"
+        class="govuk-summary-list__row"
+      >
+        <dt class="govuk-summary-list__key">
+          First name
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <EditableField
+            :value="candidate.firstName"
+            field="firstName"
+            @changefield="changeUserDetails"
+          />
+        </dd>
+      </div>
+
+      <div
+        v-if="candidate.firstName && candidate.lastName"
+        class="govuk-summary-list__row"
+      >
+        <dt class="govuk-summary-list__key">
+          Last name
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <EditableField
+            :value="candidate.lastName"
+            field="lastName"
+            @changefield="changeUserDetails"
+          />
+        </dd>
+      </div>
+
+      <div
+        v-if="!candidate.firstName && !candidate.lastName"
+        class="govuk-summary-list__row"
+      >
         <dt class="govuk-summary-list__key">
           Full Name
         </dt>
