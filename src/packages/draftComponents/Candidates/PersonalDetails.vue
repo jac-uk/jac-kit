@@ -12,49 +12,28 @@
     </h2>
 
     <dl class="govuk-summary-list">
-      <div
-        v-if="candidate.firstName && candidate.lastName"
-        class="govuk-summary-list__row"
-      >
+
+      <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
           First name
         </dt>
         <dd class="govuk-summary-list__value">
           <EditableField
-            :value="candidate.firstName"
+            :value="firstName"
             field="firstName"
             @changefield="changeUserDetails"
           />
         </dd>
       </div>
 
-      <div
-        v-if="candidate.firstName && candidate.lastName"
-        class="govuk-summary-list__row"
-      >
+      <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
           Last name
         </dt>
         <dd class="govuk-summary-list__value">
           <EditableField
-            :value="candidate.lastName"
+            :value="lastName"
             field="lastName"
-            @changefield="changeUserDetails"
-          />
-        </dd>
-      </div>
-
-      <div
-        v-if="!candidate.firstName && !candidate.lastName"
-        class="govuk-summary-list__row"
-      >
-        <dt class="govuk-summary-list__key">
-          Full Name
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <EditableField
-            :value="candidate.fullName"
-            field="fullName"
             @changefield="changeUserDetails"
           />
         </dd>
@@ -147,6 +126,7 @@
 
 <script>
 import EditableField from '../EditableField';
+import  { splitFullName } from '@/helpers/splitFullName';
 
 export default {
   components: {
@@ -162,6 +142,32 @@ export default {
   computed: {
     hasData() {
       return Object.keys(this.candidate).length > 0;
+    },
+    firstName() {
+      let firstName = this.candidate.firstName;
+      const fullName = this.candidate.fullName;
+      if (!firstName) {
+        if (fullName) {
+          const result = splitFullName(fullName);
+          firstName = result[0];
+        } else {
+          firstName = '';
+        }
+      }
+      return firstName;
+    },
+    lastName() {
+      let lastName = this.candidate.lastName;
+      const fullName = this.candidate.fullName;
+      if (!lastName) {
+        if (fullName) {
+          const result = splitFullName(fullName);
+          lastName = result[1];
+        } else {
+          lastName = '';
+        }
+      }
+      return lastName;
     },
   },
   methods: {
