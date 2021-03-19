@@ -11,4 +11,5 @@ export const splitFullName = (fullName) => {
     lastName = name[0];
   }
   return ([firstName, lastName]);
+
 };
