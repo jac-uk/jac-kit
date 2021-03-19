@@ -52,5 +52,4 @@ describe('@/helpers/splitFullName', () => {
       expect(result[1]).toBe('Parker-Smith');
     });
   });
-
 });
