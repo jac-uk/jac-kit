@@ -1,4 +1,4 @@
-import { splitFullName } from '@/helpers/splitFullName';
+import splitFullName from '@/helpers/splitFullName';
 
 describe('@/helpers/splitFullName', () => {
   it('is a function', () => {

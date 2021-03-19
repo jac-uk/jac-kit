@@ -1,4 +1,4 @@
-export const splitFullName = (fullName) => {
+const splitFullName = (fullName) => {
   const name = fullName.split(' ');
   let firstName = null;
   let lastName = null;
@@ -13,3 +13,5 @@ export const splitFullName = (fullName) => {
   return ([firstName, lastName]);
 
 };
+
+module.exports = splitFullName;
