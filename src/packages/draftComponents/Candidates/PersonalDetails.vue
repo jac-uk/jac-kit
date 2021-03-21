@@ -14,6 +14,19 @@
     <dl class="govuk-summary-list">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
+          Title
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <EditableField
+            :value="title"
+            field="title"
+            @changefield="changeUserDetails"
+          />
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
           Full Name
         </dt>
         <dd class="govuk-summary-list__value">
@@ -127,6 +140,13 @@ export default {
   computed: {
     hasData() {
       return Object.keys(this.candidate).length > 0;
+    },
+    title() {
+      let title = this.candidate.title;
+      if (!title) {
+        title = '';
+      }
+      return title;
     },
   },
   methods: {
