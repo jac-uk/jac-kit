@@ -126,7 +126,7 @@
 
 <script>
 import EditableField from '../EditableField';
-import  { splitFullName } from '@/helpers/splitFullName';
+import splitFullName from '@jac-uk/jac-kit/helpers/splitFullName';
 
 export default {
   components: {
