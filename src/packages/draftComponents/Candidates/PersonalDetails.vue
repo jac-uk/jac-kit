@@ -10,7 +10,6 @@
         Please go to the Personal Details section to make the change.
       </span>
     </h2>
-
     <dl class="govuk-summary-list">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
