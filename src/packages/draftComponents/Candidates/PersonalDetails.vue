@@ -26,12 +26,25 @@
 
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
-          Full Name
+          First name
         </dt>
         <dd class="govuk-summary-list__value">
           <EditableField
-            :value="candidate.fullName"
-            field="fullName"
+            :value="firstName"
+            field="firstName"
+            @changefield="changeUserDetails"
+          />
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Last name
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <EditableField
+            :value="lastName"
+            field="lastName"
             @changefield="changeUserDetails"
           />
         </dd>
@@ -124,6 +137,7 @@
 
 <script>
 import EditableField from '../EditableField';
+import splitFullName from '@jac-uk/jac-kit/helpers/splitFullName';
 
 export default {
   components: {
@@ -146,6 +160,32 @@ export default {
         title = '';
       }
       return title;
+    },
+    firstName() {
+      let firstName = this.candidate.firstName;
+      const fullName = this.candidate.fullName;
+      if (!firstName) {
+        if (fullName) {
+          const result = splitFullName(fullName);
+          firstName = result[0];
+        } else {
+          firstName = '';
+        }
+      }
+      return firstName;
+    },
+    lastName() {
+      let lastName = this.candidate.lastName;
+      const fullName = this.candidate.fullName;
+      if (!lastName) {
+        if (fullName) {
+          const result = splitFullName(fullName);
+          lastName = result[1];
+        } else {
+          lastName = '';
+        }
+      }
+      return lastName;
     },
   },
   methods: {
