@@ -456,7 +456,7 @@ export default {
     width: 130px;
   }
 
-  @include mobile-view { 
+  @include mobile-view {
     tbody > tr > td:last-child {
       border-bottom: 1px solid #b1b4b6 !important;
     }
