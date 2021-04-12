@@ -44,6 +44,14 @@ export default {
         };
       },
     },
+    minDate: {
+      type: Date,
+      default: null,
+    },
+    maxDate: {
+      type: Date,
+      default: null,
+    },
   },
   data() {
     return {
@@ -108,7 +116,28 @@ export default {
             this.setError(this.pattern.message);
           }
         }
+        if (this.minDate && value) {
+          // we are only interested in the date portion
+          if (this.atMidnight(value) < this.atMidnight(this.minDate)) {
+            this.setError(`${this.label} cannot be before ${this.dateToDMY(this.minDate)}`);
+          }
+        }
+        if (this.maxDate && value) {
+          // we are only interested in the date portion
+          if (this.atMidnight(value) > this.atMidnight(this.maxDate)) {
+            this.setError(`${this.label} cannot be after ${this.dateToDMY(this.maxDate)}`);
+          }
+        }
       }
+    },
+    atMidnight(date) {
+      return new Date(date.getYear(),date. getMonth(), date.getDate());
+    },
+    dateToDMY(date) {
+      const d = date.getDate();
+      const m = date.getMonth() + 1; // because getMonth() is zero-based
+      const y = date.getFullYear();
+      return `${d.toString().padStart(2, '0')}/${m.toString().padStart(2, '0')}/${y.toString()}`; // dd/mm/yyyy format
     },
     setError(message) {
       this.errorMessage = message;
