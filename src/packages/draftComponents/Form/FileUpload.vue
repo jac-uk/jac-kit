@@ -143,9 +143,12 @@ export default {
 
       return false;
     },
-    validFileSize(size){
+    fileIsEmpty(size){
+      return size <= 0;
+    },
+    fileIsTooBig(size){
       const megabyteSize = size / 1024 / 1024; // in MB
-      return megabyteSize > 2 ? false : true;
+      return megabyteSize > 2;
     },
     resetFile() {
       this.$refs.file = null;
@@ -161,7 +164,11 @@ export default {
         this.setError(`Invalid file type. Choose from: ${this.acceptableExtensions}`);
         return false;
       }
-      if (!this.validFileSize(file.size)){
+      if (this.fileIsEmpty(file.size)){
+        this.setError('File is empty.');
+        return false;
+      }
+      if (this.fileIsTooBig(file.size)){
         this.setError('File is too large. Limit: 2MB');
         return false;
       }
