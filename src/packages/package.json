@@ -1,11 +1,12 @@
 {
   "name": "@jac-uk/jac-kit",
-  "version": "0.0.34",
+  "version": "0.0.36",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/jac-uk/jac-kit.git"
-  }
+  },
+  "gitHead": "aa0dc9631d7dcc4a94c760bba300231bf027762a"
 }

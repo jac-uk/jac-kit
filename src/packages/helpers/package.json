@@ -1,6 +1,6 @@
 {
   "name": "@jac-uk/helpers",
-  "version": "0.0.13",
+  "version": "0.0.15",
   "publishConfig": {
     "access": "public"
   },
@@ -8,5 +8,5 @@
     "type": "git",
     "url": "https://github.com/jac-uk/jac-kit.git"
   },
-  "gitHead": "944af70ca39f52306d2670d6cd6885ebe9183799"
+  "gitHead": "aa0dc9631d7dcc4a94c760bba300231bf027762a"
 }
