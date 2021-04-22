@@ -2,10 +2,11 @@
   <div class="jac-table">
     <div class="govuk-grid-row">
       <div
-        v-if="search.length"
+        v-if="hasSearch"
         class="govuk-grid-column-one-half"
       >
         <Search
+          :placeholder="searchPlaceholder"
           @search="useSearch"
         />
       </div>
@@ -234,6 +235,11 @@ export default {
       required: false,
       default: () => [],
     },
+    customSearch: {
+      type: Object,
+      required: false,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -245,6 +251,7 @@ export default {
       filterValues: {},
       numberOfFiltersApplied: 0,
       where: [],
+      customSearchValues: [],
     };
   },
   computed: {
@@ -261,6 +268,9 @@ export default {
       if (this.search.length) {
         state.search = this.search;
       }
+      if (Object.keys(this.customSearch).length) {
+        state.customSearch = this.customSearch;
+      }
       return state;
     },
     currentState() {
@@ -269,6 +279,7 @@ export default {
       if (this.orderBy) { state.orderBy = this.orderBy; }
       if (this.direction) { state.direction = this.direction; }
       if (this.where) { state.where = this.where; }
+      if (this.customSearchValues.length) { state.customSearchValues = this.customSearchValues; }
       return state;
     },
     showPaging() {
@@ -301,6 +312,22 @@ export default {
     },
     hasData() {
       return this.data.length > 0;
+    },
+    hasCustomSearch() {
+      return Object.keys(this.customSearch).length;
+    },
+    hasSearch() {
+      return this.search.length || this.hasCustomSearch;
+    },
+    searchPlaceholder() {
+      let placeholderText = '';
+      if (this.hasCustomSearch) {
+        placeholderText = this.customSearch.placeholder;
+      }
+      if (!placeholderText) {
+        placeholderText = 'Search candidate names - enter first few letters of candidate name (case sensitive)';
+      }
+      return placeholderText;
     },
   },
   created() {
@@ -432,12 +459,21 @@ export default {
         return 'none';
       }
     },
-    useSearch(searchTerm) {
+    async useSearch(searchTerm) {
       this.searchTerm = searchTerm;
       if (searchTerm) {
         this.orderBy = '';
       } else {
         this.orderBy = this.defaultState.orderBy;
+      }
+      if (this.defaultState.customSearch) {
+        this.customSearchValues = [];
+        if (searchTerm) {
+          const handlerResults = await this.defaultState.customSearch.handler(searchTerm);
+          if (handlerResults.length) {
+            this.customSearchValues = handlerResults;
+          }
+        }
       }
       this.$emit('change', this.currentState);
     },
