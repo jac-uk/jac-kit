@@ -38,6 +38,12 @@
       >
         {{ value | formatDate }}
       </span>
+      <span
+        v-if="isSelection"
+        class="wrap"
+      >
+        {{ value | lookup | toYesNo }}
+      </span>
       <a
         href="#"
         class="govuk-link change-link print-none"
@@ -62,10 +68,31 @@
       />
       <DateInput
         v-if="isDate"
-        :id="`data-of-birth$-{id}`"
+        :id="`data-of-birth-${id}`"
         v-model="localField"
         :value="localField"
       />
+
+      <Select
+        v-if="isSelection"
+        :id="`selection-input-${id}`"
+        v-model="localField"
+      >
+        <option
+          v-for="option in options"
+          :key="option | toYesNo | lookup"
+          :value="option"
+        >
+          {{ option | lookup | toYesNo }}
+        </option>
+      </Select>
+
+      <button
+        class="govuk-button govuk-button--warning govuk-!-margin-right-3"
+        @click="cancelEdit()"
+      >
+        Cancel
+      </button>
       <button
         class="govuk-button"
         @click="btnClickSubmit()"
@@ -77,16 +104,23 @@
 </template>
 
 <script>
-import TextField from './Form/TextField';
-import TextareaInput from './Form/TextareaInput';
-import DateInput from './Form/DateInput';
-import formatEmail from '../helpers/Form/formatEmail';
+// import TextField from './Form/TextField';
+// import TextareaInput from './Form/TextareaInput';
+// import DateInput from './Form/DateInput';
+// import formatEmail from '../helpers/Form/formatEmail';
+import TextField from '@jac-uk/jac-kit/draftComponents/Form/TextField';
+import TextareaInput from '@jac-uk/jac-kit/draftComponents/Form/TextareaInput';
+import DateInput from '@jac-uk/jac-kit/draftComponents/Form/DateInput';
+import formatEmail from '@jac-uk/jac-kit/helpers/Form/formatEmail';
+// import Select from '@jac-uk/jac-kit/draftComponents/Form/Select.vue';
+import Select from './Select.vue';
 
 export default {
   components: {
     TextField,
     TextareaInput,
     DateInput,
+    Select,
   },
   props: {
     field: {
@@ -94,7 +128,7 @@ export default {
       default: 'value',
     },
     value: {
-      type: [String, Date, Number, Object],
+      type: [String, Date, Number, Object, Boolean],
       default: '',
     },
     type: {
@@ -104,6 +138,10 @@ export default {
     link: {
       type: String,
       default: 'Change',
+    },
+    options: {
+      type: Array,
+      default: null,
     },
     routeTo: {
       type: Object,
@@ -133,6 +171,9 @@ export default {
     isDate() {
       return this.type === 'date';
     },
+    isSelection() {
+      return this.type === 'selection';
+    },
     valueToDate() {
       const newDate = this.isDate ? new Date(this.value) : null;
       return newDate;
@@ -142,6 +183,9 @@ export default {
     this.id = this._uid;
   },
   methods: {
+    cancelEdit() {
+      this.editField = false;
+    },
     btnClickEdit() {
       this.localField = this.value;
       this.editField = true;

@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import FormField from './FormField';
-import FormFieldError from './FormFieldError';
+import FormField from '@jac-uk/jac-kit/draftComponents/Form/FormField';
+import FormFieldError from '@jac-uk/jac-kit/draftComponents/Form/FormFieldError';
 
 export default {
   components: {
@@ -44,7 +44,7 @@ export default {
   props: {
     value: {
       default: '',
-      type: [String, Number],
+      type: [String, Number, Boolean],
     },
   },
   computed: {
