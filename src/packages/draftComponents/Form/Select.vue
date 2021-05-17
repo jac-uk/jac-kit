@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import FormField from '@jac-uk/jac-kit/draftComponents/Form/FormField';
-import FormFieldError from '@jac-uk/jac-kit/draftComponents/Form/FormFieldError';
+import FormField from './FormField';
+import FormFieldError from './FormFieldError';
 
 export default {
   components: {

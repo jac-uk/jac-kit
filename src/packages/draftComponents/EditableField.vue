@@ -104,16 +104,11 @@
 </template>
 
 <script>
-// import TextField from './Form/TextField';
-// import TextareaInput from './Form/TextareaInput';
-// import DateInput from './Form/DateInput';
-// import formatEmail from '../helpers/Form/formatEmail';
-import TextField from '@jac-uk/jac-kit/draftComponents/Form/TextField';
-import TextareaInput from '@jac-uk/jac-kit/draftComponents/Form/TextareaInput';
-import DateInput from '@jac-uk/jac-kit/draftComponents/Form/DateInput';
-import formatEmail from '@jac-uk/jac-kit/helpers/Form/formatEmail';
-// import Select from '@jac-uk/jac-kit/draftComponents/Form/Select.vue';
-import Select from './Select.vue';
+import TextField from './Form/TextField';
+import TextareaInput from './Form/TextareaInput';
+import DateInput from './Form/DateInput';
+import formatEmail from '../helpers/Form/formatEmail';
+import Select from './Form/Select.vue';
 
 export default {
   components: {
