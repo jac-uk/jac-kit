@@ -80,7 +80,7 @@
       >
         <option
           v-for="option in options"
-          :key="option | toYesNo | lookup"
+          :key="option"
           :value="option"
         >
           {{ option | lookup | toYesNo }}
