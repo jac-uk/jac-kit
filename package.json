@@ -13,7 +13,7 @@
     "publish": "lerna publish"
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "0.0.17-alpha",
+    "@ministryofjustice/frontend": "0.2.2",
     "@storybook/addons": "^6.1.14",
     "@storybook/theming": "^6.1.14",
     "core-js": "^3.6.5",
