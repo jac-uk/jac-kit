@@ -17,7 +17,7 @@
     "@storybook/addons": "^6.1.14",
     "@storybook/theming": "^6.1.14",
     "core-js": "^3.6.5",
-    "govuk-frontend": "^3.8.0",
+    "govuk-frontend": "^3.11.0",
     "vue": "^2.6.11"
   },
   "devDependencies": {
