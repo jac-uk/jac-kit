@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "@ministryofjustice/frontend": "0.2.2",
-    "@storybook/addons": "^6.1.14",
-    "@storybook/theming": "^6.1.14",
+    "@storybook/addons": "^6.2.9",
+    "@storybook/theming": "^6.2.9",
     "core-js": "^3.6.5",
     "govuk-frontend": "^3.11.0",
     "vue": "^2.6.11"
