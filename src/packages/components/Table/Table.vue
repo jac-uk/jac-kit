@@ -268,7 +268,7 @@ export default {
       if (this.search.length) {
         state.search = this.search;
       }
-      if (Object.keys(this.customSearch).length) {
+      if (this.customSearch && Object.keys(this.customSearch).length) {
         state.customSearch = this.customSearch;
       }
       return state;
@@ -314,7 +314,7 @@ export default {
       return this.data.length > 0;
     },
     hasCustomSearch() {
-      return Object.keys(this.customSearch).length;
+      return this.customSearch && Object.keys(this.customSearch).length;
     },
     hasSearch() {
       return this.search.length || this.hasCustomSearch;
