@@ -1,3 +1,5 @@
+import firebase from '@firebase/app';
+
 const search = (searchValue) => {
   let returnValue = null;
   const searchArr = [...searchValue];
@@ -44,16 +46,28 @@ const tableQuery = (data, ref, params) => {
     }
     let orderBy = params.orderBy;
     if (params.searchTerm) {
-      const returnSearch = search(params.searchTerm);
-      if (returnSearch) {
-        queryRef = queryRef
-          .where(params.search[0], '>=', returnSearch.value1)
-          .where(params.search[0], '<', returnSearch.value2)
-          .orderBy(params.search[0], 'asc');
-        orderBy = params.search[0];
+      if (params.customSearch) {
+        if (params.customSearchValues) {
+          if (params.customSearch.field === 'id') {
+            queryRef = queryRef
+              .where(firebase.firestore.FieldPath.documentId(), 'in', params.customSearchValues);
+          } else {
+            queryRef = queryRef
+              .where(params.customSearch.field, 'in', params.customSearchValues);
+          }
+        } else {
+          return;
+        }
+      } else {
+        const returnSearch = search(params.searchTerm);
+        if (returnSearch) {
+          queryRef = queryRef
+            .where(params.search[0], '>=', returnSearch.value1)
+            .where(params.search[0], '<', returnSearch.value2)
+            .orderBy(params.search[0], 'asc');
+          orderBy = params.search[0];
+        }
       }
-      // @TODO handle multiple search fields.
-      // N.B. this will involve multiple queries so may involve ditching vuexfire
     } else if (params.orderBy) {
       const direction = params.direction ? params.direction : 'asc';
       queryRef = queryRef.orderBy(params.orderBy, direction);

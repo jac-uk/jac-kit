@@ -2,6 +2,7 @@
   <div class="moj-search govuk-!-margin-bottom-0">
     <form
       autocomplete="off"
+      @submit.prevent=""
     >
       <div class="govuk-form-group">
         <input
@@ -11,7 +12,7 @@
           name="search"
           type="search"
           aria-describedby="search-hint"
-          placeholder="Search candidate names - enter first few letters of candidate name (case sensitive)"
+          :placeholder="placeholder"
           @keyup="startSearch"
         >
       </div>
@@ -21,6 +22,13 @@
 
 <script>
 export default {
+  props: {
+    placeholder: {
+      type: String,
+      required: false,
+      default: 'Search',
+    },
+  },
   data() {
     return {
       search: '',
