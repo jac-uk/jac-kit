@@ -57,7 +57,6 @@
       >
         {{ link }}
       </a>
-    
     </div>
 
     <div
@@ -95,20 +94,20 @@
         </option>
       </Select>
 
-    <div class="change-link">
-      <button
-        class="govuk-button govuk-!-margin-right-3"
-        @click="btnClickSubmit()"
-      >
-        Save
-      </button>
-      <button
-        class="govuk-button govuk-button--warning"
-        @click="cancelEdit()"
-      >
-        Cancel
-      </button>
-    </div>
+      <div class="change-link">
+        <button
+          class="govuk-button govuk-!-margin-right-3"
+          @click="btnClickSubmit()"
+        >
+          Save
+        </button>
+        <button
+          class="govuk-button govuk-button--warning"
+          @click="cancelEdit()"
+        >
+          Cancel
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -216,7 +215,7 @@ export default {
           field: this.field,
           index: this.index,
           extension: this.extension,
-          change: this.localField
+          change: this.localField,
         };
       } else {
         resultObj = { [this.field]: this.localField };
