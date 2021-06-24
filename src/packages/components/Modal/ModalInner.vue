@@ -41,6 +41,7 @@ export default {
     },
     index: {
       type: Number,
+      default: NaN,
     },
     title: {
       type: String,
@@ -67,6 +68,9 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.modal {
+  text-align: center;
+}
 .modal__title {
   text-align: center;
   vertical-align: middle;

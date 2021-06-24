@@ -51,6 +51,7 @@
       </span>
 
       <a
+        v-if="editMode"
         href="#"
         class="govuk-link change-link print-none"
         @click.prevent="btnClickEdit()"
@@ -127,6 +128,11 @@ export default {
     Select,
   },
   props: {
+    editMode: {
+      type: [Boolean, Function, Promise],
+      required: true,
+      default: () => false,
+    },
     extension: {
       type: String,
       required: false,
@@ -143,7 +149,7 @@ export default {
     },
     value: {
       type: [String, Date, Number, Object, Boolean],
-      default: '',
+      default: () => null,
     },
     type: {
       type: String,
@@ -215,12 +221,12 @@ export default {
           field: this.field,
           index: this.index,
           extension: this.extension,
-          change: this.localField,
+          change: this.localField
         };
       } else {
         resultObj = { [this.field]: this.localField };
       }
-      
+
       this.$emit('changeField', resultObj);
 
       this.editField = false;
