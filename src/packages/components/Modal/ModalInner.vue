@@ -3,25 +3,30 @@
     <div class="modal__title govuk-!-padding-2 govuk-heading-m">
       {{ title }}
     </div>
-    <div class="modal__content govuk-!-padding-4">
-      <p class="modal__message govuk-body-l">
-        {{ message }}
-      </p>
-
-      <span v-show="cancelable">
-        <button
-          class="govuk-button govuk-button--secondary govuk-!-margin-right-3 deny info-btn--modal--cancel"
-          @click="closeModal"
+    <p class="modal__message govuk-body-l">
+      {{ message }}
+    </p>
+    <div class="modal__content govuk-!-margin-6">
+      <div class="govuk-grid-row">
+        <form
+          ref="formRef"
         >
-          Cancel
-        </button>
-      </span>
-      <button
-        class="govuk-button govuk-button--success info-btn--modal--success"
-        @click="confirmModal"
-      >
-        {{ buttonText }}
-      </button>
+          <span v-show="cancelable">
+            <button
+              class="govuk-button govuk-button--secondary govuk-!-margin-right-3 deny info-btn--modal--cancel"
+              @click.prevent="closeModal"
+            >
+              Cancel
+            </button>
+          </span>
+          <button
+            class="govuk-button govuk-button--success info-btn--modal--success"
+            @click.prevent="confirmModal"
+          >
+            {{ buttonText }}
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -33,6 +38,10 @@ export default {
     cancelable: {
       type: Boolean,
       default: true,
+    },
+    index: {
+      type: Number,
+      default: NaN,
     },
     title: {
       type: String,
@@ -49,16 +58,19 @@ export default {
   },
   methods: {
     closeModal() {
-      this.$emit('closed');
+      this.$emit('close', this.index);
     },
     confirmModal() {
-      this.$emit('confirmed');
+      this.$emit('confirmed', this.index);
     },
   },
 };
 </script>
 
 <style lang="css" scoped>
+.modal {
+  text-align: center;
+}
 .modal__title {
   text-align: center;
   vertical-align: middle;
