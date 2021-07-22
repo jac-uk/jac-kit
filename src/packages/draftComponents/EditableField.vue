@@ -13,6 +13,7 @@
           {{ value }}
         </a>
       </span>
+
       <span v-if="isRoute">
         <RouterLink
           :to="{ ...routeTo }"
@@ -20,31 +21,37 @@
           {{ value }}
         </RouterLink>
       </span>
+
       <span
         v-if="isText"
         class="wrap"
       >
         {{ value }}
       </span>
+
       <p
         v-if="isTextarea"
         class="wrap"
       >
         {{ value }}
       </p>
+
       <span
         v-if="isDate"
         class="wrap"
       >
         {{ value | formatDate }}
       </span>
+
       <span
         v-if="isSelection"
         class="wrap"
       >
         {{ value | lookup | toYesNo }}
       </span>
+
       <a
+        v-if="editMode"
         href="#"
         class="govuk-link change-link print-none"
         @click.prevent="btnClickEdit()"
@@ -52,6 +59,7 @@
         {{ link }}
       </a>
     </div>
+
     <div
       v-if="editField"
       class="edit-field"
@@ -87,18 +95,20 @@
         </option>
       </Select>
 
-      <button
-        class="govuk-button govuk-button--warning govuk-!-margin-right-3"
-        @click="cancelEdit()"
-      >
-        Cancel
-      </button>
-      <button
-        class="govuk-button"
-        @click="btnClickSubmit()"
-      >
-        Save
-      </button>
+      <div class="change-link">
+        <button
+          class="govuk-button govuk-!-margin-right-3"
+          @click="btnClickSubmit()"
+        >
+          Save
+        </button>
+        <button
+          class="govuk-button govuk-button--warning"
+          @click="cancelEdit()"
+        >
+          Cancel
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -118,13 +128,28 @@ export default {
     Select,
   },
   props: {
+    editMode: {
+      type: [Boolean, Function, Promise],
+      required: true,
+      default: () => false,
+    },
+    extension: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    index: {
+      type: [Number, String],
+      required: false,
+      default: null,
+    },
     field: {
       type: String,
       default: 'value',
     },
     value: {
       type: [String, Date, Number, Object, Boolean],
-      default: '',
+      default: () => null,
     },
     type: {
       type: String,
@@ -186,11 +211,24 @@ export default {
       this.editField = true;
     },
     btnClickSubmit() {
+      let resultObj;
       if (this.isEmail) {
         const value = formatEmail(this.localField);
         this.localField = value;
       }
-      this.$emit('changefield', { [this.field]: this.localField });
+      if (this.index != undefined && this.extension) {
+        resultObj = { 
+          field: this.field,
+          index: this.index,
+          extension: this.extension,
+          change: this.localField
+        };
+      } else {
+        resultObj = { [this.field]: this.localField };
+      }
+
+      this.$emit('changeField', resultObj);
+
       this.editField = false;
     },
   },
@@ -206,6 +244,7 @@ export default {
 
   .edit-field {
     width: 100%;
+    /* display: inline-flex; */
   }
 
   .non-editable .change-link {
