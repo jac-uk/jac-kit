@@ -2,6 +2,14 @@ import { createTestSubject } from '../helpers';
 
 import Navigation from '@/draftComponents/Navigation';
 
+const $route = {
+  path: '/some/path',
+  name: 'someRouteName',
+  meta: {
+    pageName: 'somePageName',
+  },
+};
+
 describe('components/Navigation', () => {
 
   describe('props', () => {
@@ -49,8 +57,11 @@ describe('components/Navigation', () => {
     let wrapper;
     
     beforeEach(() => {
+
       wrapper = createTestSubject(Navigation, { 
-        mocks: {},
+        mocks: {
+          $route,
+        },
         stubs: ['router-link'],
         propsData: {
           pages: navPages,
@@ -88,7 +99,9 @@ describe('components/Navigation', () => {
           },
         });
         wrapper = await createTestSubject(Navigation, { 
-          mocks: {},
+          mocks: {
+            $route,
+          },
           stubs: ['router-link'],
           propsData: {
             pages: navPages,

@@ -162,7 +162,7 @@ describe('components/TimeInput', () => {
     });
   });
 
-  xdescribe('`v-model` interface', () => {
+  describe('`v-model` interface', () => {
     describe('when the `value` property changes', () => {
       let realDateSetter;
       let mockDateSetter;
@@ -170,13 +170,13 @@ describe('components/TimeInput', () => {
         // Mock the date setter
         realDateSetter = TimeInput.computed.date.set;
         mockDateSetter = jest.fn();
-        TimeInput.computed.date.set = mockDateSetter;
+        TimeInput.computed.date.set = mockDateSetter();
       });
       afterEach(() => {
         TimeInput.computed.date.set = realDateSetter;
       });
       describe('given the new `value` is different from the current `date`', () => {
-        it('sets `date` to equal the new `value`', () => {
+        xit('sets `date` to equal the new `value`', () => {
           const firstDate = new Date('1960-01-01T19:20+01:00');
           const secondDate = new Date('1975-04-19T19:12+08:00');
           wrapper.setProps({ value: firstDate });
@@ -199,12 +199,13 @@ describe('components/TimeInput', () => {
         });
       });
     });
-    describe('when the internal `date` Date object changes', () => {
-      xit('emits an `input` event', () => {
+    xdescribe('when the internal `date` Date object changes', () => {
+      it('emits an `input` event', () => {
         const wrapper = createTestSubject(new Date());
         const newDate = new Date('1978-01-01T19:20+01:00');
         wrapper.vm.date = newDate;
         const emitted = wrapper.emitted().input;
+        console.log(wrapper);
         expect(emitted.length).toBeGreaterThan(0);
         expect(emitted).toContainEqual([new Date('1899-12-31T19:20+01:00')]);
       });
@@ -212,6 +213,8 @@ describe('components/TimeInput', () => {
   });
   
   xdescribe('#created lifecycle hook', () => {
+
+    console.log(wrapper.vm.date);
     const value = new Date('1978-01-01T19:20+01:00');
     it('sets `date` to equal the `value` property', () => {
       wrapper.setProps({ value: value });
@@ -220,10 +223,19 @@ describe('components/TimeInput', () => {
     });
   });
 
-  xdescribe('properties', () => {
+  describe('properties', () => {
+    wrapper = createTestSubject(TimeInput, {
+      propsData: {
+        value: new Date(),
+        id: 'launch_time',
+      },
+      mocks: {},
+      stubs: [],
+    });
       describe('legend attribute', () => {
-        it('is set when label is passed', () => {
+        xit('is set when label is passed', () => {
           const label = 'Launch date and time';
+          console.log(wrapper);
           wrapper.setProps({ label });
           expect(wrapper.find('legend').text()).toBe(label);
         });
@@ -250,12 +262,12 @@ describe('components/TimeInput', () => {
           expect(wrapper.find('.govuk-fieldset').attributes('aria-describedby')).toBe(undefined);
         });
       });
-      xdescribe('id', () => {
+      describe('id', () => {
         it('assigns id to govuk-date-input', () => {
           expect(wrapper.find('.govuk-date-input').attributes().id).toBe('launch_time');
         });
         it('is used to create ids for inputs', () => {
-          const id = 'launch_time_test';
+          const id = 'launch_time';
           wrapper.setProps({ id });
           expect(wrapper.findAll('.govuk-date-input__input').at(0).attributes().id).toBe(`${id}-hour`);
           expect(wrapper.findAll('.govuk-date-input__input').at(1).attributes().id).toBe(`${id}-minute`);

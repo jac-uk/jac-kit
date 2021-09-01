@@ -16,10 +16,10 @@ describe('Format Date', () => {
   describe('valid date and type', () => {
     const validTypes = [
       [[1,1,2003], 'month', 'January 2003'],
-      [[1,1,2003], 'datetime', '1/1/2003, 12:00:00 AM'],
-      [[1,1,2003], 'long', 'January 1, 2003'],
-      [[1,1,2003], 'longdatetime', 'January 1, 2003, 12:00 AM'],
-      [[1,1,2003], null , '1/1/2003'],
+      [[1,1,2003], 'datetime', '01/01/2003, 00:00:00'],
+      [[1,1,2003], 'long', '1 January 2003'],
+      [[1,1,2003], 'longdatetime', '1 January 2003, 00:00'],
+      [[1,1,2003], null , '01/01/2003'],
     ];
 
     it.each(validTypes)('when given %s with type %s returns %o', async (value, type, result) => {
