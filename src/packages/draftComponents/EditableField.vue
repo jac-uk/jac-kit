@@ -1,5 +1,8 @@
 <template>
   <div class="editable-field">
+    <!-- <div>
+    {{ $props }}
+    </div> -->
     <div
       v-if="!editField"
       class="non-editable"
@@ -8,74 +11,87 @@
         v-if="value || (options && options.includes(value))"
         class="wrap"
       >
-        <span v-if="isEmail">
-          <a
-            :href="`mailto:${value}`"
-            class="govuk-link govuk-link--no-visited-state wrap"
-            target="_blank"
-          >
-            {{ value }}
-          </a>
-        </span>
-
-        <span v-if="isRoute">
-          <RouterLink
-            :to="{ ...routeTo }"
-          >
-            {{ value }}
-          </RouterLink>
-        </span>
-
-        <p
-          v-if="isText || isTextarea"
-          class="wrap"
+      <span v-if="isEmail">
+        <a
+          :href="`mailto:${value}`"
+          class="govuk-link govuk-link--no-visited-state wrap"
+          target="_blank"
         >
           {{ value }}
-        </p>
+        </a>
+      </span>
 
-        <span
-          v-if="isDate"
-          class="wrap"
+      <span v-if="isRoute">
+        <RouterLink
+          :to="{ ...routeTo }"
         >
-          {{ value | formatDate }}
-        </span>
+          {{ value }}
+        </RouterLink>
+      </span>
 
-        <span
-          v-if="isSelection"
-          class="wrap"
-        >
-          {{ value | lookup | toYesNo }}
-        </span>
+      <span v-if="isText || isTextarea"
+        class="wrap"
+      >
+        {{ value }}
+      </span>
 
-        <div
-          v-if="isMultiSelection"
-          class="wrap"
-        >
-          <p
-            v-for="item in value" 
-            :key="item"
-          >
-            {{ item | lookup | toYesNo }}
-          </p>
-        </div>
-      </div>
+      <span
+        v-if="isDate"
+        class="wrap"
+      >
+        {{ value | formatDate }}
+      </span>
+
+      <span
+        v-if="isSelection"
+        class="wrap"
+      >
+        {{ value | lookup | toYesNo }}
+      </span>
+
       <div
-        v-else
+        v-if="isMultiSelection"
+        class="wrap"
       >
-        <span>
-          {{ 'No ' + (filters.lookup(field)) + (extension ? ' ' + filters.lookup(extension) : '' ) + ' provided' }}
-        </span> 
+        <p
+          v-for="item in value" 
+          :key="item"
+        >
+          {{ item | lookup | toYesNo }}
+        </p>
       </div>
 
-      <a
-        v-if="editMode"
-        href="#"
-        class="govuk-link change-link print-none"
-        @click.prevent="btnClickEdit()"
+      <div
+        v-if="isRankedSelection"
+        class="wrap"
       >
-        {{ link }}
-      </a>
+        <p
+          v-for="(item, i) in value" 
+          :key="item"
+        >
+          <strong> {{ i + 1 }}: </strong>
+          {{ item }}
+        </p>
+      </div>
+
     </div>
+    <div
+      v-else
+    >
+        <span>
+        {{ 'No ' + (filters.lookup(field)) + (extension ? ' ' + filters.lookup(extension) : '' ) + (index ? ` ${index + 1}` : '' )  + ' provided' }}
+      </span> 
+    </div>
+
+    <a
+      v-if="editMode"
+      href="#"
+      class="govuk-link change-link print-none"
+      @click.prevent="btnClickEdit()"
+    >
+      {{ link }}
+    </a>
+  </div>
 
     <div
       v-if="editField"
@@ -86,11 +102,13 @@
         :id="`editable-field-${id}`"
         v-model="localField"
       />
+
       <TextareaInput
         v-if="isTextarea"
         :id="`editable-field-${id}`"
         v-model="localField"
       />
+
       <DateInput
         v-if="isDate"
         :id="`data-of-birth-${id}`"
@@ -124,6 +142,47 @@
           :label="option | lookup"
         />
       </CheckboxGroup>
+
+      <div 
+        v-if="isRankedSelection"
+        class="govuk-checkboxes"
+      >
+        <div
+          v-for="(answer, i) in options"
+          :key="index"
+          class="govuk-checkboxes__item"
+        >
+          <input
+            v-model="localField"
+            :value="answer"
+            type="checkbox"
+            class="govuk-checkboxes__input"
+            @change="updateRanking"
+          />
+          <label
+            :for="`${id}-answer-${i}`"
+            class="govuk-label govuk-checkboxes__label"
+          >
+            {{ answer }}
+          </label>
+          <select 
+            v-if="localField.indexOf(answer) >= 0"
+            v-model="ranking[answer]"
+            class="govuk-select"
+            @change="updateRanking"
+          >
+            <option
+              v-for="score in localField.length"
+              :key="score"
+              :value="score"
+            >
+              {{ score }}
+            </option>
+          </select>  
+          <!--
+          -->
+        </div>
+      </div>
 
       <div class="change-link">
         <button
@@ -209,6 +268,7 @@ export default {
       editField: false,
       id: null,
       filters: filters,
+      ranking: {}
     };
   },
   computed: {
@@ -230,6 +290,9 @@ export default {
     isSelection() {
       return this.type === 'selection';
     },
+    isRankedSelection() {
+      return this.type === 'ranked-selection';
+    },
     isMultiSelection() {
       return this.type === 'multi-selection' && (this.value instanceof Array || !this.value);
     },
@@ -242,6 +305,27 @@ export default {
     this.id = this._uid;
   },
   methods: {
+    updateRanking() {
+      const rankedSelection = [];
+      const cleanedRanking = {};
+      for (let i = 0, len = this.localField.length; i < len; ++i) {
+        if (!this.ranking[this.localField[i]]) { this.ranking[this.localField[i]] = this.localField.length; }
+        rankedSelection.push({ answer: this.localField[i], rank: this.ranking[this.localField[i]] });
+        cleanedRanking[this.localField[i]] = this.ranking[this.localField[i]];
+      }
+      this.ranking = cleanedRanking;
+      this.localField = rankedSelection.sort(( item1, item2 ) => {
+        if (item1.rank < item2.rank) {
+          return -1;
+        } else if (item1.rank > item2.rank) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }).map((item) => {
+        return item.answer;
+      });
+    },
     cancelEdit() {
       this.editField = false;
     },
@@ -255,15 +339,25 @@ export default {
         const value = formatEmail(this.localField);
         this.localField = value;
       }
-      if (this.index != undefined && this.extension) {
+      if (this.index != undefined || this.extension != undefined) { // is nested or indexed item
         resultObj = { 
           field: this.field,
-          index: this.index,
-          extension: this.extension,
-          change: this.localField,
+          change: this.localField
         };
+        if (this.index != undefined) { // is indexed item
+          resultObj = {
+            ...resultObj,
+            index: this.index,
+          };
+        } 
+        if (this.extension != undefined) { // is nested item
+          resultObj = {
+            ...resultObj,
+            extension: this.extension,
+          };
+        } 
       } else {
-        resultObj = { [this.field]: this.localField };
+        resultObj = { [this.field]: this.localField }; // else
       }
 
       this.$emit('changeField', resultObj);

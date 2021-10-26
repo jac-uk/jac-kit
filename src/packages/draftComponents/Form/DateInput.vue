@@ -46,7 +46,7 @@
                 ref="hourInput"
                 v-model.lazy="hourInput"
                 class="govuk-input govuk-date-input__input govuk-input--width-2"
-                type="tel"
+                type="number"
               >
             </div>
           </div>
@@ -63,7 +63,7 @@
                 ref="minuteInput"
                 v-model.lazy="minuteInput"
                 class="govuk-input govuk-date-input__input govuk-input--width-2"
-                type="tel"
+                type="number"
               >
             </div>
           </div>
@@ -85,8 +85,11 @@
               ref="dayInput"
               v-model.lazy="dayInput"
               class="govuk-input govuk-date-input__input govuk-input--width-2"
-              type="tel"
+              oninput="this.value=this.value.slice(0,this.maxLength)"
+              maxlength="2"
+              type="number"
               :disabled="disabled"
+              @keydown="handleDay"
             >
           </div>
         </div>
@@ -103,8 +106,11 @@
               ref="monthInput"
               v-model.lazy="monthInput"
               class="govuk-input govuk-date-input__input govuk-input--width-2"
-              type="tel"
+              oninput="this.value=this.value.slice(0,this.maxLength)"
+              maxlength="2"
+              type="number"
               :disabled="disabled"
+              @keydown="handleMonth"
             >
           </div>
         </div>
@@ -121,8 +127,11 @@
               ref="yearInput"
               v-model.lazy="yearInput"
               class="govuk-input govuk-date-input__input govuk-input--width-4"
-              type="tel"
+              oninput="this.value=this.value.slice(0,this.maxLength)"
+              maxlength="4"
+              type="number"
               :disabled="disabled"
+              @keydown="handleYear"
             >
           </div>
         </div>
@@ -167,6 +176,7 @@ export default {
     };
   },
   computed: {
+
     hourInput: {
       get() {
         return zeroPad(this.hour);
@@ -253,6 +263,23 @@ export default {
   methods: {
     datesAreEqual(date1, date2) {
       return date1 instanceof Date && date2 instanceof Date && date1.toISOString() === date2.toISOString();
+    },
+    handleDay(e) {
+      if (!['Backspace', 'ArrowRight', 'ArrowLeft'].some((item) => item === e.key) && e.target.value.length === e.target.maxLength) {
+        this.$refs['monthInput'].focus();
+      }
+    },
+    handleMonth(e) {
+      if (!['Backspace', 'ArrowRight', 'ArrowLeft'].some((item) => item === e.key) && e.target.value.length === e.target.maxLength) {
+        this.$refs['yearInput'].focus();
+      } else if (!e.target.value && e.key === 'Backspace') {
+        this.$refs['dayInput'].focus();
+      }
+    },
+    handleYear(e) {
+      if (!e.target.value && e.key === 'Backspace') {
+        this.$refs['monthInput'].focus();
+      }
     },
   },
 };
