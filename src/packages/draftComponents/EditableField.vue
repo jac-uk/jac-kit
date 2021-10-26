@@ -4,51 +4,68 @@
       v-if="!editField"
       class="non-editable"
     >
-      <span v-if="isEmail">
-        <a
-          :href="`mailto:${value}`"
-          class="govuk-link govuk-link--no-visited-state wrap"
-          target="_blank"
+      <div
+        v-if="value || (options && options.includes(value))"
+        class="wrap"
+      >
+        <span v-if="isEmail">
+          <a
+            :href="`mailto:${value}`"
+            class="govuk-link govuk-link--no-visited-state wrap"
+            target="_blank"
+          >
+            {{ value }}
+          </a>
+        </span>
+
+        <span v-if="isRoute">
+          <RouterLink
+            :to="{ ...routeTo }"
+          >
+            {{ value }}
+          </RouterLink>
+        </span>
+
+        <p
+          v-if="isText || isTextarea"
+          class="wrap"
         >
           {{ value }}
-        </a>
-      </span>
+        </p>
 
-      <span v-if="isRoute">
-        <RouterLink
-          :to="{ ...routeTo }"
+        <span
+          v-if="isDate"
+          class="wrap"
         >
-          {{ value }}
-        </RouterLink>
-      </span>
+          {{ value | formatDate }}
+        </span>
 
-      <span
-        v-if="isText"
-        class="wrap"
-      >
-        {{ value }}
-      </span>
+        <span
+          v-if="isSelection"
+          class="wrap"
+        >
+          {{ value | lookup | toYesNo }}
+        </span>
 
-      <p
-        v-if="isTextarea"
-        class="wrap"
+        <div
+          v-if="isMultiSelection"
+          class="wrap"
+        >
+          <p
+            v-for="item in value" 
+            :key="item"
+          >
+            {{ item | lookup | toYesNo }}
+          </p>
+        </div>
+      </div>
+      <div
+        v-else
       >
-        {{ value }}
-      </p>
-
-      <span
-        v-if="isDate"
-        class="wrap"
-      >
-        {{ value | formatDate }}
-      </span>
-
-      <span
-        v-if="isSelection"
-        class="wrap"
-      >
-        {{ value | lookup | toYesNo }}
-      </span>
+        <span>
+          {{ 'No ' + (filters.lookup(field)) + (extension ? ' ' + filters.lookup(extension) : '' ) + ' provided' }}
+        </span> 
+      </div>
 
       <a
         v-if="editMode"
@@ -95,6 +112,19 @@
         </option>
       </Select>
 
+      <CheckboxGroup
+        v-if="isMultiSelection"
+        :id="`multi-selection-input-${id}`"
+        v-model="localField"
+      >
+        <CheckboxItem
+          v-for="option in options"
+          :key="option"
+          :value="option"
+          :label="option | lookup"
+        />
+      </CheckboxGroup>
+
       <div class="change-link">
         <button
           class="govuk-button govuk-!-margin-right-3"
@@ -119,6 +149,9 @@ import TextareaInput from './Form/TextareaInput';
 import DateInput from './Form/DateInput';
 import formatEmail from '../helpers/Form/formatEmail';
 import Select from './Form/Select.vue';
+import CheckboxGroup from './Form/CheckboxGroup';
+import CheckboxItem from './Form/CheckboxItem';
+import * as filters from '../filters/filters';
 
 export default {
   components: {
@@ -126,6 +159,8 @@ export default {
     TextareaInput,
     DateInput,
     Select,
+    CheckboxGroup,
+    CheckboxItem,
   },
   props: {
     editMode: {
@@ -148,7 +183,7 @@ export default {
       default: 'value',
     },
     value: {
-      type: [String, Date, Number, Object, Boolean],
+      type: [String, Date, Number, Object, Array, Boolean],
       default: () => null,
     },
     type: {
@@ -173,6 +208,7 @@ export default {
       localField: '',
       editField: false,
       id: null,
+      filters: filters,
     };
   },
   computed: {
@@ -193,6 +229,9 @@ export default {
     },
     isSelection() {
       return this.type === 'selection';
+    },
+    isMultiSelection() {
+      return this.type === 'multi-selection' && (this.value instanceof Array || !this.value);
     },
     valueToDate() {
       const newDate = this.isDate ? new Date(this.value) : null;
@@ -221,7 +260,7 @@ export default {
           field: this.field,
           index: this.index,
           extension: this.extension,
-          change: this.localField
+          change: this.localField,
         };
       } else {
         resultObj = { [this.field]: this.localField };
