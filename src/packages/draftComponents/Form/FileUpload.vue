@@ -80,10 +80,10 @@ export default {
         };
       },
     },
-    type: {
+    types: {
       type: String,
       required: false,
-      default: 'other',
+      default: '.pdf,.docx,.doc,.odt,.txt,.fodt',
     },
   },
   data() {
@@ -109,10 +109,7 @@ export default {
       },
     },
     fileExtensions() {
-      if (this.$props.type && this.$props.type === 'ia') {
-        return '.doc,.docx';
-      }
-      return '.pdf,.docx,.doc,.odt,.txt,.fodt';
+      return this.$props.types;
     },
   },
   async mounted () {
@@ -149,13 +146,11 @@ export default {
       }
       const fileExtension = parts.pop();
 
-      if (this.$props.type && this.$props.type === 'other') {
-        if (this.acceptableExtensions.includes(fileExtension)){
+      if (this.$props.types) {
+        const providedTypes = this.$props.types.split(',');
+        if (providedTypes.includes(`.${fileExtension}`)) {
           return true;
         }
-      }
-      if (this.$props.type && this.$props.type === 'ia' && (fileExtension === 'doc' || fileExtension === 'docx')) {
-        return true;
       }
       return false;
     },
