@@ -38,6 +38,7 @@
       :id="id"
       ref="file"
       type="file"
+      :accept="fileExtensions"
       class="govuk-file-upload"
       :class="{'govuk-input--error': hasError}"
       @change="fileSelected"
@@ -79,6 +80,11 @@ export default {
         };
       },
     },
+    types: {
+      type: String,
+      required: false,
+      default: '.pdf,.docx,.doc,.odt,.txt,.fodt',
+    },
   },
   data() {
     return {
@@ -101,6 +107,9 @@ export default {
           this.$emit('input', val);
         }
       },
+    },
+    fileExtensions() {
+      return this.$props.types;
     },
   },
   async mounted () {
@@ -132,15 +141,17 @@ export default {
     },
     validFileExtension(originalName){
       const parts = originalName.split('.');
-
       if (parts.length < 2){
         return false;
       }
+      const fileExtension = parts.pop();
 
-      if (this.acceptableExtensions.includes(parts.pop())){
-        return true;
+      if (this.$props.types) {
+        const providedTypes = this.$props.types.split(',');
+        if (providedTypes.includes(`.${fileExtension}`)) {
+          return true;
+        }
       }
-
       return false;
     },
     fileIsEmpty(size){
