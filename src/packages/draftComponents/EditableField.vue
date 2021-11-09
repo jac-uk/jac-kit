@@ -1,16 +1,10 @@
 <template>
   <div class="editable-field">
-    <!-- <div>
-    {{ $props }}
-    </div> -->
     <div
       v-if="!editField"
       class="non-editable"
     >
-      <div
-        v-if="value || (options && options.includes(value))"
-        class="wrap"
-      >
+
       <span v-if="isEmail">
         <a
           :href="`mailto:${value}`"
@@ -50,37 +44,42 @@
       </span>
 
       <div
+        v-if="options && options.includes(value)"
+        class="wrap"
+      >
+      <div
         v-if="isMultiSelection"
         class="wrap"
       >
-        <p
+        <li
           v-for="item in value" 
           :key="item"
         >
           {{ item | lookup | toYesNo }}
-        </p>
+        </li>
       </div>
 
       <div
         v-if="isRankedSelection"
         class="wrap"
       >
-        <p
+        <li
           v-for="(item, i) in value" 
           :key="item"
         >
           <strong> {{ i + 1 }}: </strong>
           {{ item }}
-        </p>
+        </li>
+      </div>
       </div>
 
-    </div>
-    <div
-      v-else
-    >
-        <span>
-        {{ 'No ' + (filters.lookup(field)) + (extension ? ' ' + filters.lookup(extension) : '' ) + (index ? ` ${index + 1}` : '' )  + ' provided' }}
-      </span> 
+      <div
+        v-if="value === undefined"
+      >
+          <span>
+          No answer provided
+        </span> 
+      </div>
     </div>
 
     <a
@@ -91,7 +90,6 @@
     >
       {{ link }}
     </a>
-  </div>
 
     <div
       v-if="editField"
@@ -179,8 +177,6 @@
               {{ score }}
             </option>
           </select>  
-          <!--
-          -->
         </div>
       </div>
 
@@ -224,11 +220,11 @@ export default {
   props: {
     editMode: {
       type: [Boolean, Function, Promise],
-      required: true,
+      required: false,
       default: () => false,
     },
     extension: {
-      type: String,
+      type: [String, Array],
       required: false,
       default: null,
     },
