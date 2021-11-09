@@ -80,16 +80,16 @@
           No answer provided
         </span> 
       </div>
+      <a
+        v-if="editMode"
+        href="#"
+        class="govuk-link change-link print-none"
+        @click.prevent="btnClickEdit()"
+      >
+        {{ link }}
+      </a>
     </div>
 
-    <a
-      v-if="editMode"
-      href="#"
-      class="govuk-link change-link print-none"
-      @click.prevent="btnClickEdit()"
-    >
-      {{ link }}
-    </a>
 
     <div
       v-if="editField"
