@@ -4,8 +4,15 @@
       v-if="!editField"
       class="non-editable"
     >
+      <div
+        v-if="value == undefined || value == null || value === '' || (Array.isArray(value) && !value.length)"
+      >
+        <span>
+          No answer provided
+        </span> 
+      </div>
 
-      <span v-if="isEmail">
+      <span v-else-if="isEmail">
         <a
           :href="`mailto:${value}`"
           class="govuk-link govuk-link--no-visited-state wrap"
@@ -15,7 +22,7 @@
         </a>
       </span>
 
-      <span v-if="isRoute">
+      <span v-else-if="isRoute">
         <RouterLink
           :to="{ ...routeTo }"
         >
@@ -23,44 +30,46 @@
         </RouterLink>
       </span>
 
-      <span v-if="isText || isTextarea"
+      <span
+        v-else-if="isText || isTextarea"
         class="wrap"
       >
-        {{ value }}
+        {{ value }} 
       </span>
 
       <span
-        v-if="isDate"
+        v-else-if="isDate"
         class="wrap"
       >
         {{ value | formatDate }}
       </span>
 
       <span
-        v-if="isSelection"
+        v-else-if="isSelection"
         class="wrap"
       >
         {{ value | lookup | toYesNo }}
       </span>
-
+      
       <div
-        v-if="options && options.includes(value)"
+        v-else-if="isMultiSelection"
         class="wrap"
       >
-      <div
-        v-if="isMultiSelection"
-        class="wrap"
-      >
-        <li
-          v-for="item in value" 
-          :key="item"
+        <div
+          v-if="(value instanceof Array)"
+          class="wrap"
         >
-          {{ item | lookup | toYesNo }}
-        </li>
+          <li
+            v-for="item in value" 
+            :key="item"
+          >
+            {{ item | lookup | toYesNo }}
+          </li>
+        </div>
       </div>
 
       <div
-        v-if="isRankedSelection"
+        v-else-if="isRankedSelection"
         class="wrap"
       >
         <li
@@ -71,15 +80,15 @@
           {{ item }}
         </li>
       </div>
-      </div>
 
       <div
-        v-if="value === undefined"
+        v-else
+        class="wrap"
       >
-          <span>
-          No answer provided
-        </span> 
+        {{ value }}
       </div>
+
+      <br>
       <a
         v-if="editMode"
         href="#"
@@ -89,7 +98,6 @@
         {{ link }}
       </a>
     </div>
-
 
     <div
       v-if="editField"
@@ -113,11 +121,11 @@
         v-model="localField"
         :value="localField"
       />
-
+      
       <Select
         v-if="isSelection"
         :id="`selection-input-${id}`"
-        v-model="localField"
+        v-model="localField" 
       >
         <option
           v-for="option in options"
@@ -147,36 +155,41 @@
       >
         <div
           v-for="(answer, i) in options"
-          :key="index"
+          :key="i"
           class="govuk-checkboxes__item"
         >
-          <input
-            v-model="localField"
-            :value="answer"
-            type="checkbox"
-            class="govuk-checkboxes__input"
-            @change="updateRanking"
-          />
-          <label
-            :for="`${id}-answer-${i}`"
-            class="govuk-label govuk-checkboxes__label"
+          <div
+            style="display: inline-flex"
           >
-            {{ answer }}
-          </label>
-          <select 
-            v-if="localField.indexOf(answer) >= 0"
-            v-model="ranking[answer]"
-            class="govuk-select"
-            @change="updateRanking"
-          >
-            <option
-              v-for="score in localField.length"
-              :key="score"
-              :value="score"
+            <input
+              v-model="localField"
+              :value="answer"
+              type="checkbox"
+              class="govuk-checkboxes__input"
+              @change="updateRanking"
             >
-              {{ score }}
-            </option>
-          </select>  
+            <label
+              :for="`${id}-answer-${i}`"
+              class="govuk-label govuk-checkboxes__label"
+            >
+              {{ answer }}
+            </label>
+
+            <Select 
+              v-if="localField.indexOf(answer) >= 0 && Object.keys(ranking).length"
+              :id="answer"
+              v-model="ranking[answer]"
+              @change="updateRanking"
+            >
+              <option
+                v-for="score in localField.length"
+                :key="score"
+                :value="score"
+              >
+                {{ score }}
+              </option>
+            </Select>
+          </div>
         </div>
       </div>
 
@@ -264,7 +277,7 @@ export default {
       editField: false,
       id: null,
       filters: filters,
-      ranking: {}
+      ranking: {},
     };
   },
   computed: {
@@ -290,11 +303,18 @@ export default {
       return this.type === 'ranked-selection';
     },
     isMultiSelection() {
-      return this.type === 'multi-selection' && (this.value instanceof Array || !this.value);
+      return this.type === 'multi-selection';
     },
     valueToDate() {
       const newDate = this.isDate ? new Date(this.value) : null;
       return newDate;
+    },
+  },
+  watch: { 
+    editMode: function() { // watch it
+      if (this.editField && !this.editMode) {
+        this.cancelEdit();
+      }
     },
   },
   mounted () {
@@ -338,7 +358,7 @@ export default {
       if (this.index != undefined || this.extension != undefined) { // is nested or indexed item
         resultObj = { 
           field: this.field,
-          change: this.localField
+          change: this.localField,
         };
         if (this.index != undefined) { // is indexed item
           resultObj = {

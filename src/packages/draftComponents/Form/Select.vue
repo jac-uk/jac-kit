@@ -4,6 +4,7 @@
     :class="{'govuk-form-group--error': hasError}"
   >
     <label
+      v-if="label"
       :for="id"
       class="govuk-heading-m govuk-!-margin-bottom-2"
     >
