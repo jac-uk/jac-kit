@@ -19,7 +19,7 @@ jest.mock('@/helpers/convertFirestoreTimestampsToDates', () => {
   });
 });
 
-xdescribe('@/helpers/vuexfireSerialize', () => {
+describe('@/helpers/vuexfireSerialize', () => {
   let mockSnapshot;
   beforeEach(async () => {
     mockSnapshot = await createMockSnapshot({

@@ -2,8 +2,10 @@ import { createTestSubject } from '../../helpers';
 import CheckboxItem from '@/draftComponents/Form/CheckboxItem';
 
 //@todo mock parent component
+// it would appear this has already been done in the apply repo,
+// but changes to the helpers and possibly dependencies are required to copy across
 
-xdescribe('components/Form/CheckboxItem', () => {
+describe('components/Form/CheckboxItem', () => {
   it('component name is "CheckboxItem"', () => {
     expect(CheckboxItem.name).toBe('CheckboxItem');
   });
@@ -83,7 +85,7 @@ xdescribe('components/Form/CheckboxItem', () => {
     });
   });
 
-  describe('component instance', () => {
+  xdescribe('component instance', () => {
     let wrapper;
     beforeEach(() => {
       wrapper = createTestSubject(CheckboxItem, {

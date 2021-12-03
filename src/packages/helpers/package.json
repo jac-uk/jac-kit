@@ -1,6 +1,6 @@
 {
   "name": "@jac-uk/helpers",
-  "version": "0.0.17",
+  "version": "0.0.19",
   "publishConfig": {
     "access": "public"
   },
