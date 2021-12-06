@@ -341,7 +341,6 @@ export default {
       }).map((item) => {
         return item.answer;
       });
-      console.log(this.localField);
     },
     cancelEdit() {
       this.editField = false;
