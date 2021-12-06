@@ -153,7 +153,6 @@
         v-if="isRankedSelection"
         class="govuk-checkboxes"
       >
-
         <div
           v-for="(answer, i) in options"
           :key="i"
@@ -312,7 +311,7 @@ export default {
     },
   },
   watch: { 
-    editMode: function() { // watch it
+    editMode: function() {
       if (this.editField && !this.editMode) {
         this.cancelEdit();
       }
