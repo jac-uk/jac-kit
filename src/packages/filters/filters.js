@@ -327,7 +327,6 @@ const lookup = (value) => {
       'dateOfBirth': 'Date of Birth',
       'investigationConclusionDate': 'Investigation Conclusion Date',
       'nationalInsuranceNumber': 'National Insurance Number',
-      'citizenship': 'Citizenship',
       'reasonableAdjustments': 'Reasonable Adjustments',
       'reasonableAdjustmentsDetails': 'Reasonable Adjustment Details',
       // Character information 

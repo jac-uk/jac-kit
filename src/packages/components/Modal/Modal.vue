@@ -37,10 +37,12 @@ export default {
   position: fixed;
   top: 50%;
   left: 50%;
+  max-width: 40%;
   min-width: 30%;
   transform: translate(-50%, -50%);
   border: solid 2px #b1b4b6;
   background-color: #ffffff;
+  text-align: center;
 }
 .modal__title {
   text-align: center;
@@ -48,6 +50,10 @@ export default {
   border: solid 2px #1d70b8;
   background-color: #1d70b8;
   color: white;
+}
+.modal__content {
+  text-align: center;
+  align-content: center;
 }
 .modal__message {
   vertical-align: middle;
