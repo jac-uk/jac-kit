@@ -1,6 +1,6 @@
 {
   "name": "@jac-uk/modal",
-  "version": "0.0.5-beta.0",
+  "version": "0.0.5",
   "publishConfig": {
     "access": "public"
   },
