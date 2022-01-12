@@ -72,24 +72,35 @@ const tableQuery = (data, ref, params) => {
       const direction = params.direction ? params.direction : 'asc';
       queryRef = queryRef.orderBy(params.orderBy, direction);
     }
+    // always order by documentId as last orderBy (helps with paging)
+    queryRef = queryRef.orderBy(firebase.firestore.FieldPath.documentId());
+
     if (params.pageSize) {
       if (params.pageChange > 0) {
         // page forward
         if (data.length) {
+          const startAfter = [];
+          if (orderBy) {
+            startAfter.push(getValueAtObjectPath(data[data.length - 1], orderBy));
+          }
+          startAfter.push(data[data.length - 1].id);
           queryRef = queryRef
-            .startAfter(getValueAtObjectPath(data[data.length - 1], orderBy))
+            .startAfter(...startAfter)
             .limit(params.pageSize);
-          // @TODO use last document instead of single field value
         } else {
           queryRef = queryRef.limit(params.pageSize);
         }
       } else if (params.pageChange < 0) {
         // page backward
         if (data.length) {
+          const endBefore = [];
+          if (orderBy) {
+            endBefore.push(getValueAtObjectPath(data[0], orderBy));
+          }
+          endBefore.push(data[0].id);
           queryRef = queryRef
-            .endBefore(getValueAtObjectPath(data[0], orderBy))
+            .endBefore(...endBefore)
             .limitToLast(params.pageSize);
-          // @TODO use first document instead of single field value
         } else {
           queryRef = queryRef.limit(params.pageSize);
         }
