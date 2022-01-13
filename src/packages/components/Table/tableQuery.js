@@ -44,7 +44,7 @@ const tableQuery = (data, ref, params) => {
         queryRef = queryRef.where(item.field, item.comparator, item.value);
       });
     }
-    let orderBy = params.orderBy;
+    let orderBy = (params.orderBy && params.orderBy instanceof Array) ? params.orderBy : [params.orderBy];  // ensure orderby is an array
     if (params.searchTerm) {
       if (params.customSearch) {
         if (params.customSearchValues) {
@@ -65,25 +65,32 @@ const tableQuery = (data, ref, params) => {
             .where(params.search[0], '>=', returnSearch.value1)
             .where(params.search[0], '<', returnSearch.value2)
             .orderBy(params.search[0], 'asc');
-          orderBy = params.search[0];
+          orderBy = [params.search[0]];
         }
       }
-    } else if (params.orderBy) {
+    } else if (orderBy) {
       const direction = params.direction ? params.direction : 'asc';
-      queryRef = queryRef.orderBy(params.orderBy, direction);
+      orderBy.forEach(field => {
+        if (field === 'documentId') {
+          queryRef = queryRef.orderBy(firebase.firestore.FieldPath.documentId(), direction);
+        } else {
+          queryRef = queryRef.orderBy(field, direction);
+        }
+      });
     }
-    // always order by documentId as last orderBy (helps with paging)
-    queryRef = queryRef.orderBy(firebase.firestore.FieldPath.documentId());
 
     if (params.pageSize) {
       if (params.pageChange > 0) {
         // page forward
         if (data.length) {
           const startAfter = [];
-          if (orderBy) {
-            startAfter.push(getValueAtObjectPath(data[data.length - 1], orderBy));
-          }
-          startAfter.push(data[data.length - 1].id);
+          orderBy.forEach(field => {
+            if (field === 'documentId') {
+              startAfter.push(data[data.length - 1].id);
+            } else {
+              startAfter.push(getValueAtObjectPath(data[data.length - 1], field));
+            }
+          });
           queryRef = queryRef
             .startAfter(...startAfter)
             .limit(params.pageSize);
@@ -94,10 +101,13 @@ const tableQuery = (data, ref, params) => {
         // page backward
         if (data.length) {
           const endBefore = [];
-          if (orderBy) {
-            endBefore.push(getValueAtObjectPath(data[0], orderBy));
-          }
-          endBefore.push(data[0].id);
+          orderBy.forEach(field => {
+            if (field === 'documentId') {
+              endBefore.push(data[0].id);
+            } else {
+              endBefore.push(getValueAtObjectPath(data[0], field));
+            }
+          });
           queryRef = queryRef
             .endBefore(...endBefore)
             .limitToLast(params.pageSize);
