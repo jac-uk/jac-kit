@@ -31,7 +31,14 @@
       </span>
 
       <span
-        v-else-if="isText || isTextarea"
+        v-else-if="isText"
+        class="wrap"
+      >
+        {{ value }} 
+      </span>
+
+      <span
+        v-else-if="isTextarea"
         class="wrap"
       >
         {{ value }} 
@@ -41,7 +48,7 @@
         v-else-if="isDate"
         class="wrap"
       >
-        {{ value | formatDate }}
+        {{ formattedDate }}
       </span>
 
       <span
@@ -89,6 +96,7 @@
       </div>
 
       <br>
+
       <a
         v-if="editMode"
         href="#"
@@ -119,6 +127,7 @@
         v-if="isDate"
         :id="`data-of-birth-${id}`"
         v-model="localField"
+        :type="(displayMonthYearOnly ? 'month' : 'date')"
         :value="localField"
       />
       
@@ -270,6 +279,10 @@ export default {
       type: Object,
       default: null,
     },
+    displayMonthYearOnly: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -308,6 +321,9 @@ export default {
     valueToDate() {
       const newDate = this.isDate ? new Date(this.value) : null;
       return newDate;
+    },
+    formattedDate() {
+      return filters.formatDate(this.value, (this.displayMonthYearOnly ? 'month' : ''));
     },
   },
   watch: { 
