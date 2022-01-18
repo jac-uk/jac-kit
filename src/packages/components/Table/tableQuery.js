@@ -44,7 +44,12 @@ const tableQuery = (data, ref, params) => {
         queryRef = queryRef.where(item.field, item.comparator, item.value);
       });
     }
-    let orderBy = (params.orderBy && params.orderBy instanceof Array) ? params.orderBy : [params.orderBy];  // ensure orderby is an array
+
+    let orderBy;
+    if (params.orderBy) {
+      orderBy = (params.orderBy && params.orderBy instanceof Array) ? params.orderBy : [params.orderBy];  // ensure orderby is an array
+    }
+
     if (params.searchTerm) {
       if (params.customSearch) {
         if (params.customSearchValues) {
