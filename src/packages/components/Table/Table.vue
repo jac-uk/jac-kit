@@ -147,6 +147,12 @@
         </tr>
       </tbody>
     </table>
+    <div 
+      class="govuk-body govuk-!-margin-top-4"
+      v-else
+      >
+      No results found
+    </div>
     <nav
       v-if="showPaging"
       class="moj-pagination"
