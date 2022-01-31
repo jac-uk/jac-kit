@@ -1,0 +1,15 @@
+name: On pull request
+
+on:  
+  push:
+  pull_request:
+
+jobs:  
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Lint
+        run: npm run lint-ci
+      - name: Test
+        run: npm run test-ci
