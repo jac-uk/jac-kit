@@ -67,6 +67,12 @@
         </button>
       </template>
     </SidePanel>
+    <div
+      v-if="loading"
+      class="loading"
+    >
+      LOADING...
+    </div>
     <table
       v-if="hasData"
       class="govuk-table govuk-!-margin-top-2"
@@ -147,12 +153,7 @@
         </tr>
       </tbody>
     </table>
-    <div 
-      class="govuk-body govuk-!-margin-top-4"
-      v-else
-      >
-      No results found
-    </div>
+    <div v-else-if="!loading">No data</div>
     <nav
       v-if="showPaging"
       class="moj-pagination"
@@ -195,6 +196,15 @@ import Search from './Search';
 import SidePanel from './SidePanel';
 import Badge from './Badge';
 import CustomForm from './CustomForm';
+
+const ACTIONS = {
+  LOAD: 'load',
+  RELOAD: 'reload',
+  PAGE_NEXT: 'next',
+  PAGE_PREVIOUS: 'previous',
+  SEARCH: 'search',
+  SORT: 'sort',
+};
 
 export default {
   components: {
@@ -249,6 +259,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       searchTerm: null,
       orderBy: null,
       direction: null,
@@ -336,12 +347,19 @@ export default {
       return placeholderText;
     },
   },
+  watch: {
+    data(val) {
+      if (val) {
+        this.loading = false;
+      }
+    },
+  },
   created() {
     if (this.defaultState.orderBy) {
       this.orderBy = this.defaultState.orderBy;
       this.direction = this.defaultState.direction;
     }
-    this.$emit('change', this.currentState);
+    this.changeTableState(ACTIONS.LOAD, this.currentState);
   },
   methods: {
     btnPrev() {
@@ -349,14 +367,14 @@ export default {
         this.page--;
         const state = { ...this.currentState };
         state.pageChange = -1;
-        this.$emit('change', state);
+        this.changeTableState(ACTIONS.PAGE_PREVIOUS, state);
       }
     },
     btnNext() {
       this.page++;
       const state = { ...this.currentState };
       state.pageChange = 1;
-      this.$emit('change', state);
+      this.changeTableState(ACTIONS.PAGE_NEXT, state);
     },
     btnToggleSidePanel() {
       this.showSidePanel = !this.showSidePanel;
@@ -373,7 +391,7 @@ export default {
       this.appliedFilterValues = {};
       this.where = [];
       this.numberOfFiltersApplied = 0;
-      this.$emit('change', this.currentState);
+      this.changeTableState(ACTIONS.FILTER_CLEAR, this.currentState);
       this.showSidePanel = false;
     },
     btnUpdateFilters() {
@@ -441,7 +459,7 @@ export default {
         }
       });
       this.where = where;
-      this.$emit('change', this.currentState);
+      this.changeTableState(ACTIONS.FILTER, this.currentState);
       this.showSidePanel = false;
     },
     sortBy(column) {
@@ -453,7 +471,7 @@ export default {
           this.orderBy = column.sort;
           this.direction = column.direction ? column.direction : 'asc';
         }
-        this.$emit('change', this.currentState);
+        this.changeTableState(ACTIONS.SORT, this.currentState);
       }
     },
     columnSortState(column) {
@@ -482,10 +500,26 @@ export default {
           }
         }
       }
-      this.$emit('change', this.currentState);
+      this.changeTableState(ACTIONS.SEARCH, this.currentState);
     },
     reload() {
-      this.$emit('change', this.currentState);
+      this.changeTableState(ACTIONS.RELOAD, this.currentState);
+    },
+    changeTableState(action, state) {
+      // process action
+      switch (action) {
+      case ACTIONS.LOAD:
+      case ACTIONS.RELOAD:
+      case ACTIONS.PAGE_NEXT:
+      case ACTIONS.PAGE_PREVIOUS:
+      case ACTIONS.SEARCH:
+      case ACTIONS.FILTER:
+      case ACTIONS.SORT:
+        this.loading = true;
+        console.log('change happened', action);
+        break;
+      }
+      this.$emit('change', state);
     },
   },
 };
@@ -495,8 +529,20 @@ export default {
   @mixin mobile-view {
     @media (max-width: 599px) { @content; }
   }
+  .jac-table {
+    position: relative;
+  }
   .btn-filter {
     width: 130px;
+  }
+  .loading {  /* to be replaced with something prettier */
+    position: absolute;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.75);
+    padding-left: 50px;
+    padding-top: 50px;
+    width: 100%;
+    height: 100%;
   }
 
   @include mobile-view {
