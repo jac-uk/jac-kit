@@ -112,7 +112,14 @@
       class="edit-field"
     >
       <TextField
-        v-if="isText || isEmail || isRoute"
+        v-if="isEmail"
+        :id="`editable-field-${id}`"
+        v-model="localField"
+        type="email"
+      />
+      
+      <TextField
+        v-if="isText || isRoute"
         :id="`editable-field-${id}`"
         v-model="localField"
       />
@@ -229,6 +236,7 @@ import Select from './Form/Select.vue';
 import CheckboxGroup from './Form/CheckboxGroup';
 import CheckboxItem from './Form/CheckboxItem';
 import * as filters from '../filters/filters';
+import Form from './Form/Form';
 
 export default {
   components: {
@@ -239,6 +247,7 @@ export default {
     CheckboxGroup,
     CheckboxItem,
   },
+  extends: Form,
   props: {
     editMode: {
       type: [Boolean, Function, Promise],
@@ -367,34 +376,39 @@ export default {
     },
     btnClickSubmit() {
       let resultObj;
-      if (this.isEmail) {
-        const value = formatEmail(this.localField);
-        this.localField = value;
-      }
-      if (this.index != undefined || this.extension != undefined) { // is nested or indexed item
-        resultObj = { 
-          field: this.field,
-          change: this.localField,
-        };
-        if (this.index != undefined) { // is indexed item
-          resultObj = {
-            ...resultObj,
-            index: this.index,
-          };
-        } 
-        if (this.extension != undefined) { // is nested item
-          resultObj = {
-            ...resultObj,
-            extension: this.extension,
-          };
-        } 
-      } else {
-        resultObj = { [this.field]: this.localField }; // else
-      }
+      this.validate();
+      if (this.isValid()) {
 
-      this.$emit('changeField', resultObj);
+        if (this.isEmail) {
+          const value = formatEmail(this.localField);
+          this.localField = value;
+        }
 
-      this.editField = false;
+        if (this.index != undefined || this.extension != undefined) { // is nested or indexed item
+          resultObj = { 
+            field: this.field,
+            change: this.localField,
+          };
+          if (this.index != undefined) { // is indexed item
+            resultObj = {
+              ...resultObj,
+              index: this.index,
+            };
+          } 
+          if (this.extension != undefined) { // is nested item
+            resultObj = {
+              ...resultObj,
+              extension: this.extension,
+            };
+          } 
+        } else {
+          resultObj = { [this.field]: this.localField }; // else
+        }
+
+        this.$emit('changeField', resultObj);
+
+        this.editField = false;
+      }
     },
   },
 };
