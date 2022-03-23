@@ -75,6 +75,7 @@ Types.args = {
   dataKey: 'id',
   columns: columns,
   pageSize: 1,
+  pageItemType: 'number',
 };
 Types.storyName = 'Table Component';
 

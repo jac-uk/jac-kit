@@ -165,10 +165,31 @@
           <a
             class="moj-pagination__link"
             href="#"
-            @click="btnPrev"
+            @click.prevent="btnPrev"
           >Previous<span class="govuk-visually-hidden"> set of pages</span></a>
         </li>
 
+        <template v-if="showPageItems">
+          <li
+            v-for="(n, index) in pageItems"
+            :key="n"
+            class="moj-pagination__item"
+            :class="index === page ? 'moj-pagination__item--active' : ''"
+          >
+            <template v-if="index === page">
+              {{ n }}
+            </template>
+            <template v-else>
+              <a 
+                class="moj-pagination__link"
+                href="#"
+                @click.prevent="btnItem(pageItemType, n)"
+              >
+                {{ n }}
+              </a>
+            </template>
+          </li>
+        </template>
         <li
           v-if="showNext"
           class="moj-pagination__item  moj-pagination__item--next"
@@ -176,7 +197,7 @@
           <a
             class="moj-pagination__link"
             href="#"
-            @click="btnNext"
+            @click.prevent="btnNext"
           >Next<span class="govuk-visually-hidden"> set of pages</span></a>
         </li>
       </ul>
@@ -229,6 +250,11 @@ export default {
       type: Number,
       required: false,
       default: 0,
+    },
+    pageItemType: {
+      type: String,
+      required: false,
+      default: null,
     },
     search: {
       type: Array,
@@ -285,8 +311,32 @@ export default {
     showPaging() {
       return this.pageSize > 0;
     },
+    showPageItems() {
+      return ['number', 'uppercase-letter', 'lowercase-letter'].includes(this.pageItemType);
+    },
+    pageItems() {
+      const items = [];
+      if (!this.showPaging || !this.pageItemType) return items;
+
+      const length = Math.ceil(this.data.length / this.pageSize);
+      if (this.pageItemType === 'number') {
+        for (let i = 1; i <= length; i++) {
+          items.push(i);
+        }  
+      } else if (this.pageItemType === 'uppercase-letter') {
+        for (let i = 1; i <= length; i++) {
+          items.push(this.numberToChar(i).toUpperCase());
+        }
+      } else if (this.pageItemType === 'lowercase-letter') {
+        for (let i = 1; i <= length; i++) {
+          items.push(this.numberToChar(i).toLowerCase());
+        }
+      }
+      return items;
+    },
     showNext() {
-      return this.data.length >= this.pageSize;
+      const length = Math.ceil(this.data.length / this.pageSize);
+      return this.page < length - 1;
     },
     selectAll: {
       get: function () {
@@ -346,11 +396,23 @@ export default {
         this.$emit('change', state);
       }
     },
-    btnNext() {
-      this.page++;
+    btnItem(pageItemType, n) {
+      const index = pageItemType === 'number' ? n : this.charToNumber(n.toLowerCase());
+      if (index - 1 === this.page) return;
+      
+      const pageChange = this.page < index ? 1 : -1;
+      this.page = index - 1;
       const state = { ...this.currentState };
-      state.pageChange = 1;
+      state.pageChange = pageChange;
       this.$emit('change', state);
+    },
+    btnNext() {
+      if (this.showNext) {
+        this.page++;
+        const state = { ...this.currentState };
+        state.pageChange = 1;
+        this.$emit('change', state);
+      }
     },
     btnToggleSidePanel() {
       this.showSidePanel = !this.showSidePanel;
@@ -480,6 +542,14 @@ export default {
     },
     reload() {
       this.$emit('change', this.currentState);
+    },
+    numberToChar(num) {
+      // 1 -> a, 2 -> b
+      return String.fromCharCode(97 + num - 1).toUpperCase();
+    },
+    charToNumber(char) {
+      // a -> 1, b -> 2
+      return char.charCodeAt(0) - 97 + 1;
     },
   },
 };
