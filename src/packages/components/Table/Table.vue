@@ -165,7 +165,7 @@
           <a
             class="moj-pagination__link"
             href="#"
-            @click.prevent="btnPrev"
+            @click="btnPrev"
           >Previous<span class="govuk-visually-hidden"> set of pages</span></a>
         </li>
 
@@ -183,7 +183,7 @@
               <a 
                 class="moj-pagination__link"
                 href="#"
-                @click.prevent="btnItem(pageItemType, n)"
+                @click="btnItem(n)"
               >
                 {{ n }}
               </a>
@@ -197,7 +197,7 @@
           <a
             class="moj-pagination__link"
             href="#"
-            @click.prevent="btnNext"
+            @click="btnNext"
           >Next<span class="govuk-visually-hidden"> set of pages</span></a>
         </li>
       </ul>
@@ -210,6 +210,8 @@ import Search from './Search';
 import SidePanel from './SidePanel';
 import Badge from './Badge';
 import CustomForm from './CustomForm';
+
+const pageItemTypes = ['number', 'uppercase-letter', 'lowercase-letter'];
 
 export default {
   components: {
@@ -255,6 +257,11 @@ export default {
       type: String,
       required: false,
       default: null,
+    },
+    total: {
+      type: Number,
+      required: false,
+      default: 0,
     },
     search: {
       type: Array,
@@ -312,13 +319,13 @@ export default {
       return this.pageSize > 0;
     },
     showPageItems() {
-      return ['number', 'uppercase-letter', 'lowercase-letter'].includes(this.pageItemType);
+      return pageItemTypes.includes(this.pageItemType);
     },
     pageItems() {
       const items = [];
       if (!this.showPaging || !this.pageItemType) return items;
 
-      const length = Math.ceil(this.data.length / this.pageSize);
+      const length = Math.ceil(this.total / this.pageSize);
       if (this.pageItemType === 'number') {
         for (let i = 1; i <= length; i++) {
           items.push(i);
@@ -335,8 +342,11 @@ export default {
       return items;
     },
     showNext() {
-      const length = Math.ceil(this.data.length / this.pageSize);
-      return this.page < length - 1;
+      if (this.total) {
+        const length = Math.ceil(this.total / this.pageSize);
+        return this.page < length - 1;
+      }
+      return this.data.length >= this.pageSize;
     },
     selectAll: {
       get: function () {
@@ -396,12 +406,14 @@ export default {
         this.$emit('change', state);
       }
     },
-    btnItem(pageItemType, n) {
-      const index = pageItemType === 'number' ? n : this.charToNumber(n.toLowerCase());
-      if (index - 1 === this.page) return;
+    btnItem(n) {
+      let index = this.pageItemType === 'number' ? n : this.charToNumber(n.toLowerCase());
+      // index starts from 1 and this.page starts from 0
+      index = index - 1;
+      if (index === this.page) return;
       
-      const pageChange = this.page < index ? 1 : -1;
-      this.page = index - 1;
+      const pageChange = index - this.page;
+      this.page = index;
       const state = { ...this.currentState };
       state.pageChange = pageChange;
       this.$emit('change', state);
