@@ -103,7 +103,7 @@ const tableAsyncQuery = async (data, ref, params, total) => {
           });
 
           if (params.pageChange > 1) {
-            const limit = params.pageSize * params.pageChange - 1;
+            const limit = params.pageSize * (params.pageChange - 1);
             const tmpRef = queryRef
               .startAfter(...startAfter)
               .limit(limit);
@@ -142,7 +142,7 @@ const tableAsyncQuery = async (data, ref, params, total) => {
           });
 
           if (params.pageChange < -1) {
-            const limit = params.pageSize * Math.abs(params.pageChange) - 1;
+            const limit = params.pageSize * (Math.abs(params.pageChange) - 1);
             const tmpRef = queryRef
               .endBefore(...endBefore)
               .limitToLast(limit);
