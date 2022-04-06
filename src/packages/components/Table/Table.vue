@@ -550,6 +550,7 @@ export default {
           }
         }
       }
+      this.page = 0; // reset current page to first page when using search function
       this.$emit('change', this.currentState);
     },
     reload() {

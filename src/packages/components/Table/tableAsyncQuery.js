@@ -62,7 +62,7 @@ const tableAsyncQuery = async (data, ref, params, total) => {
               .where(params.customSearch.field, 'in', params.customSearchValues);
           }
         } else {
-          return;
+          return { queryRef: null, total: 0 };
         }
       } else {
         const returnSearch = search(params.searchTerm);
@@ -86,7 +86,7 @@ const tableAsyncQuery = async (data, ref, params, total) => {
     }
 
     if (total === null) {
-      total = await getTotal(queryRef);
+      total = await getTotal(queryRef); // retrieve total number of data if required
     }
 
     if (params.pageSize) {
@@ -177,8 +177,12 @@ const tableAsyncQuery = async (data, ref, params, total) => {
 };
 
 const getTotal = async queryRef => {
-  const snap = await queryRef.get();
-  return snap.size;
+  try {
+    const snap = await queryRef.get();
+    return snap.size;
+  } catch (error) {
+    return null;
+  }
 };
 
 export default tableAsyncQuery;
