@@ -3,8 +3,6 @@
 </template>
 
 <script>
-import formatEmail from '../../helpers/Form/formatEmail';
-
 export default {
   props: {
     id: {
@@ -123,7 +121,7 @@ export default {
         }
 
         if (this.type && this.type === 'email' && value) {
-          value = formatEmail(value);
+          value = value.trim().toLowerCase();
           this.text = value;
           if (!this.regex.email.test(value)) {
             this.setError(`Enter a valid email address for ${this.label}`);
@@ -179,6 +177,7 @@ export default {
             this.setError(`${this.label} cannot be after ${this.dateToDMY(this.maxDate)}`);
           }
         }
+        
       }
     },
     atMidnight(date) {
