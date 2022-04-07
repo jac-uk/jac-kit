@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import formatEmail from '../../helpers/Form/formatEmail';
+
 export default {
   props: {
     id: {
@@ -38,6 +40,14 @@ export default {
     maxLength: {
       type: Number,
       default: 0,
+    },
+    minDate: {
+      type: Date,
+      default: null,
+    },
+    maxDate: {
+      type: Date,
+      default: null,
     },
     pattern: {
       type: Object,
@@ -113,7 +123,7 @@ export default {
         }
 
         if (this.type && this.type === 'email' && value) {
-          value = value.trim().toLowerCase();
+          value = formatEmail(value);
           this.text = value;
           if (!this.regex.email.test(value)) {
             this.setError(`Enter a valid email address for ${this.label}`);
@@ -157,8 +167,28 @@ export default {
             this.setError('');
           }
         }
-        
+        if (this.minDate && value) {
+          // we are only interested in the date portion
+          if (this.atMidnight(value) < this.atMidnight(this.minDate)) {
+            this.setError(`${this.label} cannot be before ${this.dateToDMY(this.minDate)}`);
+          }
+        }
+        if (this.maxDate && value) {
+          // we are only interested in the date portion
+          if (this.atMidnight(value) > this.atMidnight(this.maxDate)) {
+            this.setError(`${this.label} cannot be after ${this.dateToDMY(this.maxDate)}`);
+          }
+        }
       }
+    },
+    atMidnight(date) {
+      return new Date(date.getYear(),date. getMonth(), date.getDate());
+    },
+    dateToDMY(date) {
+      const d = date.getDate();
+      const m = date.getMonth() + 1; // because getMonth() is zero-based
+      const y = date.getFullYear();
+      return `${d.toString().padStart(2, '0')}/${m.toString().padStart(2, '0')}/${y.toString()}`; // dd/mm/yyyy format
     },
   },
 };
