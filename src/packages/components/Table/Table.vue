@@ -78,6 +78,7 @@
       class="govuk-table govuk-!-margin-top-2"
     >
       <thead class="govuk-table__head">
+        <slot name="header" />
         <tr class="govuk-table__row">
           <th
             v-if="multiSelect"
@@ -504,6 +505,9 @@ export default {
     },
     reload() {
       this.changeTableState(ACTIONS.RELOAD, this.currentState);
+    },
+    loaded() {
+      this.loading = false;
     },
     changeTableState(action, state) {
       // process action
