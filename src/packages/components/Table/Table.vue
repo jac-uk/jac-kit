@@ -169,6 +169,27 @@
           >Previous<span class="govuk-visually-hidden"> set of pages</span></a>
         </li>
 
+        <template v-if="showPageItems">
+          <li
+            v-for="(n, index) in pageItems"
+            :key="n"
+            class="moj-pagination__item"
+            :class="index === page ? 'moj-pagination__item--active' : ''"
+          >
+            <template v-if="index === page">
+              {{ n }}
+            </template>
+            <template v-else>
+              <a 
+                class="moj-pagination__link"
+                href="#"
+                @click="btnItem(n)"
+              >
+                {{ n }}
+              </a>
+            </template>
+          </li>
+        </template>
         <li
           v-if="showNext"
           class="moj-pagination__item  moj-pagination__item--next"
@@ -189,6 +210,8 @@ import Search from './Search';
 import SidePanel from './SidePanel';
 import Badge from './Badge';
 import CustomForm from './CustomForm';
+
+const pageItemTypes = ['number', 'uppercase-letter', 'lowercase-letter'];
 
 export default {
   components: {
@@ -226,6 +249,16 @@ export default {
       default: () => [],
     },
     pageSize: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    pageItemType: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    total: {
       type: Number,
       required: false,
       default: 0,
@@ -285,7 +318,34 @@ export default {
     showPaging() {
       return this.pageSize > 0;
     },
+    showPageItems() {
+      return pageItemTypes.includes(this.pageItemType);
+    },
+    pageItems() {
+      const items = [];
+      if (!this.showPaging || !this.pageItemType) return items;
+
+      const length = Math.ceil(this.total / this.pageSize);
+      if (this.pageItemType === 'number') {
+        for (let i = 1; i <= length; i++) {
+          items.push(i);
+        }  
+      } else if (this.pageItemType === 'uppercase-letter') {
+        for (let i = 1; i <= length; i++) {
+          items.push(this.numberToChar(i).toUpperCase());
+        }
+      } else if (this.pageItemType === 'lowercase-letter') {
+        for (let i = 1; i <= length; i++) {
+          items.push(this.numberToChar(i).toLowerCase());
+        }
+      }
+      return items;
+    },
     showNext() {
+      if (this.total) {
+        const length = Math.ceil(this.total / this.pageSize);
+        return this.page < length - 1;
+      }
       return this.data.length >= this.pageSize;
     },
     selectAll: {
@@ -346,11 +406,25 @@ export default {
         this.$emit('change', state);
       }
     },
-    btnNext() {
-      this.page++;
+    btnItem(n) {
+      let index = this.pageItemType === 'number' ? n : this.charToNumber(n.toLowerCase());
+      // index starts from 1 and this.page starts from 0
+      index = index - 1;
+      if (index === this.page) return;
+      
+      const pageChange = index - this.page;
+      this.page = index;
       const state = { ...this.currentState };
-      state.pageChange = 1;
+      state.pageChange = pageChange;
       this.$emit('change', state);
+    },
+    btnNext() {
+      if (this.showNext) {
+        this.page++;
+        const state = { ...this.currentState };
+        state.pageChange = 1;
+        this.$emit('change', state);
+      }
     },
     btnToggleSidePanel() {
       this.showSidePanel = !this.showSidePanel;
@@ -476,10 +550,19 @@ export default {
           }
         }
       }
+      this.page = 0; // reset current page to first page when using search function
       this.$emit('change', this.currentState);
     },
     reload() {
       this.$emit('change', this.currentState);
+    },
+    numberToChar(num) {
+      // 1 -> a, 2 -> b
+      return String.fromCharCode(97 + num - 1).toUpperCase();
+    },
+    charToNumber(char) {
+      // a -> 1, b -> 2
+      return char.charCodeAt(0) - 97 + 1;
     },
   },
 };
