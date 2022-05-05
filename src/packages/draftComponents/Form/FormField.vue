@@ -3,12 +3,14 @@
 </template>
 
 <script>
-import formatEmail from '../../helpers/Form/formatEmail';
-
 export default {
   props: {
     id: {
       required: true,
+      type: String,
+      default: '',
+    },
+    type: {
       type: String,
       default: '',
     },
@@ -26,7 +28,9 @@ export default {
         return {};
       },
     },
-    required: Boolean,
+    required: {
+      type: Boolean,
+    },
     minLength: {
       type: Number,
       default: 0,
@@ -34,6 +38,14 @@ export default {
     maxLength: {
       type: Number,
       default: 0,
+    },
+    minDate: {
+      type: Date,
+      default: null,
+    },
+    maxDate: {
+      type: Date,
+      default: null,
     },
     pattern: {
       type: Object,
@@ -44,14 +56,6 @@ export default {
         };
       },
     },
-    minDate: {
-      type: Date,
-      default: null,
-    },
-    maxDate: {
-      type: Date,
-      default: null,
-    },
   },
   data() {
     return {
@@ -59,13 +63,29 @@ export default {
       checkErrors: false,
       regex: {
         // eslint-disable-next-line
-        email: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,20})+$/,
+        email: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        tel: /^\+?[\d() -]+/,
       },
     };
   },
   computed: {
     hasError() {
       return this.errorMessage ? true :  false;
+    },
+    words() {
+      const value = this.value;
+      const result = value ? value : '';
+      return [].concat(...result
+        .split(/[^a-z'-]/i) //split into array at every occurance of a character which is NOT: a-z or ' or -
+        .filter(item => item != '') // remove any empty items from array
+        .filter(item => item != '\'') // remove any items which are just a apostrophe
+        .filter(item => item != '-') // remove any items which are just a hyphen
+        .map((item, i) => {                                           // with the above array 
+          if (i, item.replace(/[^-]/g, '').length >= 4) {             // find any items containing more than or equal to 4 hyphens (4 allows for a trailing hyphen which is not counted in next set)
+            item = item.match(/((?:[^-]*?-){3}[^-]*?)-|([\S\s]+)/g);  // if an 'offending' item occurs, group every 4 words, ignoring the hyphen between groups [ie. 'one-one-one-one-two-two-two-two' (eight words, seven hyphens) 'one-one-one-one-' 'two-two-two-two']
+          }
+          return item; // add array in position of word
+        })); // flatten array 
     },
   },
   mounted: function () {
@@ -76,6 +96,10 @@ export default {
     this.$root.$off('validate', this.handleValidate);
   },
   methods: {
+    setError(message) {
+      this.errorMessage = message;
+      this.$root.$emit('handle-error', { id: this.id, message: this.errorMessage });
+    },
     handleValidate() {
       this.checkErrors = true;
       this.validate();
@@ -87,6 +111,7 @@ export default {
         if (event && event.target) {
           value = event.target.value;
         }
+
         if (this.required && (value === null || value === undefined || value.length === 0)) {
           if (this.messages && this.messages.required) {
             this.setError(this.messages.required);
@@ -94,26 +119,50 @@ export default {
             this.setError(`Please enter a value for ${this.label}`);
           }
         }
+
         if (this.type && this.type === 'email' && value) {
-          value = formatEmail(value);
+          value = value.trim().toLowerCase();
           this.text = value;
           if (!this.regex.email.test(value)) {
             this.setError(`Enter a valid email address for ${this.label}`);
           }
         }
+
+        if (this.type && this.type === 'tel' && value) {
+          if (!this.regex.tel.test(value)) {
+            this.setError(`Enter a valid phone number for ${this.label}`);
+          }
+        }
+
+        if (this.type && this.type === 'number' && value && this.numMax) {
+          if (value > this.numMax) {
+            this.setError(`Please enter a number lower than ${this.numMax}`);
+          }
+        }
+
         if (this.minLength && value) {
           if (value.length + 1 <= this.minLength) {
             this.setError(`${this.label} should have ${this.minLength} or more characters`);
           }
         }
+
         if (this.maxLength && value) {
           if (value.length > this.maxLength) {
             this.setError(`${this.label} should have ${this.maxLength} or fewer characters`);
           }
         }
+
         if (this.pattern && value) {
           if (!this.pattern.match.test(value)) {
             this.setError(this.pattern.message);
+          }
+        }
+
+        if (this.wordLimit && this.value) {
+          if (this.words.length > this.wordLimit) {
+            this.setError(`Answer must be ${this.wordLimit} words or fewer`);
+          } else {
+            this.setError('');
           }
         }
         if (this.minDate && value) {
@@ -128,6 +177,7 @@ export default {
             this.setError(`${this.label} cannot be after ${this.dateToDMY(this.maxDate)}`);
           }
         }
+        
       }
     },
     atMidnight(date) {
@@ -138,10 +188,6 @@ export default {
       const m = date.getMonth() + 1; // because getMonth() is zero-based
       const y = date.getFullYear();
       return `${d.toString().padStart(2, '0')}/${m.toString().padStart(2, '0')}/${y.toString()}`; // dd/mm/yyyy format
-    },
-    setError(message) {
-      this.errorMessage = message;
-      this.$root.$emit('handle-error', { id: this.id, message: this.errorMessage });
     },
   },
 };
