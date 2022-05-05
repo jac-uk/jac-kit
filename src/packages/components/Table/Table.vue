@@ -67,12 +67,10 @@
         </button>
       </template>
     </SidePanel>
-    <div
+    <LoadingMessage
       v-if="loading"
       class="loading"
-    >
-      LOADING...
-    </div>
+    />
     <table
       v-if="hasData"
       class="govuk-table govuk-!-margin-top-2"
@@ -219,6 +217,7 @@ import Search from './Search';
 import SidePanel from './SidePanel';
 import Badge from './Badge';
 import CustomForm from './CustomForm';
+import LoadingMessage from '../LoadingMessage';
 
 const ACTIONS = {
   LOAD: 'load',
@@ -236,6 +235,7 @@ export default {
     SidePanel,
     Badge,
     CustomForm,
+    LoadingMessage,
   },
   props: {
     columns: {

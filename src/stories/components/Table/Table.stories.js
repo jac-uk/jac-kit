@@ -95,3 +95,20 @@ Search.args = {
   localData: true,
 };
 Search.storyName = 'Search';
+
+
+export const Loading = Template.bind({});
+Loading.args = {
+  data: [
+    {
+      col1: 'Priscilla Rees',
+      col2: 'London',
+      id: 1021,
+    },
+  ],
+  search: ['P'],
+  dataKey: 'id',
+  columns: columns,
+  localData: false,
+};
+Loading.storyName = 'Loading';
