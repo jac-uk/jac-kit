@@ -152,6 +152,7 @@
             :row="row"
           />
         </tr>
+        <slot name="footer" />
       </tbody>
     </table>
     <div v-else-if="!loading">No data</div>
@@ -188,7 +189,7 @@
               {{ n }}
             </template>
             <template v-else>
-              <a 
+              <a
                 class="moj-pagination__link"
                 href="#"
                 @click="btnItem(n)"
@@ -289,10 +290,15 @@ export default {
       required: false,
       default: () => {},
     },
+    localData: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
-      loading: true,
+      loading: !this.localData,
       searchTerm: null,
       orderBy: null,
       direction: null,
@@ -346,7 +352,7 @@ export default {
       if (this.pageItemType === 'number') {
         for (let i = 1; i <= length; i++) {
           items.push(i);
-        }  
+        }
       } else if (this.pageItemType === 'uppercase-letter') {
         for (let i = 1; i <= length; i++) {
           items.push(this.numberToChar(i).toUpperCase());
@@ -435,7 +441,7 @@ export default {
       // index starts from 1 and this.page starts from 0
       index = index - 1;
       if (index === this.page) return;
-      
+
       const pageChange = index - this.page;
       this.page = index;
       const state = { ...this.currentState };
@@ -593,8 +599,9 @@ export default {
       case ACTIONS.SEARCH:
       case ACTIONS.FILTER:
       case ACTIONS.SORT:
-        this.loading = true;
-        console.log('change happened', action);
+        if (!this.localData) {
+          this.loading = true;
+        }
         break;
       }
       this.$emit('change', state);
