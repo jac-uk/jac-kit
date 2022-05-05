@@ -76,6 +76,7 @@ Types.args = {
   columns: columns,
   pageSize: 1,
   pageItemType: 'number',
+  localData: true,
 };
 Types.storyName = 'Table Component';
 

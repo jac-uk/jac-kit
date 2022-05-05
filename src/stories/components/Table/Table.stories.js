@@ -25,12 +25,12 @@ const Template = (args, { argTypes }) => ({
       @change="emittedChange"
     >
       <template #row="{row}">
-        <TableCell 
+        <TableCell
           :title="columns[0].title"
         >
           {{ row.col1 }}
         </TableCell>
-        <TableCell 
+        <TableCell
           :title="columns[1].title"
         >
           {{ row.col2 }}
@@ -68,6 +68,7 @@ Types.args = {
   columns: columns,
   pageSize: 1,
   pageItemType: 'number',
+  localData: true,
   filters: [
     {
       title: 'Status',
@@ -91,5 +92,23 @@ Search.args = {
   search: ['P'],
   dataKey: 'id',
   columns: columns,
+  localData: true,
 };
 Search.storyName = 'Search';
+
+
+export const Loading = Template.bind({});
+Loading.args = {
+  data: [
+    {
+      col1: 'Priscilla Rees',
+      col2: 'London',
+      id: 1021,
+    },
+  ],
+  search: ['P'],
+  dataKey: 'id',
+  columns: columns,
+  localData: false,
+};
+Loading.storyName = 'Loading';

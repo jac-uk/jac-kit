@@ -67,11 +67,16 @@
         </button>
       </template>
     </SidePanel>
+    <LoadingMessage
+      v-if="loading"
+      class="loading"
+    />
     <table
       v-if="hasData"
       class="govuk-table govuk-!-margin-top-2"
     >
       <thead class="govuk-table__head">
+        <slot name="header" />
         <tr class="govuk-table__row">
           <th
             v-if="multiSelect"
@@ -145,8 +150,10 @@
             :row="row"
           />
         </tr>
+        <slot name="footer" />
       </tbody>
     </table>
+    <div v-else-if="!loading">No data</div>
     <nav
       v-if="showPaging"
       class="moj-pagination"
@@ -180,7 +187,7 @@
               {{ n }}
             </template>
             <template v-else>
-              <a 
+              <a
                 class="moj-pagination__link"
                 href="#"
                 @click="btnItem(n)"
@@ -210,7 +217,16 @@ import Search from './Search';
 import SidePanel from './SidePanel';
 import Badge from './Badge';
 import CustomForm from './CustomForm';
+import LoadingMessage from '../LoadingMessage';
 
+const ACTIONS = {
+  LOAD: 'load',
+  RELOAD: 'reload',
+  PAGE_NEXT: 'next',
+  PAGE_PREVIOUS: 'previous',
+  SEARCH: 'search',
+  SORT: 'sort',
+};
 const pageItemTypes = ['number', 'uppercase-letter', 'lowercase-letter'];
 
 export default {
@@ -219,6 +235,7 @@ export default {
     SidePanel,
     Badge,
     CustomForm,
+    LoadingMessage,
   },
   props: {
     columns: {
@@ -273,9 +290,15 @@ export default {
       required: false,
       default: () => {},
     },
+    localData: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
+      loading: !this.localData,
       searchTerm: null,
       orderBy: null,
       direction: null,
@@ -329,7 +352,7 @@ export default {
       if (this.pageItemType === 'number') {
         for (let i = 1; i <= length; i++) {
           items.push(i);
-        }  
+        }
       } else if (this.pageItemType === 'uppercase-letter') {
         for (let i = 1; i <= length; i++) {
           items.push(this.numberToChar(i).toUpperCase());
@@ -390,12 +413,19 @@ export default {
       return placeholderText;
     },
   },
+  watch: {
+    data(val) {
+      if (val) {
+        this.loading = false;
+      }
+    },
+  },
   created() {
     if (this.defaultState.orderBy) {
       this.orderBy = this.defaultState.orderBy;
       this.direction = this.defaultState.direction;
     }
-    this.$emit('change', this.currentState);
+    this.changeTableState(ACTIONS.LOAD, this.currentState);
   },
   methods: {
     btnPrev() {
@@ -403,7 +433,7 @@ export default {
         this.page--;
         const state = { ...this.currentState };
         state.pageChange = -1;
-        this.$emit('change', state);
+        this.changeTableState(ACTIONS.PAGE_PREVIOUS, state);
       }
     },
     btnItem(n) {
@@ -411,12 +441,12 @@ export default {
       // index starts from 1 and this.page starts from 0
       index = index - 1;
       if (index === this.page) return;
-      
+
       const pageChange = index - this.page;
       this.page = index;
       const state = { ...this.currentState };
       state.pageChange = pageChange;
-      this.$emit('change', state);
+      this.changeTableState(ACTIONS.PAGE_NEXT, state);
     },
     btnNext() {
       if (this.showNext) {
@@ -441,7 +471,7 @@ export default {
       this.appliedFilterValues = {};
       this.where = [];
       this.numberOfFiltersApplied = 0;
-      this.$emit('change', this.currentState);
+      this.changeTableState(ACTIONS.FILTER_CLEAR, this.currentState);
       this.showSidePanel = false;
     },
     btnUpdateFilters() {
@@ -509,7 +539,7 @@ export default {
         }
       });
       this.where = where;
-      this.$emit('change', this.currentState);
+      this.changeTableState(ACTIONS.FILTER, this.currentState);
       this.showSidePanel = false;
     },
     sortBy(column) {
@@ -521,7 +551,7 @@ export default {
           this.orderBy = column.sort;
           this.direction = column.direction ? column.direction : 'asc';
         }
-        this.$emit('change', this.currentState);
+        this.changeTableState(ACTIONS.SORT, this.currentState);
       }
     },
     columnSortState(column) {
@@ -551,10 +581,30 @@ export default {
         }
       }
       this.page = 0; // reset current page to first page when using search function
-      this.$emit('change', this.currentState);
+      this.changeTableState(ACTIONS.SEARCH, this.currentState);
     },
     reload() {
-      this.$emit('change', this.currentState);
+      this.changeTableState(ACTIONS.RELOAD, this.currentState);
+    },
+    loaded() {
+      this.loading = false;
+    },
+    changeTableState(action, state) {
+      // process action
+      switch (action) {
+      case ACTIONS.LOAD:
+      case ACTIONS.RELOAD:
+      case ACTIONS.PAGE_NEXT:
+      case ACTIONS.PAGE_PREVIOUS:
+      case ACTIONS.SEARCH:
+      case ACTIONS.FILTER:
+      case ACTIONS.SORT:
+        if (!this.localData) {
+          this.loading = true;
+        }
+        break;
+      }
+      this.$emit('change', state);
     },
     numberToChar(num) {
       // 1 -> a, 2 -> b
@@ -572,8 +622,20 @@ export default {
   @mixin mobile-view {
     @media (max-width: 599px) { @content; }
   }
+  .jac-table {
+    position: relative;
+  }
   .btn-filter {
     width: 130px;
+  }
+  .loading {  /* to be replaced with something prettier */
+    position: absolute;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.75);
+    padding-left: 50px;
+    padding-top: 50px;
+    width: 100%;
+    height: 100%;
   }
 
   @include mobile-view {
