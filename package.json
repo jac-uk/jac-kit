@@ -1,6 +1,6 @@
 {
   "name": "jac-kit",
-  "version": "0.1.0",
+  "version": "0.0.48",
   "private": true,
   "scripts": {
     "preinstall": "npx npm-force-resolutions",

@@ -67,6 +67,7 @@ Types.args = {
   dataKey: 'id',
   columns: columns,
   pageSize: 1,
+  pageItemType: 'number',
   filters: [
     {
       title: 'Status',
