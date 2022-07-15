@@ -13,7 +13,6 @@
           type="search"
           aria-describedby="search-hint"
           :placeholder="placeholder"
-          @keyup="startSearch"
         >
       </div>
     </form>
@@ -33,6 +32,11 @@ export default {
     return {
       search: '',
     };
+  },
+  watch: {
+    search() {
+      this.startSearch();
+    },
   },
   methods: {
     startSearch() {
