@@ -265,12 +265,12 @@ export default {
       return date1 instanceof Date && date2 instanceof Date && date1.toISOString() === date2.toISOString();
     },
     handleDay(e) {
-      if (!['Backspace', 'ArrowRight', 'ArrowLeft'].some((item) => item === e.key) && e.target.value.length === e.target.maxLength) {
+      if (!['Backspace', 'ArrowRight', 'ArrowLeft', 'Tab', 'Shift'].some((item) => item === e.key) && e.target.value.length === e.target.maxLength) {
         this.$refs['monthInput'].focus();
       }
     },
     handleMonth(e) {
-      if (!['Backspace', 'ArrowRight', 'ArrowLeft'].some((item) => item === e.key) && e.target.value.length === e.target.maxLength) {
+      if (!['Backspace', 'ArrowRight', 'ArrowLeft', 'Tab', 'Shift'].some((item) => item === e.key) && e.target.value.length === e.target.maxLength) {
         this.$refs['yearInput'].focus();
       } else if (!e.target.value && e.key === 'Backspace') {
         this.$refs['dayInput'].focus();
