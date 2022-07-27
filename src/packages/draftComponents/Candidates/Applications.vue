@@ -17,6 +17,7 @@
         { title: 'Outcome' },
         { title: 'Action' },
       ]"
+      local-data
     >
       <template #row="{row}">
         <TableCell>
@@ -26,7 +27,10 @@
           {{ row.status | lookup }}{{ row.status && row.stage ? ' / ' : '' }}{{ row.stage }}
         </TableCell>
         <TableCell>
-          <RouterLink :to="{ name: 'exercise-application', params: { id: row.exercise.id, applicationId: row.id } }">
+          <RouterLink
+            :to="{ name: 'exercise-application', params: { id: row.exercise.id, applicationId: row.id } }"
+            target="_blank"
+          >
             View Application
           </RouterLink>
         </TableCell>
