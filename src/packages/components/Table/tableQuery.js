@@ -62,7 +62,8 @@ const filteredQuery = (ref, params) => {
             .where(params.customSearch.field, 'in', params.customSearchValues);
         }
       } else {
-        return;
+        queryRef = queryRef
+        .where(params.customSearch.field, '==', null);
       }
     } else {
       const returnSearch = search(params.searchTerm);
@@ -167,7 +168,7 @@ const paginatedQuery = async (data, ref, params, orderBy) => {
           });
           startAfter = getStartAfter(tmpData, orderBy);
         }
-        
+
         queryRef = queryRef
           .startAfter(...startAfter)
           .limit(params.pageSize);
