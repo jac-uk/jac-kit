@@ -10,7 +10,7 @@
           @search="useSearch"
         />
       </div>
-      <div :class="search.length ? 'govuk-grid-column-one-quarter' : 'govuk-grid-column-one-half'">
+      <div :class="hasSearch ? 'govuk-grid-column-one-quarter' : 'govuk-grid-column-one-half'">
         <button
           v-if="filters.length"
           type="button"
@@ -21,7 +21,7 @@
         </button>
         <Badge :number="numberOfFiltersApplied" />
       </div>
-      <div :class="[search.length ? 'govuk-grid-column-one-quarter' : 'govuk-grid-column-one-half', 'text-right']">
+      <div :class="[hasSearch ? 'govuk-grid-column-one-quarter' : 'govuk-grid-column-one-half', 'text-right']">
         <slot name="actions" />
       </div>
     </div>
