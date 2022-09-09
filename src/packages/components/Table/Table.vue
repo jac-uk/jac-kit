@@ -6,7 +6,7 @@
         class="govuk-grid-column-one-half"
       >
         <Search
-          :placeholder="searchPlaceholder"
+          :placeholder="searchPlaceholderText"
           @search="useSearch"
         />
       </div>
@@ -285,6 +285,11 @@ export default {
       required: false,
       default: () => [],
     },
+    searchPlaceholder: {
+      type: String,
+      required: false,
+      default: 'Search (case sensitive)',
+    },
     customSearch: {
       type: Object,
       required: false,
@@ -402,13 +407,13 @@ export default {
     hasSearch() {
       return this.search.length || this.hasCustomSearch;
     },
-    searchPlaceholder() {
+    searchPlaceholderText() {
       let placeholderText = '';
       if (this.hasCustomSearch) {
         placeholderText = this.customSearch.placeholder;
       }
       if (!placeholderText) {
-        placeholderText = 'Search candidate names - enter first few letters of candidate name (case sensitive)';
+        placeholderText = this.searchPlaceholder;
       }
       return placeholderText;
     },
