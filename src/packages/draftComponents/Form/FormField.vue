@@ -120,16 +120,6 @@ export default {
           }
         }
 
-        if (typeof value === 'string') {
-          if (value.replace(/\s/g, '').length === 0) {
-            if (this.messages && this.messages.required) {
-              this.setError(this.messages.required);
-            } else {
-              this.setError(`Please enter a value for ${this.label}`);
-            }
-          }
-        }
-
         if (this.type && this.type === 'email' && value) {
           value = value.trim().toLowerCase();
           this.text = value;
