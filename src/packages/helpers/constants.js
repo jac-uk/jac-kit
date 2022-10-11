@@ -95,6 +95,12 @@ const DEFAULT = {
   NO: 'No',
 };
 
+const NOT_COMPLETE_PUPILLAGE_REASONS = {
+  OPTION_1: 'reason-not-completed-pupillage-1',
+  OPTION_2: 'reason-not-completed-pupillage-2',
+  OTHER: 'reason-not-completed-pupillage-other',
+};
+
 export {
   STATUS,
   EXERCISE_STAGE,
@@ -102,5 +108,6 @@ export {
   SHORTLISTING,
   QUALIFYING_TEST,
   QUALIFYING_TEST_RESPONSE,
-  DEFAULT
+  DEFAULT,
+  NOT_COMPLETE_PUPILLAGE_REASONS
 };
