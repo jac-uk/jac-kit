@@ -71,10 +71,12 @@ export default {
     async handleClick(e) {
       try {
         this.isLoading = true;
-
-        await this.$listeners.click(e);
-
-        this.resetDelayed('isSuccess');
+        const result = await this.$listeners.click(e);
+        if (result) {
+          this.resetDelayed('isSuccess');
+        } else {
+          this.resetDelayed('hasError');
+        }
       } catch (error) {
         this.resetDelayed('hasError');
       } finally {
