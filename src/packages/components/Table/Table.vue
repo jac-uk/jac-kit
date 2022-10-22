@@ -288,12 +288,17 @@ export default {
     searchPlaceholder: {
       type: String,
       required: false,
-      default: 'Search (case sensitive)',
+      default: 'Search - enter at least three letters',
     },
     customSearch: {
       type: Object,
       required: false,
       default: () => {},
+    },
+    searchMap: {
+      type: String,
+      required: false,
+      default: '',
     },
     localData: {
       type: Boolean,
@@ -331,6 +336,9 @@ export default {
       }
       if (this.customSearch && Object.keys(this.customSearch).length) {
         state.customSearch = this.customSearch;
+      }
+      if (this.searchMap) {
+        state.searchMap = this.searchMap;
       }
       return state;
     },
@@ -405,7 +413,7 @@ export default {
       return this.customSearch && Object.keys(this.customSearch).length;
     },
     hasSearch() {
-      return this.search.length || this.hasCustomSearch;
+      return this.search.length || this.hasCustomSearch || this.searchMap;
     },
     searchPlaceholderText() {
       let placeholderText = '';
@@ -585,8 +593,10 @@ export default {
           }
         }
       }
-      this.page = 0; // reset current page to first page when using search function
-      this.changeTableState(ACTIONS.SEARCH, this.currentState);
+      if (!this.defaultState.searchMap || (this.searchTerm.length === 0 || this.searchTerm.length >= 3)) {
+        this.page = 0; // reset current page to first page when using search function
+        this.changeTableState(ACTIONS.SEARCH, this.currentState);
+      }
     },
     reload() {
       this.changeTableState(ACTIONS.RELOAD, this.currentState);

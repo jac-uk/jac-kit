@@ -65,6 +65,11 @@ const filteredQuery = (ref, params) => {
         queryRef = queryRef
         .where(params.customSearch.field, '==', null);
       }
+    } else if (params.searchMap) {
+      const searchParts = getSearchMap([ params.searchTerm ]);
+      Object.keys(searchParts).forEach(searchPart => {
+        queryRef = queryRef.where(`${params.searchMap}.${searchPart}`, '==', true);
+      });
     } else {
       const returnSearch = search(params.searchTerm);
       if (returnSearch) {
@@ -241,6 +246,20 @@ const tableAsyncQuery = async (data, ref, params, total) => {
     queryRef = await paginatedQuery(data, queryRef, params, orderBy);
   }
   return { queryRef, total };
+};
+
+const getSearchMap = (searchables) => {
+  const searchMap = {};
+  const n = 3;
+  searchables.forEach(searchable => {
+    if (searchable) {
+      const src = searchable.toLowerCase();
+      for (let i = 0, len = src.length - n; i <= len; ++i) {
+        searchMap[src.substring(i, i + n)] = true;
+      }
+    }
+  });
+  return searchMap;
 };
 
 export { tableAsyncQuery };
