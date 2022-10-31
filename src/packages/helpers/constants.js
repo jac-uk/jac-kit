@@ -96,9 +96,9 @@ const DEFAULT = {
 };
 
 const NOT_COMPLETE_PUPILLAGE_REASONS = {
-  OPTION_1: 'reason-not-completed-pupillage-1',
-  OPTION_2: 'reason-not-completed-pupillage-2',
-  OTHER: 'reason-not-completed-pupillage-other',
+  TRANSFERRED: 'transferred ',
+  CALLED_PRE_2002: 'called-pre-2002',
+  OTHER: 'other',
 };
 
 export {
