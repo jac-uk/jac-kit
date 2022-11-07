@@ -1,4 +1,4 @@
-import { APPLICATION_STATUS, QUALIFYING_TEST } from '../helpers/constants';
+import { APPLICATION_STATUS, QUALIFYING_TEST, NOT_COMPLETE_PUPILLAGE_REASONS } from '../helpers/constants';
 
 const formatDate = (value, type) => {
   if (value !== null && value !== undefined) {
@@ -184,6 +184,7 @@ const lookup = (value) => {
       'employment-appeals-tribunal': 'Employment Appeals Tribunal',
       'employment-tribunal': 'Employment Tribunal',
       'england-wales': 'England and Wales',
+      'true': 'Yes',
       'false': 'No',
       'family': 'Family',
       'fee-paid': 'Fee paid',
@@ -403,6 +404,11 @@ const lookup = (value) => {
     lookup[QUALIFYING_TEST.TYPE.SCENARIO] = 'Scenario';
     lookup[QUALIFYING_TEST.TYPE.CRITICAL_ANALYSIS] = 'Critical analysis';
     lookup[QUALIFYING_TEST.TYPE.SITUATIONAL_JUDGEMENT] = 'Situational judgement';
+
+    lookup[NOT_COMPLETE_PUPILLAGE_REASONS.TRANSFERRED] = 'Qualified solicitor, qualified lawyer from another jurisdiction, or a legal academic transferred to the Bar';
+    lookup[NOT_COMPLETE_PUPILLAGE_REASONS.CALLED_PRE_2002] = 'Called to the Bar prior to 1 January 2002';
+    lookup[NOT_COMPLETE_PUPILLAGE_REASONS.OTHER] = 'Other - Please detail why you were exempt from undertaking pupillage by the Bar Standards Board';
+
     // TODO add the missing ones from CONSTANTS
 
     // RETURN - END of LOOKUP

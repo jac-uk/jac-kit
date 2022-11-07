@@ -95,6 +95,12 @@ const DEFAULT = {
   NO: 'No',
 };
 
+const NOT_COMPLETE_PUPILLAGE_REASONS = {
+  TRANSFERRED: 'transferred ',
+  CALLED_PRE_2002: 'called-pre-2002',
+  OTHER: 'other',
+};
+
 export {
   STATUS,
   EXERCISE_STAGE,
@@ -102,5 +108,6 @@ export {
   SHORTLISTING,
   QUALIFYING_TEST,
   QUALIFYING_TEST_RESPONSE,
-  DEFAULT
+  DEFAULT,
+  NOT_COMPLETE_PUPILLAGE_REASONS
 };
