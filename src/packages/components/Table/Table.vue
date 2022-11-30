@@ -504,6 +504,16 @@ export default {
             this.numberOfFiltersApplied += this.filterValues[filter.field].length;
           }
           break;
+        case 'singleCheckbox':
+          if (this.filterValues[filter.field]) {
+            where.push({
+              field: filter.field,
+              comparator: '==',
+              value: true,
+            });
+            this.numberOfFiltersApplied += 1;
+          }
+          break;
         case 'dateRange':
           if (this.filterValues[`${filter.field}-from`] || this.filterValues[`${filter.field}-to`]) {
             if (this.filterValues[`${filter.field}-from`]) {
