@@ -7,7 +7,7 @@
       :for="id"
       class="govuk-heading-m govuk-!-margin-bottom-2"
     >
-      {{ label }}
+      {{ label ? label : '' }}
     </label>
     <span
       v-if="hint"

@@ -19,6 +19,13 @@
           />
         </CheckboxGroup>
       </div>
+      <div v-if="field.type === 'singleCheckbox'">
+          <Checkbox
+            :id="`filter-${field.field}`"
+            v-model="localData[`${field.field}`]"
+            :label="field.title"
+          >{{ field.inputLabel ? field.inputLabel: '' }}</Checkbox>
+      </div>
       <div v-if="field.type === 'keyword'">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--m govuk-!-margin-bottom-2">
           {{ field.title }}
@@ -80,6 +87,7 @@ import CheckboxGroup from '../../draftComponents/Form/CheckboxGroup';
 import TextField from '../../draftComponents/Form/TextField';
 import CheckboxItem from '../../draftComponents/Form/CheckboxItem';
 import DateInput from '../../draftComponents/Form/DateInput';
+import Checkbox from '../../draftComponents/Form/Checkbox';
 
 export default {
   components: {
@@ -87,6 +95,7 @@ export default {
     CheckboxItem,
     TextField,
     DateInput,
+    Checkbox,
   },
   props: {
     fields: {

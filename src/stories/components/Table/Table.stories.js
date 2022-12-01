@@ -71,10 +71,16 @@ Types.args = {
   localData: true,
   filters: [
     {
-      title: 'Status',
+      title: 'Checkbox List',
       field: 'status',
       type: 'checkbox',
       options: ['draft', 'ready', 'approved'],
+    },
+    {
+      title: 'Single Checkbox',
+      field: 'flag',
+      type: 'singleCheckbox',
+      inputLabel: 'candidates only'
     },
   ],
 };
