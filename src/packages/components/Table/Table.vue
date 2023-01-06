@@ -359,7 +359,7 @@ export default {
       return state;
     },
     showPaging() {
-      return this.pageSize > 0;
+      return this.pageItemType === 'number' ? this.pageSize > 0 : true;
     },
     showPageItems() {
       return pageItemTypes.includes(this.pageItemType);
@@ -368,8 +368,8 @@ export default {
       const items = [];
       if (!this.showPaging || !this.pageItemType) return items;
 
-      const length = Math.ceil(this.total / this.pageSize);
       if (this.pageItemType === 'number') {
+        const length = Math.ceil(this.total / this.pageSize);
         for (let i = 1; i <= length; i++) {
           items.push(i);
         }
