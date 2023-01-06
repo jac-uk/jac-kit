@@ -20,6 +20,9 @@
           :key="error.id"
         >
           <a :href="`#${error.id}-error`">{{ error.message }}</a>
+          <template v-if="error.routerLink">
+            <br /><router-link :to="error.routerLink.link">{{ error.routerLink.text }}</router-link>
+          </template>
         </li>
       </ul>
     </div>
