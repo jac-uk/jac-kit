@@ -166,7 +166,7 @@
       </p>
       <ul class="moj-pagination__list">
         <li
-          v-if="page"
+          v-if="page && pageItemType === 'number'"
           class="moj-pagination__item  moj-pagination__item--prev"
         >
           <a
@@ -198,7 +198,7 @@
           </li>
         </template>
         <li
-          v-if="showNext"
+          v-if="showNext && pageItemType === 'number'"
           class="moj-pagination__item  moj-pagination__item--next"
         >
           <a
@@ -340,6 +340,13 @@ export default {
       if (this.searchMap) {
         state.searchMap = this.searchMap;
       }
+      
+      state.pageItemType = this.pageItemType;
+      if (this.pageItemType === 'uppercase-letter') {
+        state.currentLetter = 'A';
+      } else if (this.pageItemType === 'lowercase-letter') {
+        state.currentLetter = 'a';
+      }
       return state;
     },
     currentState() {
@@ -367,13 +374,9 @@ export default {
           items.push(i);
         }
       } else if (this.pageItemType === 'uppercase-letter') {
-        for (let i = 1; i <= length; i++) {
-          items.push(this.numberToChar(i).toUpperCase());
-        }
+        items.push(...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''));
       } else if (this.pageItemType === 'lowercase-letter') {
-        for (let i = 1; i <= length; i++) {
-          items.push(this.numberToChar(i).toLowerCase());
-        }
+        items.push(...'abcdefghijklmnopqrstuvwxyz'.split(''));
       }
       return items;
     },
@@ -459,6 +462,12 @@ export default {
       this.page = index;
       const state = { ...this.currentState };
       state.pageChange = pageChange;
+      state.pageItemType = this.pageItemType;
+
+      if (['uppercase-letter', 'lowercase-letter'].includes(this.pageItemType)) {
+        state.currentLetter = n;
+      }
+
       this.changeTableState(ACTIONS.PAGE_NEXT, state);
     },
     btnNext() {

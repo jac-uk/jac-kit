@@ -51,6 +51,12 @@ const filteredQuery = (ref, params) => {
     orderBy = (params.orderBy && params.orderBy instanceof Array) ? params.orderBy : [params.orderBy];  // ensure orderby is an array
   }
 
+  if (['uppercase-letter', 'lowercase-letter'].includes(params.pageItemType) && params.orderBy && params.currentLetter) {
+    queryRef = queryRef
+      .where(params.orderBy, '>=', params.currentLetter)
+      .where(params.orderBy, '<=', `${params.currentLetter}\uf8ff`);
+  }
+
   if (params.searchTerm) {
     if (params.customSearch) {
       if (params.customSearchValues) {
