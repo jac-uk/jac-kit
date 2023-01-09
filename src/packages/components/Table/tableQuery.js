@@ -72,7 +72,7 @@ const filteredQuery = (ref, params) => {
         .where(params.customSearch.field, '==', null);
       }
     } else if (params.searchMap) {
-      const searchParts = getSearchMap([ params.searchTerm ]);
+      const searchParts = getSearchMap([params.searchTerm]);
       Object.keys(searchParts).forEach(searchPart => {
         queryRef = queryRef.where(`${params.searchMap}.${searchPart}`, '==', true);
       });
@@ -101,7 +101,7 @@ const filteredQuery = (ref, params) => {
 };
 
 const getStartAfter = (data, orderBy) => {
-  let startAfter = [];
+  const startAfter = [];
   orderBy.forEach(field => {
     if (field === 'documentId') {
       startAfter.push(data[data.length - 1].id);
@@ -113,7 +113,7 @@ const getStartAfter = (data, orderBy) => {
 };
 
 const getEndBefore = (data, orderBy) => {
-  let endBefore = [];
+  const endBefore = [];
   orderBy.forEach(field => {
     if (field === 'documentId') {
       endBefore.push(data[0].id);
@@ -243,7 +243,7 @@ const tableAsyncQuery = async (data, ref, params, total) => {
   if (params) {
     const res = filteredQuery(queryRef, params);
     queryRef = res.queryRef;
-    let orderBy = res.orderBy;
+    const orderBy = res.orderBy;
 
     if (total === null) {
       total = await getTotal(queryRef); // retrieve total number of data if required
