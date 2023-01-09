@@ -318,6 +318,7 @@ export default {
       numberOfFiltersApplied: 0,
       where: [],
       customSearchValues: [],
+      currentLetter: this.getInitCurrentLetter(),
     };
   },
   computed: {
@@ -341,12 +342,6 @@ export default {
         state.searchMap = this.searchMap;
       }
       
-      state.pageItemType = this.pageItemType;
-      if (this.pageItemType === 'uppercase-letter') {
-        state.currentLetter = 'A';
-      } else if (this.pageItemType === 'lowercase-letter') {
-        state.currentLetter = 'a';
-      }
       return state;
     },
     currentState() {
@@ -356,6 +351,10 @@ export default {
       if (this.direction) { state.direction = this.direction; }
       if (this.where) { state.where = this.where; }
       if (this.customSearchValues.length) { state.customSearchValues = this.customSearchValues; }
+      if (['uppercase-letter', 'lowercase-letter'].includes(this.pageItemType) && this.currentLetter) {
+        state.pageItemType = this.pageItemType;
+        state.currentLetter = this.currentLetter;
+      }
       return state;
     },
     showPaging() {
@@ -444,6 +443,15 @@ export default {
     this.changeTableState(ACTIONS.LOAD, this.currentState);
   },
   methods: {
+    getInitCurrentLetter() {
+      if (this.pageItemType === 'uppercase-letter') {
+        return 'A';
+      } else if (this.pageItemType === 'lowercase-letter') {
+        return 'a';
+      } else {
+        return null;
+      }
+    },
     btnPrev() {
       if (this.page > 0) {
         this.page--;
@@ -465,6 +473,7 @@ export default {
       state.pageItemType = this.pageItemType;
 
       if (['uppercase-letter', 'lowercase-letter'].includes(this.pageItemType)) {
+        this.currentLetter = n;
         state.currentLetter = n;
       }
 
@@ -613,7 +622,9 @@ export default {
         }
       }
       if (!this.defaultState.searchMap || (this.searchTerm.length === 0 || this.searchTerm.length >= 3)) {
-        this.page = 0; // reset current page to first page when using search function
+        if (this.pageItemType === 'number') {
+          this.page = 0; // reset current page to first page when using search function
+        }
         this.changeTableState(ACTIONS.SEARCH, this.currentState);
       }
     },
