@@ -166,7 +166,7 @@
       </p>
       <ul class="moj-pagination__list">
         <li
-          v-if="page"
+          v-if="page && pageItemType === 'number'"
           class="moj-pagination__item  moj-pagination__item--prev"
         >
           <a
@@ -198,7 +198,7 @@
           </li>
         </template>
         <li
-          v-if="showNext"
+          v-if="showNext && pageItemType === 'number'"
           class="moj-pagination__item  moj-pagination__item--next"
         >
           <a
@@ -318,6 +318,7 @@ export default {
       numberOfFiltersApplied: 0,
       where: [],
       customSearchValues: [],
+      currentLetter: this.getInitCurrentLetter(),
     };
   },
   computed: {
@@ -340,6 +341,7 @@ export default {
       if (this.searchMap) {
         state.searchMap = this.searchMap;
       }
+      
       return state;
     },
     currentState() {
@@ -349,10 +351,14 @@ export default {
       if (this.direction) { state.direction = this.direction; }
       if (this.where) { state.where = this.where; }
       if (this.customSearchValues.length) { state.customSearchValues = this.customSearchValues; }
+      if (['uppercase-letter', 'lowercase-letter'].includes(this.pageItemType) && this.currentLetter) {
+        state.pageItemType = this.pageItemType;
+        state.currentLetter = this.currentLetter;
+      }
       return state;
     },
     showPaging() {
-      return this.pageSize > 0;
+      return this.pageItemType === 'number' ? this.pageSize > 0 : true;
     },
     showPageItems() {
       return pageItemTypes.includes(this.pageItemType);
@@ -361,19 +367,15 @@ export default {
       const items = [];
       if (!this.showPaging || !this.pageItemType) return items;
 
-      const length = Math.ceil(this.total / this.pageSize);
       if (this.pageItemType === 'number') {
+        const length = Math.ceil(this.total / this.pageSize);
         for (let i = 1; i <= length; i++) {
           items.push(i);
         }
       } else if (this.pageItemType === 'uppercase-letter') {
-        for (let i = 1; i <= length; i++) {
-          items.push(this.numberToChar(i).toUpperCase());
-        }
+        items.push(...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''));
       } else if (this.pageItemType === 'lowercase-letter') {
-        for (let i = 1; i <= length; i++) {
-          items.push(this.numberToChar(i).toLowerCase());
-        }
+        items.push(...'abcdefghijklmnopqrstuvwxyz'.split(''));
       }
       return items;
     },
@@ -441,6 +443,15 @@ export default {
     this.changeTableState(ACTIONS.LOAD, this.currentState);
   },
   methods: {
+    getInitCurrentLetter() {
+      if (this.pageItemType === 'uppercase-letter') {
+        return 'A';
+      } else if (this.pageItemType === 'lowercase-letter') {
+        return 'a';
+      } else {
+        return null;
+      }
+    },
     btnPrev() {
       if (this.page > 0) {
         this.page--;
@@ -459,6 +470,13 @@ export default {
       this.page = index;
       const state = { ...this.currentState };
       state.pageChange = pageChange;
+      state.pageItemType = this.pageItemType;
+
+      if (['uppercase-letter', 'lowercase-letter'].includes(this.pageItemType)) {
+        this.currentLetter = n;
+        state.currentLetter = n;
+      }
+
       this.changeTableState(ACTIONS.PAGE_NEXT, state);
     },
     btnNext() {
@@ -604,7 +622,9 @@ export default {
         }
       }
       if (!this.defaultState.searchMap || (this.searchTerm.length === 0 || this.searchTerm.length >= 3)) {
-        this.page = 0; // reset current page to first page when using search function
+        if (this.pageItemType === 'number') {
+          this.page = 0; // reset current page to first page when using search function
+        }
         this.changeTableState(ACTIONS.SEARCH, this.currentState);
       }
     },
