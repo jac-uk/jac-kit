@@ -166,7 +166,7 @@
       </p>
       <ul class="moj-pagination__list">
         <li
-          v-if="page && pageItemType === 'number'"
+          v-if="page && showPreviousNext"
           class="moj-pagination__item  moj-pagination__item--prev"
         >
           <a
@@ -198,7 +198,7 @@
           </li>
         </template>
         <li
-          v-if="showNext && pageItemType === 'number'"
+          v-if="showNext && showPreviousNext"
           class="moj-pagination__item  moj-pagination__item--next"
         >
           <a
@@ -362,6 +362,9 @@ export default {
     },
     showPageItems() {
       return pageItemTypes.includes(this.pageItemType);
+    },
+    showPreviousNext() {
+      return !['uppercase-letter', 'lowercase-letter'].includes(this.pageItemType);
     },
     pageItems() {
       const items = [];
