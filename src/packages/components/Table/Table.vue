@@ -383,6 +383,7 @@ export default {
       return items;
     },
     showNext() {
+      if (!this.pageSize) return false; // hide `Next` button if page size is 0
       if (this.total) {
         const length = Math.ceil(this.total / this.pageSize);
         return this.page < length - 1;
