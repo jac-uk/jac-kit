@@ -121,7 +121,7 @@
       </thead>
       <tbody class="govuk-table__body">
         <tr
-          v-for="row in data"
+          v-for="(row, index) in data"
           :key="row[dataKey]"
           class="govuk-table__row govuk-!-padding-left-2 govuk-!-padding-right-2"
         >
@@ -148,6 +148,7 @@
           <slot
             name="row"
             :row="row"
+            :index="index"
           />
         </tr>
         <slot name="footer" />
@@ -341,7 +342,7 @@ export default {
       if (this.searchMap) {
         state.searchMap = this.searchMap;
       }
-      
+
       return state;
     },
     currentState() {
