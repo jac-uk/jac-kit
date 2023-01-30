@@ -46,15 +46,17 @@ const formatEstimatedDate = (value) => {
   }
 };
 
-const formatNumber = (value, decimalPlaces) => {
-  if (value) {
+const formatNumber = (originalValue, decimalPlaces) => {
+  let transformedValue = null;
+  if (originalValue) {
     if (decimalPlaces > 0) {
-      return Number(value).toFixed(decimalPlaces);
+      transformedValue = Number(originalValue).toFixed(decimalPlaces);
     } else {
-      return parseInt(value);
+      transformedValue = parseInt(originalValue);
     }
+    return transformedValue.toLocaleString('en-GB');
   }
-  return value;
+  return originalValue;
 };
 
 const formatNIN = (value) => {
