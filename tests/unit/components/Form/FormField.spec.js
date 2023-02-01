@@ -154,7 +154,7 @@ describe('components/Form/FormField', () => {
 
     describe('regex', () => {
         it('has email and telephone patterns', () => {
-          expect(data.regex).toContainAllKeys(['email']);
+          expect(data.regex).toContainAllKeys(['email', 'tel']);
         });
         it('email matches pattern', () => {
           expect('test@test.com').toMatch(data.regex.email);
