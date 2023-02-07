@@ -50,13 +50,26 @@ const formatNumber = (originalValue, decimalPlaces) => {
   let transformedValue = null;
   if (originalValue) {
     if (decimalPlaces > 0) {
-      transformedValue = Number(originalValue).toFixed(decimalPlaces);
+      if (isInt(originalValue)) {
+        transformedValue = originalValue;
+      }
+      else {
+        transformedValue = Number(originalValue).toFixed(decimalPlaces);
+      }
     } else {
       transformedValue = parseInt(originalValue);
     }
     return transformedValue.toLocaleString('en-GB');
   }
   return originalValue;
+};
+
+const isInt = (value) => {
+  if (isNaN(value)) {
+    return false;
+  }
+  var x = parseFloat(value);
+  return (x | 0) === x;
 };
 
 const formatNIN = (value) => {
@@ -437,5 +450,6 @@ export {
   toHumanCase,
   toYesNo,
   showAlternative,
-  lookup
+  lookup,
+  isInt
 };
