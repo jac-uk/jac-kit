@@ -107,7 +107,7 @@ describe('components/Form/FormField', () => {
 
     beforeEach(() => {
       wrapper = createTestSubject(FormField, {
-        mocks: {},
+        mocks: { },
         stubs: [],
         propsData: mockProps,
       });
@@ -154,12 +154,12 @@ describe('components/Form/FormField', () => {
 
     describe('regex', () => {
         it('has email and telephone patterns', () => {
-          expect(data.regex).toContainAllKeys(['email']);
+          expect(data.regex).toContainAllKeys(['email', 'tel']);
         });
         it('email matches pattern', () => {
           expect('test@test.com').toMatch(data.regex.email);
         });
-        xit('tel matches pattern', () => {
+        it('tel matches pattern', () => {
           expect('07123456789').toMatch(data.regex.tel);
         });
     });
@@ -204,17 +204,68 @@ describe('components/Form/FormField', () => {
           beforeEach(() => {
             wrapper.setProps({ required: true });
           });
-          xit('when no value given', () => {
+          it('when no value given', () => {
             wrapper.vm.validate();
             expect(wrapper.vm.$data.errorMessage).toBe(`Please enter a value for ${mockProps.label}`);
           });
         });
         describe('email errors', () =>{
-          xit('when no value given', () => {
+          it('when no value given', () => {
           });
         });
-        describe('tel errors', () =>{
-          xit('when no value given', () => {
+        
+        const setErrorSpy = jest.spyOn(FormField.methods, 'setError');
+        describe('tel', () =>{
+          describe('tel errors', () =>{
+            beforeEach(() => {
+              wrapper.setProps({ type: 'tel' , required: true });
+            });
+            it('when no value given', () => {
+              wrapper.setProps({ value: '' });
+              wrapper.vm.validate();
+              expect(wrapper.vm.$data.errorMessage).toBe(`Enter a valid phone number for ${mockProps.label}`);
+              setErrorSpy.mockClear();
+            });
+            it('when incorrect value given', () => {
+              wrapper.setProps({ value: '1 0 93 2' });
+              wrapper.vm.validate();
+              expect(wrapper.vm.$data.errorMessage).toBe(`Enter a valid phone number for ${mockProps.label}`);
+              setErrorSpy.mockClear();
+            });
+          });
+          describe('tel valid', () =>{
+            it('when correct value given', () => {
+              wrapper.setProps({ value: '07564912184' });
+              wrapper.vm.validate();
+              expect(setErrorSpy).toHaveBeenCalledWith('');
+              expect(setErrorSpy).toHaveBeenCalledTimes(1);
+              expect(wrapper.vm.$data.errorMessage).not.toBe(`Enter a valid phone number for ${mockProps.label}`);
+              setErrorSpy.mockClear();
+            });
+            it('when correct value given with extra spaces', () => {
+              wrapper.setProps({ value: '0 756 49 1 21    84' });
+              wrapper.vm.validate();
+              expect(setErrorSpy).toHaveBeenCalledWith('');
+              expect(setErrorSpy).toHaveBeenCalledTimes(1);
+              expect(wrapper.vm.$data.errorMessage).not.toBe(`Enter a valid phone number for ${mockProps.label}`);
+              setErrorSpy.mockClear();
+            });
+            it('when correct value given with spaces', () => {
+              wrapper.setProps({ value: '07 564 912 184' });
+              wrapper.vm.validate();
+              expect(setErrorSpy).toHaveBeenCalledWith('');
+              expect(setErrorSpy).toHaveBeenCalledTimes(1);
+              expect(wrapper.vm.$data.errorMessage).not.toBe(`Enter a valid phone number for ${mockProps.label}`);
+              setErrorSpy.mockClear();
+            });
+            it('when correct value given with spaces', () => {
+              wrapper.setProps({ value: '0 7564 912 184' });
+              wrapper.vm.validate();
+              expect(setErrorSpy).toHaveBeenCalledWith('');
+              expect(setErrorSpy).toHaveBeenCalledTimes(1);
+              expect(wrapper.vm.$data.errorMessage).not.toBe(`Enter a valid phone number for ${mockProps.label}`);
+              setErrorSpy.mockClear();
+            });
           });
         });
         describe('minLength errors', () => {
