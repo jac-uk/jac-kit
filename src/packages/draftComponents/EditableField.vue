@@ -122,7 +122,7 @@
         v-if="isPhone"
         :id="`editable-field-${id}`"
         v-model="localField"
-        type="email"
+        type="tel"
       />
       
       <TextField
