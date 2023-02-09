@@ -1,5 +1,5 @@
 <template>
-  <div class="jac-table">
+  <div class="jac-table" :class="{ 'sticky-headers-table': sticky }">
     <div class="govuk-grid-row">
       <div
         v-if="hasSearch"
@@ -104,7 +104,7 @@
             scope="col"
             :class="[ 'govuk-table__header', column.class ]"
             :aria-sort="columnSortState(column)"
-            @click="sortBy(column)"
+            @click="clickHeaderColumn(column)"
           >
             <button
               v-if="column.sort"
@@ -113,6 +113,9 @@
             >
               {{ column.title }}
             </button>
+            <span v-else-if="column.emitEvent" class="header-link">
+              {{ column.title }}
+            </span>
             <span v-else>
               {{ column.title }}
             </span>
@@ -219,7 +222,7 @@ import SidePanel from './SidePanel';
 import Badge from './Badge';
 import CustomForm from './CustomForm';
 import LoadingMessage from '../LoadingMessage';
-
+import _has from 'lodash/has';
 const ACTIONS = {
   LOAD: 'load',
   RELOAD: 'reload',
@@ -302,6 +305,11 @@ export default {
       default: '',
     },
     localData: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    sticky: {
       type: Boolean,
       required: false,
       default: false,
@@ -664,6 +672,15 @@ export default {
       // a -> 1, b -> 2
       return char.charCodeAt(0) - 97 + 1;
     },
+    clickHeaderColumn(column) {
+      // By clicking on a column we can either emit an event or sort (default)
+      if (_has(column, 'emitEvent') && _has(column, 'eventParams') && Array.isArray(column.eventParams)) {
+        this.$emit(column.emitEvent, ...column.eventParams);
+      }
+      else {
+        this.sortBy(column);
+      }      
+    },
   },
 };
 </script>
@@ -703,6 +720,93 @@ export default {
     }
     .govuk-table__row {
       display: grid;
+    }
+  }
+
+  .header-link {
+    cursor: pointer;
+    color: #005ea5;
+  }
+
+  .sticky-headers-table {
+    table {
+      display: block;
+      overflow-x: auto;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      max-width: 100%;
+      max-height: 80vh;
+      margin: 0 !important;
+      border-spacing: 0;
+      table-layout: fixed;
+      border-collapse: collapse;
+      border-right: 1px solid #f3f2f1;
+      border-left: 1px solid #f3f2f1;
+    }
+    tbody {
+      white-space: nowrap;
+    }
+    th,
+    td {
+        border: 1px solid #f3f2f1;
+        vertical-align: middle;
+        white-space: nowrap;
+        &.v-top {
+          vertical-align: top;
+        }
+    }
+    tr > th:first-child,
+    tr > td:first-child {
+      position: sticky;
+      left: 0;
+      background-color: #f3f2f1;
+      z-index:1;
+    }
+    tr:first-child > th {
+      position: sticky;
+      top: 0;
+      background-color:#f3f2f1;
+      z-index: 2;
+      border: 0;
+      padding-left: 20px;
+      &.expandable {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+    /* Get the JAC-KIT colour from Warren for header-link */
+    tr:nth-child(2) > th {
+      position: sticky;
+      top: 46px;
+      /*top: 44.5px;*/
+      background-color: #f3f2f1;
+      z-index: 2;
+    }
+    tr:first-child > th:first-child,
+    tr:nth-child(2) > th:first-child {
+      z-index: 3;
+    }
+    tr > th:last-child,
+    tr > td:last-child {
+      padding-right: 10px;
+    }
+    .table-cell {
+      padding: 0 10px;
+    }
+    .table-cell-application {
+      min-width: 160px;
+      padding: 10px;
+    }
+    .table-cell-score {
+      min-width: 50px;
+      padding: 0 10px;
+      text-align: center;
+    }
+    .elipses {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;  // IE 6+, FF 7+, Op 11+, Saf 1.3+, Chr 1+
+      -o-text-overflow: ellipsis;  // for Opera 9 & 10
     }
   }
 </style>
