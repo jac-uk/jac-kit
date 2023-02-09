@@ -50,13 +50,26 @@ const formatNumber = (originalValue, decimalPlaces) => {
   let transformedValue = null;
   if (originalValue) {
     if (decimalPlaces > 0) {
-      transformedValue = Number(originalValue).toFixed(decimalPlaces);
+      if (isInt(originalValue)) {
+        transformedValue = originalValue;
+      }
+      else {
+        transformedValue = Number(originalValue).toFixed(decimalPlaces);
+      }
     } else {
       transformedValue = parseInt(originalValue);
     }
     return transformedValue.toLocaleString('en-GB');
   }
   return originalValue;
+};
+
+const isInt = (value) => {
+  if (isNaN(value)) {
+    return false;
+  }
+  var x = parseFloat(value);
+  return (x | 0) === x;
 };
 
 const formatNIN = (value) => {
@@ -409,7 +422,6 @@ const lookup = (value) => {
 
     lookup[NOT_COMPLETE_PUPILLAGE_REASONS.TRANSFERRED] = 'Qualified solicitor, qualified lawyer from another jurisdiction, or a legal academic transferred to the Bar';
     lookup[NOT_COMPLETE_PUPILLAGE_REASONS.CALLED_PRE_2002] = 'Called to the Bar prior to 1 January 2002';
-    lookup[NOT_COMPLETE_PUPILLAGE_REASONS.OTHER] = 'Other - Please detail why you were exempt from undertaking pupillage by the Bar Standards Board';
 
     // TODO add the missing ones from CONSTANTS
 
@@ -437,5 +449,6 @@ export {
   toHumanCase,
   toYesNo,
   showAlternative,
-  lookup
+  lookup,
+  isInt
 };
