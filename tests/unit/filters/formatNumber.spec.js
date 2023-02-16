@@ -1,6 +1,9 @@
 import { formatNumber } from '@/filters/filters';
 
 describe('formatNumber', () => {
+  it('returns a number', () => {
+    expect(formatNumber('124000')).toBe('124,000');
+  });
   it('formatNumber', () => {
     expect(formatNumber(100)).toEqual('100');
     expect(formatNumber(1000)).toEqual('1,000');
