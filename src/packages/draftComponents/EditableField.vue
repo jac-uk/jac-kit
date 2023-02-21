@@ -117,6 +117,13 @@
         v-model="localField"
         type="email"
       />
+
+      <TextField
+        v-if="isPhone"
+        :id="`editable-field-${id}`"
+        v-model="localField"
+        type="tel"
+      />
       
       <TextField
         v-if="isText || isRoute"
@@ -305,6 +312,9 @@ export default {
   computed: {
     isEmail() {
       return this.type === 'email';
+    },
+    isPhone() {
+      return this.type === 'tel';
     },
     isText() {
       return this.type === 'text';
