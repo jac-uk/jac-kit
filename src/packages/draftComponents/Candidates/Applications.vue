@@ -1,34 +1,28 @@
 <template>
   <div>
-    <!-- <div class="moj-page-header-actions">
-      <div class="moj-page-header-actions__title">
-        <h2 class="govuk-heading-l">
-          Open
-        </h2>
-      </div>
-    </div> -->
-
     <Table
       v-if="!noApplications"
       data-key="id"
-      :data="applicationRecords"
-      :columns="[
-        { title: 'Exercise' },
-        { title: 'Outcome' },
-        { title: 'Action' },
-      ]"
-      local-data
+      :data="candidateApplications"
+      :columns="tableColumns"
+      @change="getTableData"
     >
       <template #row="{row}">
         <TableCell>
-          {{ row.exercise.name }}
+          <strong>
+            {{ row.exerciseRef }}
+          </strong>
+          - {{ row.exerciseName }}
         </TableCell>
         <TableCell>
-          {{ row.status | lookup }}{{ row.status && row.stage ? ' / ' : '' }}{{ row.stage }}
+          {{ getStatus(row) | lookup }}{{ getStatus(row) && getStage(row) ? ' / ' : '' }}
+          <strong>
+            {{ getStage(row) }}
+          </strong>
         </TableCell>
         <TableCell>
           <RouterLink
-            :to="{ name: 'exercise-application', params: { id: row.exercise.id, applicationId: row.id } }"
+            :to="{ name: 'exercise-application', params: { id: row.exerciseId, applicationId: row.id } }"
             target="_blank"
           >
             View Application
@@ -57,19 +51,35 @@ export default {
       default: '',
     },
   },
+  data() {
+    return {
+      tableColumns: [
+        { title: 'Exercise', sort: 'exerciseRef', direction: 'desc' },
+        { title: 'Outcome', sort: '_processing.status', direction: 'desc', default: true },
+        { title: 'Action' },
+      ],
+    };
+  },
   computed: {
-    applicationRecords() {
+    candidateApplications() {
       const records = this.$store.state.candidateApplications.records;
       return records;
     },
     noApplications() {
-      return this.applicationRecords.length === 0;
+      return this.candidateApplications.length === 0;
     },
   },
-  async created() {
-    this.$store.dispatch('candidateApplications/bind', { candidateId: this.candidateId });
-  },
   methods: {
+    getTableData(params) {
+      const queryParams = { ...params, candidateId: this.candidateId };
+      this.$store.dispatch('candidateApplications/bind', queryParams);
+    },
+    getStage(application) {
+      return application._processing ? application._processing.stage : null;
+    },
+    getStatus(application) {
+      return application._processing ? application._processing.status : application.status;
+    },
   },
 };
 </script>
