@@ -1,10 +1,9 @@
 import { formatNumber } from '@/filters/filters';
 
 describe('formatNumber', () => {
-<<<<<<< HEAD
   it('returns a number', () => {
     expect(formatNumber('124000')).toBe('124,000');
-=======
+  });
   it('formatNumber', () => {
     expect(formatNumber(100)).toEqual('100');
     expect(formatNumber(1000)).toEqual('1,000');
@@ -17,6 +16,5 @@ describe('formatNumber', () => {
     expect(formatNumber(1001.1274, 2)).toEqual('1001.13');
     expect(formatNumber('1001.1274', 2)).toEqual('1001.13');
     expect(formatNumber(1001, 2)).toEqual('1,001');
->>>>>>> b617136877c5decbe397c56486481d9609ef9174
   });
 });
