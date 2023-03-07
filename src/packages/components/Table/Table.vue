@@ -213,6 +213,13 @@
         </li>
       </ul>
     </nav>
+
+    <button
+      class="govuk-button govuk-button--secondary moj-button-menu__item moj-page-header-actions__action govuk-!-margin-top-2"
+      @click="togglePagination"
+    >
+      {{ currentPageItemType === 'uppercase-letter' ? '1 2 3 4' : 'A B C D' }}
+    </button>
   </div>
 </template>
 
@@ -317,6 +324,9 @@ export default {
   },
   data() {
     return {
+      currentPageItemType: this.pageItemType,
+      currentPageSize: this.pageSize,
+      currentLetter: this.getInitCurrentLetter(),
       loading: !this.localData,
       searchTerm: null,
       orderBy: null,
@@ -327,14 +337,13 @@ export default {
       numberOfFiltersApplied: 0,
       where: [],
       customSearchValues: [],
-      currentLetter: this.getInitCurrentLetter(),
     };
   },
   computed: {
     defaultState() {
       const state = {};
-      if (this.pageSize) {
-        state.pageSize = this.pageSize;
+      if (this.currentPageSize) {
+        state.pageSize = this.currentPageSize;
       }
       const defaultColumn = this.columns.filter(item => item.default);
       if (defaultColumn && defaultColumn.length) {
@@ -360,44 +369,44 @@ export default {
       if (this.direction) { state.direction = this.direction; }
       if (this.where) { state.where = this.where; }
       if (this.customSearchValues.length) { state.customSearchValues = this.customSearchValues; }
-      if (['uppercase-letter', 'lowercase-letter'].includes(this.pageItemType) && this.currentLetter) {
-        state.pageItemType = this.pageItemType;
+      if (['uppercase-letter', 'lowercase-letter'].includes(this.currentPageItemType) && this.currentLetter) {
+        state.pageItemType = this.currentPageItemType;
         state.currentLetter = this.currentLetter;
       }
       return state;
     },
     showPaging() {
-      return this.pageItemType === 'number' ? this.pageSize > 0 : true;
+      return this.currentPageItemType === 'number' ? this.currentPageSize > 0 : true;
     },
     showPageItems() {
-      return pageItemTypes.includes(this.pageItemType);
+      return pageItemTypes.includes(this.currentPageItemType);
     },
     showPreviousNext() {
-      return !['uppercase-letter', 'lowercase-letter'].includes(this.pageItemType);
+      return !['uppercase-letter', 'lowercase-letter'].includes(this.currentPageItemType);
     },
     pageItems() {
       const items = [];
-      if (!this.showPaging || !this.pageItemType) return items;
+      if (!this.showPaging || !this.currentPageItemType) return items;
 
-      if (this.pageItemType === 'number') {
-        const length = Math.ceil(this.total / this.pageSize);
+      if (this.currentPageItemType === 'number') {
+        const length = Math.ceil(this.total / this.currentPageSize);
         for (let i = 1; i <= length; i++) {
           items.push(i);
         }
-      } else if (this.pageItemType === 'uppercase-letter') {
+      } else if (this.currentPageItemType === 'uppercase-letter') {
         items.push(...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''));
-      } else if (this.pageItemType === 'lowercase-letter') {
+      } else if (this.currentPageItemType === 'lowercase-letter') {
         items.push(...'abcdefghijklmnopqrstuvwxyz'.split(''));
       }
       return items;
     },
     showNext() {
-      if (!this.pageSize) return false; // hide `Next` button if page size is 0
+      if (!this.currentPageSize) return false; // hide `Next` button if page size is 0
       if (this.total) {
-        const length = Math.ceil(this.total / this.pageSize);
+        const length = Math.ceil(this.total / this.currentPageSize);
         return this.page < length - 1;
       }
-      return this.data.length >= this.pageSize;
+      return this.data.length >= this.currentPageSize;
     },
     selectAll: {
       get: function () {
@@ -457,9 +466,9 @@ export default {
   },
   methods: {
     getInitCurrentLetter() {
-      if (this.pageItemType === 'uppercase-letter') {
+      if (this.currentPageItemType === 'uppercase-letter') {
         return 'A';
-      } else if (this.pageItemType === 'lowercase-letter') {
+      } else if (this.currentPageItemType === 'lowercase-letter') {
         return 'a';
       } else {
         return null;
@@ -474,7 +483,7 @@ export default {
       }
     },
     btnItem(n) {
-      let index = this.pageItemType === 'number' ? n : this.charToNumber(n.toLowerCase());
+      let index = this.currentPageItemType === 'number' ? n : this.charToNumber(n.toLowerCase());
       // index starts from 1 and this.page starts from 0
       index = index - 1;
       if (index === this.page) return;
@@ -483,9 +492,9 @@ export default {
       this.page = index;
       const state = { ...this.currentState };
       state.pageChange = pageChange;
-      state.pageItemType = this.pageItemType;
+      state.pageItemType = this.currentPageItemType;
 
-      if (['uppercase-letter', 'lowercase-letter'].includes(this.pageItemType)) {
+      if (['uppercase-letter', 'lowercase-letter'].includes(this.currentPageItemType)) {
         this.currentLetter = n;
         state.currentLetter = n;
       }
@@ -635,7 +644,7 @@ export default {
         }
       }
       if (!this.defaultState.searchMap || (this.searchTerm.length === 0 || this.searchTerm.length >= 3)) {
-        if (this.pageItemType === 'number') {
+        if (this.currentPageItemType === 'number') {
           this.page = 0; // reset current page to first page when using search function
         }
         this.changeTableState(ACTIONS.SEARCH, this.currentState);
@@ -680,6 +689,12 @@ export default {
       else {
         this.sortBy(column);
       }      
+    },
+    togglePagination() {
+      this.currentPageItemType = this.currentPageItemType === 'uppercase-letter' ? this.pageItemType : 'uppercase-letter';
+      this.currentPageSize = this.currentPageItemType === 'uppercase-letter' ? 0 : this.pageSize;
+      this.currentLetter = this.getInitCurrentLetter();
+      this.reload();
     },
   },
 };
