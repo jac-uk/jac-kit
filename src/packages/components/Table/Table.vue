@@ -215,10 +215,11 @@
     </nav>
 
     <button
+      v-if="isLetterPagination(pageItemType)"
       class="govuk-button govuk-button--secondary moj-button-menu__item moj-page-header-actions__action govuk-!-margin-top-2"
       @click="togglePagination"
     >
-      {{ currentPageItemType === 'uppercase-letter' ? '1 2 3 4' : 'A B C D' }}
+      {{ pageTypeToggleText }}
     </button>
   </div>
 </template>
@@ -326,7 +327,7 @@ export default {
     return {
       currentPageItemType: this.pageItemType,
       currentPageSize: this.pageSize,
-      currentLetter: this.getInitCurrentLetter(),
+      currentLetter: this.getInitCurrentLetter(this.pageItemType),
       loading: !this.localData,
       searchTerm: null,
       orderBy: null,
@@ -369,7 +370,7 @@ export default {
       if (this.direction) { state.direction = this.direction; }
       if (this.where) { state.where = this.where; }
       if (this.customSearchValues.length) { state.customSearchValues = this.customSearchValues; }
-      if (['uppercase-letter', 'lowercase-letter'].includes(this.currentPageItemType) && this.currentLetter) {
+      if (this.isLetterPagination(this.currentPageItemType) && this.currentLetter) {
         state.pageItemType = this.currentPageItemType;
         state.currentLetter = this.currentLetter;
       }
@@ -382,7 +383,7 @@ export default {
       return pageItemTypes.includes(this.currentPageItemType);
     },
     showPreviousNext() {
-      return !['uppercase-letter', 'lowercase-letter'].includes(this.currentPageItemType);
+      return !this.isLetterPagination(this.currentPageItemType);
     },
     pageItems() {
       const items = [];
@@ -449,6 +450,13 @@ export default {
       }
       return placeholderText;
     },
+    pageTypeToggleText() {
+      if (this.isLetterPagination(this.currentPageItemType)) {
+        return '1 2 3 4';
+      } else {
+        return this.pageItemType === 'uppercase-letter' ? 'A B C D' : 'a b c d';
+      }
+    },
   },
   watch: {
     data(val) {
@@ -465,10 +473,13 @@ export default {
     this.changeTableState(ACTIONS.LOAD, this.currentState);
   },
   methods: {
-    getInitCurrentLetter() {
-      if (this.currentPageItemType === 'uppercase-letter') {
+    isLetterPagination(type) {
+      return ['uppercase-letter', 'lowercase-letter'].includes(type);
+    },
+    getInitCurrentLetter(type) {
+      if (type === 'uppercase-letter') {
         return 'A';
-      } else if (this.currentPageItemType === 'lowercase-letter') {
+      } else if (type === 'lowercase-letter') {
         return 'a';
       } else {
         return null;
@@ -494,7 +505,7 @@ export default {
       state.pageChange = pageChange;
       state.pageItemType = this.currentPageItemType;
 
-      if (['uppercase-letter', 'lowercase-letter'].includes(this.currentPageItemType)) {
+      if (this.isLetterPagination(this.currentPageItemType)) {
         this.currentLetter = n;
         state.currentLetter = n;
       }
@@ -691,9 +702,10 @@ export default {
       }      
     },
     togglePagination() {
-      this.currentPageItemType = this.currentPageItemType === 'uppercase-letter' ? this.pageItemType : 'uppercase-letter';
-      this.currentPageSize = this.currentPageItemType === 'uppercase-letter' ? 0 : this.pageSize;
-      this.currentLetter = this.getInitCurrentLetter();
+      this.currentPageItemType =  this.isLetterPagination(this.currentPageItemType) ? null : this.pageItemType;
+      this.currentPageSize = this.isLetterPagination(this.currentPageItemType) ? 0 : this.pageSize;
+      this.currentLetter = this.getInitCurrentLetter(this.currentPageItemType);
+      this.page = 0;
       this.reload();
     },
   },
