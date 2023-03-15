@@ -7,7 +7,7 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:vue/recommended"
+    "plugin:vue/vue3-recommended"
   ],
   "rules": {
     "func-style": ["error", "expression"],
@@ -28,7 +28,8 @@
     "eol-last": ["error", "always"],
     "no-console": 1,
     "vue/component-name-in-template-casing": "error",
-    "vue/script-indent": ["error", 2]
+    "vue/script-indent": ["error", 2],
+    "vue/no-v-model-argument": "off"
   },
   "parserOptions": {
     "parser": "babel-eslint"

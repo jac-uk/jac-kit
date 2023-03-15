@@ -53,6 +53,11 @@ import FormField from './FormField';
 import FormFieldError from './FormFieldError';
 
 export default {
+  compatConfig: {
+    COMPONENT_V_MODEL: false,
+    // or, for full vue 3 compat in this component:
+    //MODE: 3,
+  },
   components: {
     FormFieldError,
   },
@@ -63,10 +68,14 @@ export default {
       required: true,
       default: '',
     },
-    value: {
+    modelValue: {
       default: '',
       type: String,
     },
+    // value: {
+    //   default: '',
+    //   type: String,
+    // },
     name: {
       type: String,
       required: true,
@@ -86,6 +95,7 @@ export default {
       default: '.pdf,.docx,.doc,.odt,.txt,.fodt',
     },
   },
+  emits: ['update:modelValue'],
   data() {
     return {
       file: '',
@@ -100,11 +110,11 @@ export default {
     },
     fileName: {
       get() {
-        return this.value;
+        return this.modelValue;
       },
       set(val) {
         if (val) {
-          this.$emit('input', val);
+          this.$emit('update:modelValue', val);
         }
       },
     },

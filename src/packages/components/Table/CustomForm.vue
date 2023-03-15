@@ -15,16 +15,18 @@
             v-for="(option, i) in field.options"
             :key="i"
             :value="option"
-            :label="option.toString() | lookup"
+            :label="$filters.lookup(option.toString())"
           />
         </CheckboxGroup>
       </div>
       <div v-if="field.type === 'singleCheckbox'">
-          <Checkbox
-            :id="`filter-${field.field}`"
-            v-model="localData[`${field.field}`]"
-            :label="field.title"
-          >{{ field.inputLabel ? field.inputLabel: '' }}</Checkbox>
+        <Checkbox
+          :id="`filter-${field.field}`"
+          v-model="localData[`${field.field}`]"
+          :label="field.title"
+        >
+          {{ field.inputLabel ? field.inputLabel: '' }}
+        </Checkbox>
       </div>
       <div v-if="field.type === 'keyword'">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--m govuk-!-margin-bottom-2">
@@ -107,6 +109,7 @@ export default {
       required: true,
     },
   },
+  emits: ['update:data'],
   computed: {
     localData: {
       get() {

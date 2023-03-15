@@ -55,7 +55,7 @@
         v-else-if="isSelection"
         class="wrap"
       >
-        {{ value | lookup | toYesNo }}
+        {{ $filters.toYesNo($filters.lookup(value)) }}
       </span>
       
       <div
@@ -70,7 +70,7 @@
             v-for="item in value" 
             :key="item"
           >
-            {{ item | lookup | toYesNo }}
+            {{ $filters.toYesNo($filters.lookup(item)) }}
           </li>
         </div>
       </div>
@@ -148,7 +148,7 @@
           :key="option"
           :value="option"
         >
-          {{ option | lookup | toYesNo }}
+          {{ $filters.lookup($filters.toYesNo(option)) }}
         </option>
       </Select>
 
@@ -161,7 +161,7 @@
           v-for="option in options"
           :key="option"
           :value="option"
-          :label="option | lookup"
+          :label="$filters.lookup(option)"
         />
       </CheckboxGroup>
 
@@ -235,7 +235,7 @@ import formatEmail from '../helpers/Form/formatEmail';
 import Select from './Form/Select.vue';
 import CheckboxGroup from './Form/CheckboxGroup';
 import CheckboxItem from './Form/CheckboxItem';
-import * as filters from '../filters/filters';
+//import * as filters from '../filters/filters';
 import Form from './Form/Form';
 
 export default {
@@ -293,12 +293,13 @@ export default {
       default: false,
     },
   },
+  emits: ['changeField'],
   data() {
     return {
       localField: '',
       editField: false,
       id: null,
-      filters: filters,
+      //filters: filters,
       ranking: {},
     };
   },
@@ -332,7 +333,7 @@ export default {
       return newDate;
     },
     formattedDate() {
-      return filters.formatDate(this.value, (this.displayMonthYearOnly ? 'month' : ''));
+      return this.$filters.formatDate(this.value, (this.displayMonthYearOnly ? 'month' : ''));
     },
   },
   watch: { 

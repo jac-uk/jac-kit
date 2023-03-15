@@ -37,16 +37,22 @@ import FormFieldError from './FormFieldError';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export default {
+  compatConfig: {
+    COMPONENT_V_MODEL: false,
+    // or, for full vue 3 compat in this component:
+    //MODE: 3,
+  },
   components: {
     FormFieldError,
   },
   extends: FormField,
   props: {
-    value: {
+    modelValue: {
       default: '',
       type: String,
     },
   },
+  emits: ['update:modelValue'],
   data() {
     return {
       editor: ClassicEditor,
@@ -67,10 +73,10 @@ export default {
   computed: {
     text: {
       get() {
-        return this.value;
+        return this.modelValue;
       },
       set(val) {
-        this.$emit('input', val);
+        this.$emit('update:modelValue', val);
       },
     },
 

@@ -19,7 +19,7 @@
           <EditableField
             :value="title"
             field="title"
-            @changefield="changeUserDetails"
+            @change-field="changeUserDetails"
           />
         </dd>
       </div>
@@ -32,7 +32,7 @@
           <EditableField
             :value="firstName"
             field="firstName"
-            @changefield="changeUserDetails"
+            @change-field="changeUserDetails"
           />
         </dd>
       </div>
@@ -45,7 +45,7 @@
           <EditableField
             :value="lastName"
             field="lastName"
-            @changefield="changeUserDetails"
+            @change-field="changeUserDetails"
           />
         </dd>
       </div>
@@ -59,7 +59,7 @@
             :value="candidate.email"
             field="email"
             type="email"
-            @changefield="changeUserDetails"
+            @change-field="changeUserDetails"
           />
         </dd>
       </div>
@@ -72,7 +72,7 @@
           <EditableField
             :value="candidate.phone"
             field="phone"
-            @changefield="changeUserDetails"
+            @change-field="changeUserDetails"
           />
         </dd>
       </div>
@@ -86,7 +86,7 @@
             :value="candidate.dateOfBirth"
             field="dateOfBirth"
             type="date"
-            @changefield="changeUserDetails"
+            @change-field="changeUserDetails"
           />
         </dd>
       </div>
@@ -97,9 +97,9 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <EditableField
-            :value="candidate.nationalInsuranceNumber | formatNIN"
+            :value="$filters.formatNIN(candidate.nationalInsuranceNumber)"
             field="nationalInsuranceNumber"
-            @changefield="changeUserDetails"
+            @change-field="changeUserDetails"
           />
         </dd>
       </div>
@@ -109,7 +109,7 @@
           Citizenship
         </dt>
         <dd class="govuk-summary-list__value">
-          {{ candidate.citizenship | lookup }}
+          {{ $filters.lookup(candidate.citizenship) }}
         </dd>
       </div>
 
@@ -120,7 +120,7 @@
         <dd
           class="govuk-summary-list__value"
         >
-          {{ candidate.reasonableAdjustments | toYesNo }}
+          {{ $filters.toYesNo(candidate.reasonableAdjustments) }}
           <ul
             v-if="candidate.reasonableAdjustmentsDetails"
             class="govuk-list govuk-!-margin-top-1"
@@ -150,6 +150,7 @@ export default {
       required: true,
     },
   },
+  emits: ['changedetails'],
   computed: {
     hasData() {
       return Object.keys(this.candidate).length > 0;

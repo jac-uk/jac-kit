@@ -28,6 +28,7 @@ export default {
       default: 'Search',
     },
   },
+  emits: ['search'],
   data() {
     return {
       search: '',
