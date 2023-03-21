@@ -15,7 +15,7 @@
         <dd
           class="govuk-summary-list__value"
         >
-          {{ data.criminalOffences | toYesNo }}
+          {{ $filters.toYesNo(data.criminalOffences) }}
           <EventRenderer
             v-if="data.criminalOffences"
             :events="data.criminalOffenceDetails"
@@ -29,7 +29,7 @@
         <dd
           class="govuk-summary-list__value"
         >
-          {{ data.nonMotoringFixedPenaltyNotices | toYesNo }}
+          {{ $filters.toYesNo(data.nonMotoringFixedPenaltyNotices) }}
           <EventRenderer
             v-if="data.nonMotoringFixedPenaltyNotices"
             :events="data.nonMotoringFixedPenaltyNoticesDetails"
@@ -43,7 +43,7 @@
         <dd
           class="govuk-summary-list__value"
         >
-          {{ data.drivingDisqualificationDrinkDrugs | toYesNo }}
+          {{ $filters.toYesNo(data.drivingDisqualificationDrinkDrugs) }}
           <EventRenderer
             v-if="data.drivingDisqualificationDrinkDrugs"
             :events="data.drivingDisqualificationDrinkDrugsDetails"
@@ -57,7 +57,7 @@
         <dd
           class="govuk-summary-list__value"
         >
-          {{ data.endorsementsOrMotoringFixedPenalties | toYesNo }}
+          {{ $filters.toYesNo(data.endorsementsOrMotoringFixedPenalties) }}
           <EventRenderer
             v-if="data.endorsementsOrMotoringFixedPenalties"
             :events="data.endorsementsOrMotoringFixedPenaltiesDetails"
@@ -71,7 +71,7 @@
         <dd
           class="govuk-summary-list__value"
         >
-          {{ data.declaredBankruptOrIVA | toYesNo }}
+          {{ $filters.toYesNo(data.declaredBankruptOrIVA) }}
           <EventRenderer
             v-if="data.declaredBankruptOrIVA"
             :events="data.declaredBankruptOrIVADetails"
@@ -85,7 +85,7 @@
         <dd
           class="govuk-summary-list__value"
         >
-          {{ data.lateTaxReturnOrFined | toYesNo }}
+          {{ $filters.toYesNo(ata.lateTaxReturnOrFined) }}
           <EventRenderer
             v-if="data.lateTaxReturnOrFined"
             :events="data.lateTaxReturnOrFinedDetails"
@@ -99,7 +99,7 @@
         <dd
           class="govuk-summary-list__value"
         >
-          {{ data.involvedInProfessionalMisconduct | toYesNo }}
+          {{ $filters.toYesNo(data.involvedInProfessionalMisconduct) }}
           <EventRenderer
             v-if="data.involvedInProfessionalMisconduct"
             :events="data.involvedInProfessionalMisconductDetails"
@@ -113,7 +113,7 @@
         <dd
           class="govuk-summary-list__value"
         >
-          {{ data.diciplinaryActionOrAskedToResign | toYesNo }}
+          {{ $filters.toYesNo(data.diciplinaryActionOrAskedToResign) }}
           <EventRenderer
             v-if="data.diciplinaryActionOrAskedToResign"
             :events="data.diciplinaryActionOrAskedToResignDetails"
@@ -127,7 +127,7 @@
         <dd
           class="govuk-summary-list__value"
         >
-          {{ data.otherCharacterIssues | toYesNo }}
+          {{ $filters.toYesNo(data.otherCharacterIssues) }}
           <EventRenderer
             v-if="data.otherCharacterIssues"
             :events="data.otherCharacterIssuesDetails"

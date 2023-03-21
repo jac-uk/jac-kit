@@ -17,6 +17,7 @@ export default {
       default: false,
     },
   },
+  emits: ['click'],
   computed: {
     buttonText() {
       if (this.inFavourites) {

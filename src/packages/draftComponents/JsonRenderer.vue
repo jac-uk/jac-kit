@@ -4,16 +4,16 @@
       {{ value }}
     </span>
     <span v-else-if="typeof(value) == 'string'">
-      {{ value | lookup }}
+      {{ $filters.lookup(value) }}
     </span>
     <span v-else-if="typeof(value) == 'number'">
       {{ value }}
     </span>
     <span v-else-if="typeof(value) == 'boolean'">
-      {{ value | toYesNo }}
+      {{ $filters.toYesNo(value) }}
     </span>
     <span v-else-if="typeof(value) == 'object' && typeof(value.getMonth) == 'function'">
-      {{ value | formatDate }}
+      {{ $filters.formatDate(value) }}
     </span>
     <span v-else-if="typeof(value) == 'object' && Array.isArray(value)">
       <ul
@@ -42,7 +42,7 @@
             scope="row"
             class="govuk-table__header table-header"
           >
-            {{ propName | toHumanCase }}
+            {{ $filters.toHumanCase(propName) }}
           </th>
           <td class="govuk-table__cell">
             <JsonRenderer :value="propValue" />

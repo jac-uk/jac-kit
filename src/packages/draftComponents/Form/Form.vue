@@ -11,14 +11,14 @@ export default {
     };
   },
   mounted: function () {
-    this.$root.$on('handle-error', this.handleError);
+    this.emitter.on('handle-error', this.handleError);
   },
-  beforeDestroy: function() {
-    this.$root.$off('handle-error', this.handleError);
+  beforeUnmount: function() {
+    this.emitter.off('handle-error', this.handleError);
   },
   methods: {
     async validate() {
-      this.$root.$emit('validate');
+      this.emitter.emit('validate');
     },
     handleError(payload) {
       this.errorObject[payload.id] = payload.message;
@@ -34,7 +34,7 @@ export default {
     },
     scrollToErrorSummary(){
       //This is just scrolling to top of page
-      this.$root.$el.scrollIntoView();
+      this.$el.scrollIntoView();
     },
     isValid() {
       return this.errors.length === 0;

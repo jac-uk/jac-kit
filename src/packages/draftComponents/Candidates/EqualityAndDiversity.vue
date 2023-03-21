@@ -15,7 +15,7 @@
           Agreed to share data
         </dt>
         <dd class="govuk-summary-list__value">
-          {{ data.shareData | toYesNo }}
+          {{ $filters.toYesNo(data.shareData) }}
         </dd>
       </div>
 
@@ -43,10 +43,10 @@
                 v-if="item == 'other-professional-background'"
                 class="govuk-body govuk-!-margin-bottom-0"
               >
-                <span>{{ item | lookup }}</span>
+                <span>{{ $filters.lookup(item) }}</span>
                 {{ data.otherProfessionalBackgroundDetails }}
               </p>
-              <span v-else>{{ item | lookup }}</span>
+              <span v-else>{{ $filters.lookup(item) }}</span>
             </li>
           </ul>
         </dd>
@@ -76,7 +76,7 @@
               :key="item.name"
             >
               <p class="govuk-body govuk-!-margin-bottom-0">
-                {{ item | lookup }}
+                {{ $filters.lookup(item) }}
               </p>
               <p
                 v-if="item == 'other-fee-paid-judicial-office-holder'"
@@ -109,7 +109,7 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <p class="govuk-body">
-            {{ data.feePaidJudicialRole | lookup | toYesNo }}
+            {{ $filters.toYesNo($filters.lookup(data.feePaidJudicialRole)) }}
           </p>
           <p
             v-if="data.feePaidJudicialRole == 'other-fee-paid-judicial-office'"
@@ -125,7 +125,7 @@
           Attended state or fee-paying school
         </dt>
         <dd class="govuk-summary-list__value">
-          {{ data.stateOrFeeSchool | lookup }}
+          {{ $filters.lookup(data.stateOrFeeSchool) }}
         </dd>
       </div>
 
@@ -134,7 +134,7 @@
           Attended Oxbridge universities
         </dt>
         <dd class="govuk-summary-list__value">
-          {{ data.oxbridgeUni | lookup | toYesNo }}
+          {{ $filters.toYesNo($filters.lookup(data.oxbridgeUni)) }}
         </dd>
       </div>
 
@@ -143,7 +143,7 @@
           First generation to go to university
         </dt>
         <dd class="govuk-summary-list__value">
-          {{ data.firstGenerationStudent | lookup | toYesNo }}
+          {{ $filters.toYesNo($filters.lookup(data.firstGenerationStudent)) }}
         </dd>
       </div>
 
@@ -153,7 +153,7 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <p class="govuk-body govuk-!-margin-bottom-0">
-            {{ data.ethnicGroup | lookup }}
+            {{ $filters.lookup(data.ethnicGroup) }}
           </p>
           <p
             v-if="hasEthnicGroupDetails"
@@ -170,7 +170,7 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <p class="govuk-body govuk-!-margin-bottom-0">
-            {{ data.gender | lookup }}
+            {{ $filters.lookup(data.gender) }}
           </p>
           <p
             v-if="data.gender == 'other-gender'"
@@ -186,7 +186,7 @@
           Gender indentity same as sex registered at birth?
         </dt>
         <dd class="govuk-summary-list__value">
-          {{ data.changedGender | lookup | toYesNo }}
+          {{ $filters.toYesNo($filters.lookup(data.changedGender)) }}
         </dd>
       </div>
 
@@ -196,7 +196,7 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <p class="govuk-body govuk-!-margin-bottom-0">
-            {{ data.sexualOrientation | lookup }}
+            {{ $filters.lookup(data.sexualOrientation) }}
           </p>
           <p
             v-if="data.sexualOrientation == 'other-sexual-orientation'"
@@ -213,7 +213,7 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <p class="govuk-body govuk-!-margin-bottom-0">
-            {{ data.disability | lookup | toYesNo }}
+            {{ $filters.toYesNo($filters.lookup(data.disability)) }}
           </p>
           <p
             v-if="data.disability === true"
@@ -239,7 +239,7 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <p class="govuk-body govuk-!-margin-bottom-0">
-            {{ data.religionFaith | lookup }}
+            {{ $filters.lookup(data.religionFaith) }}
           </p>
           <p
             v-if="data.religionFaith == 'other-religion'"
@@ -255,7 +255,7 @@
           Attended Outreach events
         </dt>
         <dd class="govuk-summary-list__value">
-          {{ data.attendedOutreachEvents | lookup | toYesNo }}
+          {{ $filters.toYesNo($filters.lookup(data.attendedOutreachEvents)) }}
         </dd>
       </div>
 
@@ -267,7 +267,7 @@
           Participated in a Judicial Workshadowing Scheme
         </dt>
         <dd class="govuk-summary-list__value">
-          {{ data.participatedInJudicialWorkshadowingScheme | lookup | toYesNo }}
+          {{ $filters.toYesNo($filters.lookup(data.participatedInJudicialWorkshadowingScheme)) }}
         </dd>
       </div>
 
@@ -279,7 +279,7 @@
           Participated in Pre-Application Judicial Education Programme
         </dt>
         <dd class="govuk-summary-list__value">
-          {{ data.hasTakenPAJE | lookup | toYesNo }}
+          {{ $filters.toYesNo($filters.lookup(data.hasTakenPAJE)) }}
         </dd>
       </div>
     </dl>

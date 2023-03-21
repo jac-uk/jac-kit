@@ -56,6 +56,7 @@ export default {
       default: 'Please Confirm',
     },
   },
+  emits: ['close', 'confirmed'],
   methods: {
     closeModal() {
       this.$emit('close', this.index);

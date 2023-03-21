@@ -24,7 +24,7 @@
           {{ row.exercise.name }}
         </TableCell>
         <TableCell>
-          {{ row.status | lookup }}{{ row.status && row.stage ? ' / ' : '' }}{{ row.stage }}
+          {{ $filters.lookup(row.status) }}{{ row.status && row.stage ? ' / ' : '' }}{{ row.stage }}
         </TableCell>
         <TableCell>
           <RouterLink

@@ -16,7 +16,7 @@
         :type="type"
         :label="typeName"
       >
-        <template v-slot:removeButton>
+        <template #removeButton>
           <button
             v-if="allowEmpty || rows.length > 1"
             ref="removeFieldButton"
@@ -44,7 +44,11 @@
 export default {
   name: 'RepeatableFields',
   props: {
-    value: {
+    // value: {
+    //   validator: (value) => (value instanceof Array || value === null || value === undefined),
+    //   required: true,
+    // },
+    modelValue: {
       validator: (value) => (value instanceof Array || value === null || value === undefined),
       required: true,
     },
@@ -83,6 +87,8 @@ export default {
       default: '',
     },
   },
+  //emits: ['input'],
+  emits: ['update:modelValue'],
   data() {
     return {
       rows: [],
@@ -104,10 +110,16 @@ export default {
     },
   },
   created() {
-    if (this.value instanceof Array) {
-      this.rows = this.value;
+    // if (this.value instanceof Array) {
+    //   this.rows = this.value;
+    // } else {
+    //   this.$emit('input', this.rows);
+    // }
+    if (this.modelValue instanceof Array) {
+      this.rows = this.modelValue;
     } else {
-      this.$emit('input', this.rows);
+      //this.$emit('input', this.rows);
+      this.$emit('update:modelValue', this.rows);
     }
 
     if (!this.allowEmpty && this.rows.length === 0) {

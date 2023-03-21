@@ -68,7 +68,7 @@ const isInt = (value) => {
   if (isNaN(value)) {
     return false;
   }
-  var x = parseFloat(value);
+  const x = parseFloat(value);
   return (x | 0) === x;
 };
 
@@ -345,7 +345,7 @@ const lookup = (value) => {
       'nationalInsuranceNumber': 'National Insurance Number',
       'reasonableAdjustments': 'Reasonable Adjustments',
       'reasonableAdjustmentsDetails': 'Reasonable Adjustment Details',
-      // Character information 
+      // Character information
       'criminalOffences': 'criminal offences',
       'nonMotoringFixedPenaltyNotices': 'non-motoring fixed penalty notices',
       'drivingDisqualificationDrinkDrugs': 'disqualified from driving, or convicted for driving under the influence of drink or drugs',

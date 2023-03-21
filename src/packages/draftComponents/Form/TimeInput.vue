@@ -5,7 +5,7 @@
   >
     <fieldset
       class="govuk-fieldset"
-      :aria-describedby="hint ? `${id}-hint` : false"
+      :aria-describedby="hint ? `${id}-hint` : null"
       role="group"
     >
       <legend
@@ -75,16 +75,26 @@ import FormField from './FormField';
 import FormFieldError from './FormFieldError';
 
 export default {
+  compatConfig: {
+    COMPONENT_V_MODEL: false,
+    // or, for full vue 3 compat in this component:
+    //MODE: 3,
+  },
   components: {
     FormFieldError,
   },
   extends: FormField,
   props: {
-    value: {
+    // value: {
+    //   required: true,
+    //   validator: (value) => (value instanceof Date || value === null || value === undefined),
+    // },
+    modelValue: {
       required: true,
       validator: (value) => (value instanceof Date || value === null || value === undefined),
     },
   },
+  emits: ['update:modelValue'],
   data() {
     return {
       minute: null,
@@ -136,16 +146,23 @@ export default {
   },
   watch: {
     date(value) {
-      this.$emit('input', value);
+      //this.$emit('input', value);
+      this.$emit('update:modelValue', value);
     },
-    value(newValue, oldValue) {
+    // value(newValue, oldValue) {
+    //   if (!this.datesAreEqual(newValue, oldValue)) {
+    //     this.date = newValue;
+    //   }
+    // },
+    modelValue(newValue, oldValue) {
       if (!this.datesAreEqual(newValue, oldValue)) {
         this.date = newValue;
       }
     },
   },
   created() {
-    this.date = this.value;
+    //this.date = this.value;
+    this.date = this.modelValue;
   },
   methods: {
     datesAreEqual(date1, date2) {

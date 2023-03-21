@@ -38,23 +38,37 @@ import FormField from './FormField';
 import FormFieldError from './FormFieldError';
 
 export default {
+  // Below needs to be included while using vue2 compat mode
+  compatConfig: {
+    COMPONENT_V_MODEL: false,
+    // or, for full vue 3 compat in this component:
+    //MODE: 3,
+  },
   components: {
     FormFieldError,
   },
   extends: FormField,
   props: {
-    value: {
+    modelValue: {
       default: '',
       type: [String, Number, Boolean],
     },
+    // value: {
+    //   default: '',
+    //   type: [String, Number, Boolean],
+    // },
   },
+  //emits: ['input'],
+  emits: ['update:modelValue'],
   computed: {
     localModel: {
       get() {
-        return this.value;
+        //return this.value;
+        return this.modelValue;
       },
       set(val) {
-        this.$emit('input', val);
+        //this.$emit('input', val);
+        this.$emit('update:modelValue', val);
       },
     },
   },

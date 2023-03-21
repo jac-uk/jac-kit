@@ -1,8 +1,23 @@
-import Vue from 'vue';
+import { createApp } from 'vue';
+
 import App from './App.vue';
+import * as filters from './filters/filters';
 
-Vue.config.productionTip = false;
+import mitt from 'mitt';
 
-new Vue({
-  render: h => h(App),
-}).$mount('#app');
+/**
+ * Mitt is used to replace the event bus, which is no longer supported in Vue3.
+ * Ultimately this should be replaced by another pattern.
+ * See: https://v3-migration.vuejs.org/breaking-changes/events-api.html
+ */
+const emitter = mitt();
+
+// Root instance
+const vueApp = createApp(App);
+
+// Bind filters and event bus before mounting
+vueApp.config.globalProperties.$filters = filters;
+vueApp.config.globalProperties.emitter = emitter;
+
+// Root component
+vueApp.mount('#app');

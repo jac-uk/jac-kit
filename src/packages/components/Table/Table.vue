@@ -1,5 +1,8 @@
 <template>
-  <div class="jac-table" :class="{ 'sticky-headers-table': sticky }">
+  <div
+    class="jac-table"
+    :class="{ 'sticky-headers-table': sticky }"
+  >
     <div class="govuk-grid-row">
       <div
         v-if="hasSearch"
@@ -46,8 +49,8 @@
       </template>
       <template #default>
         <CustomForm
+          v-model:data="filterValues"
           :fields="filters"
-          :data.sync="filterValues"
         />
       </template>
       <template #footer>
@@ -113,7 +116,10 @@
             >
               {{ column.title }}
             </button>
-            <span v-else-if="column.emitEvent" class="header-link">
+            <span
+              v-else-if="column.emitEvent"
+              class="header-link"
+            >
               {{ column.title }}
             </span>
             <span v-else>
@@ -157,7 +163,9 @@
         <slot name="footer" />
       </tbody>
     </table>
-    <div v-else-if="!loading">No data</div>
+    <div v-else-if="!loading">
+      No data
+    </div>
     <nav
       v-if="showPaging"
       class="moj-pagination"
@@ -323,6 +331,7 @@ export default {
       default: false,
     },
   },
+  emits: ['update:selection', 'change', 'emitEvent'],
   data() {
     return {
       currentPageItemType: this.pageItemType,
@@ -459,10 +468,18 @@ export default {
     },
   },
   watch: {
-    data(val) {
-      if (val) {
-        this.loading = false;
-      }
+    // data(val) {
+    //   if (val) {
+    //     this.loading = false;
+    //   }
+    // },
+    data: {
+      deep: true,  // vue3 upgrade
+      handler(val) {
+        if (val) {
+          this.loading = false;
+        }
+      },
     },
   },
   created() {
@@ -699,7 +716,7 @@ export default {
       }
       else {
         this.sortBy(column);
-      }      
+      }
     },
     togglePagination() {
       this.currentPageItemType =  this.isLetterPagination(this.currentPageItemType) ? null : this.pageItemType;

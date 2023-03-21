@@ -22,11 +22,11 @@
     />
     <input
       :id="id"
-      v-model="text"
+      v-model="value"
       class="govuk-input"
       :class="[inputClass, { 'govuk-input--error': hasError }]"
       :type="fieldType"
-      :autocomplete="autocomplete"
+      :autocomplete="localAutocomplete"
       @change="validate"
     >
   </div>
@@ -35,8 +35,11 @@
 <script>
 import FormField from './FormField';
 import FormFieldError from './FormFieldError';
-
 export default {
+  // Below needs to be included while using vue2 compat mode else get warnings - check if it actually does get rid of the warnings!!
+  compatConfig: {
+    MODE: 3,
+  },
   components: {
     FormFieldError,
   },
@@ -46,37 +49,58 @@ export default {
       default: '',
       type: String,
     },
-    value: {
+    modelValue: {
       default: '',
       type: [String, Number],
     },
+    // value: {
+    //   default: '',
+    //   type: [String, Number],
+    // },
     type: {
       default: 'text',
       type: String,
     },
+    autocomplete: {
+      default: 'on',
+      type: String,
+    },
   },
+
+  //emits: ['input'],
+  emits: ['update:modelValue'],
   computed: {
-    text: {
+    value: {
+
+      // get: () => props.modelValue,
+      // set: (value) => emit('update:modelValue', value)
+
       get() {
-        return this.value;
+        //return this.value;
+        return this.modelValue;
       },
       set(val) {
         switch (this.type) {
         case 'number':
-          this.$emit('input', val ? parseFloat(val) : '');
+          //this.$emit('input', val ? parseFloat(val) : '');
+          this.$emit('update:modelValue', val ? parseFloat(val) : '');
           break;
         default:
-          this.$emit('input', val);
+          //this.$emit('input', val);
+          this.$emit('update:modelValue', val);
         }
       },
     },
-    autocomplete() {
+    localAutocomplete() {
+      if (this.autocomplete === 'off') {
+        return 'new-password';  // To force prevent autofill!
+      }
       switch (this.type) {
       case 'tel':
       case 'email':
         return this.type;
       default:
-        return false;
+        return null;
       }
     },
 
