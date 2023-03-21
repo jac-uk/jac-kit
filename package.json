@@ -1,9 +1,8 @@
 {
   "name": "jac-kit",
-  "version": "0.0.48",
+  "version": "3.0.0",
   "private": true,
   "scripts": {
-    "preinstall": "npx npm-force-resolutions",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
