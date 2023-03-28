@@ -112,7 +112,7 @@ export default {
           value = event.target.value;
         }
 
-        if (this.type && this.type != 'date') {
+        if (this.type) {
           if (this.type === 'email') {
             value = value.trim().toLowerCase();
             this.text = value;
