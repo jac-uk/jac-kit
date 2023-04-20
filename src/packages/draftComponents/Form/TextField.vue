@@ -61,6 +61,7 @@ export default {
         return this.value;
       },
       set(val) {
+        val = val.trim();
         switch (this.type) {
         case 'number':
           this.$emit('input', val ? parseFloat(val) : '');
