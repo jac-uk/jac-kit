@@ -3,7 +3,6 @@
     class="govuk-form-group"
     :class="{ 'govuk-form-group--error': hasError }"
   >
-
     <label
       :for="id"
       class="govuk-heading-m govuk-!-margin-bottom-2"
@@ -27,7 +26,7 @@
       :class="[inputClass, { 'govuk-input--error': hasError }]"
       :type="fieldType"
       :autocomplete="localAutocomplete"
-      @change="validate"
+      @input="validate"
     >
   </div>
 </template>
@@ -53,10 +52,6 @@ export default {
       default: '',
       type: [String, Number],
     },
-    // value: {
-    //   default: '',
-    //   type: [String, Number],
-    // },
     type: {
       default: 'text',
       type: String,
@@ -66,28 +61,19 @@ export default {
       type: String,
     },
   },
-
-  //emits: ['input'],
   emits: ['update:modelValue'],
   computed: {
     value: {
-
-      // get: () => props.modelValue,
-      // set: (value) => emit('update:modelValue', value)
-
       get() {
-        //return this.value;
         return this.modelValue;
       },
       set(val) {
         val = val.trim();
         switch (this.type) {
         case 'number':
-          //this.$emit('input', val ? parseFloat(val) : '');
           this.$emit('update:modelValue', val ? parseFloat(val) : '');
           break;
         default:
-          //this.$emit('input', val);
           this.$emit('update:modelValue', val);
         }
       },

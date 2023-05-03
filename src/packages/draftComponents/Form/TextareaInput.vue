@@ -21,10 +21,10 @@
     />
     <textarea
       :id="id"
-      v-model="text"
+      v-model="value"
       class="govuk-textarea"
       :rows="rows"
-      @change="validate"
+      @input="validate"
     />
   </div>
 </template>
@@ -55,7 +55,7 @@ export default {
   },
   emits: ['update:modelValue'],
   computed: {
-    text: {
+    value: {
       get() {
         return this.modelValue;
       },

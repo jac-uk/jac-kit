@@ -114,7 +114,9 @@ export default {
 
         if (this.type) {
           if (this.type === 'email') {
-            value = value.trim().toLowerCase();
+            if (value) {
+              value = value.trim().toLowerCase();
+            }
             this.text = value;
             if (!this.regex.email.test(value)) {
               this.setError(`Enter a valid email address for ${this.label}`);
