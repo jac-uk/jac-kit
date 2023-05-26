@@ -244,6 +244,7 @@ import CheckboxGroup from './Form/CheckboxGroup';
 import CheckboxItem from './Form/CheckboxItem';
 //import * as filters from '../filters/filters';
 import Form from './Form/Form';
+import { transformOnSelection } from '../helpers/array';
 
 export default {
   components: {
@@ -350,6 +351,11 @@ export default {
     editMode: function() {
       if (this.editField && !this.editMode) {
         this.cancelEdit();
+      }
+    },
+    localField(newValue, oldValue) {
+      if (this.isMultiSelection) {
+        this.localField = transformOnSelection(newValue, oldValue, 'prefer-not-to-say');
       }
     },
   },
