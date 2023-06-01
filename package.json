@@ -18,7 +18,8 @@
     "core-js": "^3.28.0",
     "govuk-frontend": "^4.5.0",
     "mitt": "^3.0.0",
-    "vue": "^3.1"
+    "vue": "^3.1",
+    "xlsx-populate": "^1.21.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",
