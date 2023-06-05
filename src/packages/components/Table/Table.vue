@@ -610,6 +610,17 @@ export default {
             this.numberOfFiltersApplied += 1;
           }
           break;
+        case 'radio':
+          if (this.filterValues[filter.field]) {
+            const value = this.filterValues[filter.field];
+            where.push({
+              field: filter.field,
+              comparator: '==',
+              value: value.toLowerCase(),
+            });
+            this.numberOfFiltersApplied += 1;
+          }
+          break;
         }
       });
       this.where = where;
