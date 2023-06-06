@@ -557,11 +557,20 @@ export default {
           break;
         case 'singleCheckbox':
           if (this.filterValues[filter.field]) {
-            where.push({
-              field: filter.field,
-              comparator: '==',
-              value: true,
-            });
+            if (filter.fieldComparator === 'arrayNotEmpty') {
+              where.push({
+                field: filter.field,
+                comparator: '!=',
+                value: [],
+              });
+            }
+            else {
+              where.push({
+                field: filter.field,
+                comparator: '==',
+                value: true,
+              });
+            }
             this.numberOfFiltersApplied += 1;
           }
           break;
