@@ -470,9 +470,20 @@ export default {
       this.orderBy = this.defaultState.orderBy;
       this.direction = this.defaultState.direction;
     }
+    this.initialiseFilters();
     this.changeTableState(ACTIONS.LOAD, this.currentState);
   },
   methods: {
+    initialiseFilters() {
+      for (const filter of this.filters) {
+        if ('defaultValue' in filter) {
+          // Only supports radio currently (others can be supported as and when they're needed)
+          if (filter.type === 'radio') {
+            this.filterValues[filter.field] = filter.defaultValue;
+          }
+        }
+      }
+    },
     isLetterPagination(type) {
       return ['uppercase-letter', 'lowercase-letter'].includes(type);
     },
@@ -557,11 +568,20 @@ export default {
           break;
         case 'singleCheckbox':
           if (this.filterValues[filter.field]) {
-            where.push({
-              field: filter.field,
-              comparator: '==',
-              value: true,
-            });
+            if (filter.fieldComparator === 'arrayNotEmpty') {
+              where.push({
+                field: filter.field,
+                comparator: '!=',
+                value: [],
+              });
+            }
+            else {
+              where.push({
+                field: filter.field,
+                comparator: '==',
+                value: true,
+              });
+            }
             this.numberOfFiltersApplied += 1;
           }
           break;
@@ -608,6 +628,20 @@ export default {
             this.orderBy = this.filterValues[`${filter.ident}-field`];  // order by date field
             this.direction = 'asc';
             this.numberOfFiltersApplied += 1;
+          }
+          break;
+        case 'radio':
+          if (this.filterValues[filter.field]) {
+            const value = this.filterValues[filter.field];
+            // Ensure if empty option is selected the 'where' clause is skipped
+            if (!('emptyOption' in filter) || value !== filter.emptyOption) {
+              where.push({
+                field: filter.field,
+                comparator: '==',
+                value: value.toLowerCase(),
+              });
+              this.numberOfFiltersApplied += 1;
+            }
           }
           break;
         }

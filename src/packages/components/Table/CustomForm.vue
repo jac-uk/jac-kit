@@ -1,5 +1,5 @@
 <template>
-  <div class="govuk-!-padding-top-4 govuk-!-padding-bottom-4 govuk-!-padding-left-2 govuk-!-padding-right-2">
+  <div class="custom-form-container govuk-!-padding-top-4 govuk-!-padding-bottom-4 govuk-!-padding-left-2 govuk-!-padding-right-2">
     <div
       v-for="field in fields"
       :key="field.title"
@@ -78,6 +78,21 @@
           />
         </fieldset>
       </div>
+      <div v-else-if="field.type === 'radio'">
+        <RadioGroup
+          :id="`filter-${field.field}`"
+          v-model="localData[`${field.field}`]"
+          :label="field.title"
+          hint="Select one."
+      >
+        <RadioItem
+          v-for="(option, i) in field.options"
+          :key="i"
+          :value="option"
+          :label="option.toString() | lookup"
+        />
+      </RadioGroup>
+      </div>
     </div>
   </div>
 </template>
@@ -88,6 +103,8 @@ import TextField from '../../draftComponents/Form/TextField';
 import CheckboxItem from '../../draftComponents/Form/CheckboxItem';
 import DateInput from '../../draftComponents/Form/DateInput';
 import Checkbox from '../../draftComponents/Form/Checkbox';
+import RadioGroup from '../../draftComponents/Form/RadioGroup';
+import RadioItem from '../../draftComponents/Form/RadioItem';
 
 export default {
   components: {
@@ -96,6 +113,8 @@ export default {
     TextField,
     DateInput,
     Checkbox,
+    RadioGroup,
+    RadioItem,
   },
   props: {
     fields: {
@@ -120,3 +139,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+  .custom-form-container > :not(:first-child) {
+    margin-top: 20px;
+  }
+</style>
