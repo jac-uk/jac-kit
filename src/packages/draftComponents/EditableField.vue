@@ -8,8 +8,11 @@
         v-if="value == undefined || value == null || value === '' || (Array.isArray(value) && !value.length)"
       >
         <span>
-          No answer provided
-        </span> 
+          No information
+        </span>
+        <span v-if="!isAsked">
+          (not asked)
+        </span>
       </div>
 
       <span v-else-if="isEmail">
@@ -299,6 +302,11 @@ export default {
     displayMonthYearOnly: {
       type: Boolean,
       default: false,
+    },
+    isAsked: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
   },
   emits: ['changeField'],
