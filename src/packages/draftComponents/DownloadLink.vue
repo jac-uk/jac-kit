@@ -69,6 +69,12 @@ export default {
       linkHref: '',
     };
   },
+  watch: {
+    async fileName() {
+      // When the filename changes update the download link (so download links are not reactive unless the filename changes!)
+      this.linkHref = await this.getDownloadURL();
+    },
+  },
   computed: {
     linkText() {
       return this.title ? this.title : this.fileName;

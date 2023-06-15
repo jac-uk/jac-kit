@@ -51,6 +51,7 @@ import firebase from '@firebase/app';
 import '@firebase/storage';
 import FormField from './FormField';
 import FormFieldError from './FormFieldError';
+import uniqueFilename from 'unique-filename';
 
 export default {
   components: {
@@ -132,12 +133,12 @@ export default {
       return this.upload(file);
     },
     generateFileName(originalName) {
+      // Ensure the filename is unique (this is beneficial for reactivity in other components)
       const parts = originalName.split('.');
       if ( parts.length === 1 || ( parts[0] === '' && parts.length === 2 )) {
-        return this.name;
+        return uniqueFilename('', this.name);
       }
-
-      return [this.name, parts.pop()].join('.');
+      return [uniqueFilename('', this.name), parts.pop()].join('.');
     },
     validFileExtension(originalName){
       const parts = originalName.split('.');
