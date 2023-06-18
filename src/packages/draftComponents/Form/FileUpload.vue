@@ -193,7 +193,7 @@ export default {
       const uploadRef = firebase.storage().ref(`${this.path}/${fileName}`);
 
       // Delete the current file in file storage
-      if (this.enableDelete) {
+      if (this.haveFile && this.enableDelete) {
         await this.deleteFile(this.path, this.value);
       }
 
