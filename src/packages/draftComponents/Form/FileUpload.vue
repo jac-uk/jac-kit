@@ -51,7 +51,6 @@ import firebase from '@firebase/app';
 import '@firebase/storage';
 import FormField from './FormField';
 import FormFieldError from './FormFieldError';
-import uniqueFilename from 'unique-filename';
 
 export default {
   components: {
@@ -85,6 +84,10 @@ export default {
       type: String,
       required: false,
       default: '.pdf,.docx,.doc,.odt,.txt,.fodt',
+    },
+    enableDelete: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -136,9 +139,9 @@ export default {
       // Ensure the filename is unique (this is beneficial for reactivity in other components)
       const parts = originalName.split('.');
       if ( parts.length === 1 || ( parts[0] === '' && parts.length === 2 )) {
-        return uniqueFilename('', this.name);
+        return this.getNumericalFileName(this.name);
       }
-      return [uniqueFilename('', this.name), parts.pop()].join('.');
+      return [this.getNumericalFileName(this.name), parts.pop()].join('.');
     },
     validFileExtension(originalName){
       const parts = originalName.split('.');
@@ -189,6 +192,11 @@ export default {
       const fileName = this.generateFileName(file.name);
       const uploadRef = firebase.storage().ref(`${this.path}/${fileName}`);
 
+      // Delete the current file in file storage
+      if (this.enableDelete) {
+        await this.deleteFile(this.path, this.value);
+      }
+
       try {
         const fileUploaded = await uploadRef.put(file);
         if (fileUploaded && fileUploaded.state === 'success') {
@@ -225,6 +233,23 @@ export default {
         return false;
       } catch (e) {
         return false;
+      }
+    },
+    getNumericalFileName(name) {
+      const dateNow = new Date();
+      const dateToNumber = `${dateNow.getFullYear()}${dateNow.getMonth() + 1}${dateNow.getUTCDate()}${dateNow.getHours()}${dateNow.getMinutes()}${dateNow.getSeconds()}`;
+      return `${name} - ${dateToNumber}`;
+    },
+    async deleteFile(path, filename) {
+      const deleteRef = firebase.storage().ref(`${path}/${filename}`);
+      try {
+        await deleteRef.delete();
+      }
+      catch (error) {
+        // Uh-oh, an error occurred!
+        // eslint-disable-next-line no-console
+        console.log('error deleting a file:', error);
+
       }
     },
   },
