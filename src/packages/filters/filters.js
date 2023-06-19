@@ -386,7 +386,7 @@ const lookup = (value) => {
     lookup[APPLICATION_STATUS.PASSED_SIFT] = 'Passed Sift';
     lookup[APPLICATION_STATUS.FAILED_SIFT] = 'Failed Sift';
     lookup[APPLICATION_STATUS.SUBMITTED_FIRST_TEST] = 'Submitted first test';
-    lookup[APPLICATION_STATUS.FAILED_FIRST_TEST] = 'Failed First test';
+    lookup[APPLICATION_STATUS.FAILED_FIRST_TEST] = 'Failed first test';
     lookup[APPLICATION_STATUS.SUBMITTED_SCENARIO_TEST] = 'Submitted scenario test';
     lookup[APPLICATION_STATUS.PASSED_FIRST_TEST] = 'Passed first test';
     lookup[APPLICATION_STATUS.FAILED_SCENARIO_TEST] = 'Failed scenario test';
