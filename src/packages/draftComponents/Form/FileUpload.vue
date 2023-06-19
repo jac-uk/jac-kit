@@ -194,7 +194,7 @@ export default {
 
       // Delete the current file in file storage
       if (this.haveFile && this.enableDelete) {
-        await this.deleteFile(this.path, this.value);
+        this.deleteFile(this.path, this.value);
       }
 
       try {
@@ -240,10 +240,10 @@ export default {
       const dateToNumber = `${dateNow.getFullYear()}${dateNow.getMonth() + 1}${dateNow.getUTCDate()}${dateNow.getHours()}${dateNow.getMinutes()}${dateNow.getSeconds()}`;
       return `${name} - ${dateToNumber}`;
     },
-    async deleteFile(path, filename) {
+    deleteFile(path, filename) {
       const deleteRef = firebase.storage().ref(`${path}/${filename}`);
       try {
-        await deleteRef.delete();
+        deleteRef.delete();
       }
       catch (error) {
         // Uh-oh, an error occurred!
