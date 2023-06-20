@@ -88,6 +88,12 @@ export default {
       return savePath;
     },
   },
+  watch: {
+    async fileName() {
+      // When the filename changes update the download link (so download links are not reactive unless the filename changes!)
+      this.linkHref = await this.getDownloadURL();
+    },
+  },
   async mounted() {
     const downloadUrl = await this.getDownloadURL();
 
