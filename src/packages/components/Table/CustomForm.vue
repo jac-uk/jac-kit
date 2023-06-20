@@ -91,7 +91,7 @@
           v-for="(option, i) in field.options"
           :key="i"
           :value="option"
-          :label="option.toString() | lookup"
+          :label="$filters.lookup(option.toString())"
         />
       </RadioGroup>
       </div>
