@@ -110,7 +110,7 @@ export default {
   },
   computed: {
     haveFile() {
-      return this.value ? true : false;
+      return this.modelValue ? true : false;
     },
     fileName: {
       get() {
@@ -204,7 +204,7 @@ export default {
 
       // Delete the current file in file storage
       if (this.haveFile && this.enableDelete) {
-        this.deleteFile(this.path, this.value);
+        this.deleteFile(this.path, this.modelValue);
       }
 
       try {
