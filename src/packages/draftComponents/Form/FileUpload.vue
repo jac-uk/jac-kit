@@ -176,7 +176,6 @@ export default {
       return megabyteSize > 2;
     },
     resetFile() {
-      this.$refs.file = null;
       this.isUploading = false;
     },
     async upload(file) {
