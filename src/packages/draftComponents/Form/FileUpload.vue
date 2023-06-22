@@ -94,6 +94,10 @@ export default {
       required: false,
       default: '.pdf,.docx,.doc,.odt,.txt,.fodt',
     },
+    enableDelete: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['update:modelValue'],
   data() {
@@ -106,7 +110,7 @@ export default {
   },
   computed: {
     haveFile() {
-      return this.value ? true : false;
+      return this.modelValue ? true : false;
     },
     fileName: {
       get() {
@@ -142,12 +146,12 @@ export default {
       return this.upload(file);
     },
     generateFileName(originalName) {
+      // Ensure the filename is unique (this is beneficial for reactivity in other components)
       const parts = originalName.split('.');
       if ( parts.length === 1 || ( parts[0] === '' && parts.length === 2 )) {
-        return this.name;
+        return this.getNumericalFileName(this.name);
       }
-
-      return [this.name, parts.pop()].join('.');
+      return [this.getNumericalFileName(this.name), parts.pop()].join('.');
     },
     validFileExtension(originalName){
       const parts = originalName.split('.');
@@ -172,7 +176,6 @@ export default {
       return megabyteSize > 2;
     },
     resetFile() {
-      this.$refs.file = null;
       this.isUploading = false;
     },
     async upload(file) {
@@ -197,6 +200,11 @@ export default {
       this.isUploading = true;
       const fileName = this.generateFileName(file.name);
       const uploadRef = firebase.storage().ref(`${this.path}/${fileName}`);
+
+      // Delete the current file in file storage
+      if (this.haveFile && this.enableDelete) {
+        this.deleteFile(this.path, this.modelValue);
+      }
 
       try {
         const fileUploaded = await uploadRef.put(file);
@@ -234,6 +242,23 @@ export default {
         return false;
       } catch (e) {
         return false;
+      }
+    },
+    getNumericalFileName(name) {
+      const dateNow = new Date();
+      const dateToNumber = `${dateNow.getFullYear()}${dateNow.getMonth() + 1}${dateNow.getUTCDate()}${dateNow.getHours()}${dateNow.getMinutes()}${dateNow.getSeconds()}`;
+      return `${name} - ${dateToNumber}`;
+    },
+    deleteFile(path, filename) {
+      const deleteRef = firebase.storage().ref(`${path}/${filename}`);
+      try {
+        deleteRef.delete();
+      }
+      catch (error) {
+        // Uh-oh, an error occurred!
+        // eslint-disable-next-line no-console
+        console.log('error deleting a file:', error);
+
       }
     },
   },
