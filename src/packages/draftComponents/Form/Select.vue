@@ -61,6 +61,9 @@ export default {
   //emits: ['input'],
   emits: ['update:modelValue'],
   computed: {
+    value() {
+      return this.modelValue;
+    },
     localModel: {
       get() {
         //return this.value;
