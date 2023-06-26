@@ -33,16 +33,18 @@
     <p v-else-if="isUploading">
       Uploading...
     </p>
-    <input
-      v-else
-      :id="id"
-      ref="file"
-      type="file"
-      :accept="fileExtensions"
-      class="govuk-file-upload"
-      :class="{'govuk-input--error': hasError}"
-      @change="fileSelected"
-    >
+    <template v-else>
+      <input
+        :id="id"
+        ref="file"
+        type="file"
+        :accept="fileExtensions"
+        class="govuk-file-upload"
+        :class="{'govuk-input--error': hasError}"
+        @change="fileSelected"
+      >
+      <p>Acceptable file types: {{ types }}</p>
+    </template>
   </div>
 </template>
 
