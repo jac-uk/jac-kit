@@ -14,4 +14,6 @@ const splitFullName = (fullName) => {
 
 };
 
-module.exports = splitFullName;
+export {
+  splitFullName
+};
