@@ -73,7 +73,7 @@ export default {
       return this.errorMessage ? true :  false;
     },
     words() {
-      const value = this.value;
+      const value = this.modelValue;
       const result = value ? value : '';
       return [].concat(...result
         .split(/[^a-z'-]/i) //split into array at every occurance of a character which is NOT: a-z or ' or -
@@ -107,12 +107,14 @@ export default {
     validate(event) {
       this.setError('');
       if (this.checkErrors) {
-        let value = this.value;
+        let value = this.modelValue;
         if (event && event.target) {
           value = event.target.value;
         }
 
-        if (this.type && this.type != 'date') {
+        if (this.type && !['date', 'text'].includes(this.type)) {
+          // This block is for specialised inputs so we ignore date and text fields (so they hit the main validation block below)
+
           if (this.type === 'email') {
             if (value) {
               value = value.trim().toLowerCase();
@@ -135,7 +137,13 @@ export default {
             }
           }
         } else {
-          if (this.required && ((value === null || value === undefined || value.length === 0) || (typeof value === 'string' && value.replace(/\s/g, '').length === 0))) {
+
+          const isNull = (value === null);
+          const isUndefined = (value === undefined);
+          const isEmpty = (value !== null && value.length === 0);
+          const isEmptyString = (typeof value === 'string' && value.replace(/\s/g, '').length === 0);
+
+          if (this.required && ((isNull || isUndefined || isEmpty) || isEmptyString)) {
             if (this.messages && this.messages.required) {
               this.setError(this.messages.required);
             } else {
