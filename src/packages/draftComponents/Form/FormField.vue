@@ -112,7 +112,9 @@ export default {
           value = event.target.value;
         }
 
-        if (this.type && this.type != 'date') {
+        if (this.type && !['date', 'text'].includes(this.type)) {
+          // This block is for specialised inputs so we ignore date and text fields (so they hit the main validation block below)
+
           if (this.type === 'email') {
             value = value.trim().toLowerCase();
             this.text = value;
@@ -133,7 +135,13 @@ export default {
             }
           }
         } else {
-          if (this.required && ((value === null || value === undefined || value.length === 0) || (typeof value === 'string' && value.replace(/\s/g, '').length === 0))) {
+
+          const isNull = (value === null);
+          const isUndefined = (value === undefined);
+          const isEmpty = (value !== null && value.length === 0);
+          const isEmptyString = (typeof value === 'string' && value.replace(/\s/g, '').length === 0);
+
+          if (this.required && ((isNull || isUndefined || isEmpty) || isEmptyString)) {
             if (this.messages && this.messages.required) {
               this.setError(this.messages.required);
             } else {
