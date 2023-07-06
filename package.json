@@ -13,16 +13,12 @@
     "publish": "lerna publish"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-build-classic": "^38.1.0",
     "@ministryofjustice/frontend": "^1.6.4",
     "@vue/compat": "^3.1.0",
     "core-js": "^3.28.0",
     "govuk-frontend": "^4.5.0",
     "mitt": "^3.0.0",
-    "save-file": "^2.3.1",
-    "stream-browserify": "^3.0.0",
-    "vue": "^3.1",
-    "xlsx-populate": "^1.21.0"
+    "vue": "^3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",
