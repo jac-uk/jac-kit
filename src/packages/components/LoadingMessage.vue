@@ -22,7 +22,7 @@
     </div>
   </div>
 </template>
-
+<!-- todo: remove this note (here re:change detection) -->
 <script>
 export default {
   props: {
