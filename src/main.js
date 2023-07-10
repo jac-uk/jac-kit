@@ -3,6 +3,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import * as filters from './filters/filters';
 
+// Use mitt for events
 import mitt from 'mitt';
 
 /**
