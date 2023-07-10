@@ -35,6 +35,7 @@
 import FormField from './FormField';
 import FormFieldError from './FormFieldError';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CKEditor from '@ckeditor/ckeditor5-vue';
 
 export default {
   compatConfig: {
@@ -44,6 +45,7 @@ export default {
   },
   components: {
     FormFieldError,
+    ckeditor: CKEditor.component,
   },
   extends: FormField,
   props: {

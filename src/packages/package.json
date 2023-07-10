@@ -11,6 +11,7 @@
   "gitHead": "aa0dc9631d7dcc4a94c760bba300231bf027762a",
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^38.1.0",
+    "@ckeditor/ckeditor5-vue": "^5.1.0",
     "save-file": "^2.3.1",
     "stream-browserify": "^3.0.0",
     "xlsx-populate": "^1.21.0"
