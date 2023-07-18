@@ -46,7 +46,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    click: {
+    action: {
       type: Function,
       default: () => {},
     },
@@ -70,7 +70,7 @@ export default {
     async handleClick(e) {
       try {
         this.isLoading = true;
-        const result = await this.click(e);
+        const result = await this.action(e);
         if (result) {
           this.resetDelayed('isSuccess');
         } else {
