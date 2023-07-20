@@ -242,6 +242,7 @@ import _has from 'lodash/has';
 const ACTIONS = {
   LOAD: 'load',
   RELOAD: 'reload',
+  PAGE_SIZE: 'page_size',
   PAGE_NEXT: 'next',
   PAGE_PREVIOUS: 'previous',
   SEARCH: 'search',
@@ -335,7 +336,6 @@ export default {
   data() {
     return {
       currentPageItemType: this.pageItemType,
-      currentPageSize: this.pageSize,
       currentLetter: this.getInitCurrentLetter(this.pageItemType),
       loading: !this.localData,
       searchTerm: null,
@@ -350,6 +350,9 @@ export default {
     };
   },
   computed: {
+    currentPageSize() {
+      return this.pageSize;
+    },
     defaultState() {
       const state = {};
       if (this.currentPageSize) {
@@ -468,11 +471,6 @@ export default {
     },
   },
   watch: {
-    // data(val) {
-    //   if (val) {
-    //     this.loading = false;
-    //   }
-    // },
     data: {
       deep: true,  // vue3 upgrade
       handler(val) {
@@ -480,6 +478,9 @@ export default {
           this.loading = false;
         }
       },
+    },
+    pageSize() {
+      this.changeTableState(ACTIONS.PAGE_SIZE, this.currentState);
     },
   },
   created() {
@@ -723,6 +724,7 @@ export default {
       switch (action) {
       case ACTIONS.LOAD:
       case ACTIONS.RELOAD:
+      case ACTIONS.PAGE_SIZE:
       case ACTIONS.PAGE_NEXT:
       case ACTIONS.PAGE_PREVIOUS:
       case ACTIONS.SEARCH:
