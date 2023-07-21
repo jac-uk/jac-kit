@@ -72,7 +72,7 @@ export default {
     },
   },
   created() {
-    if (!(this.value instanceof Array)) {
+    if (!(this.inputValue instanceof Array)) {
       //this.$emit('input', []);
       this.$emit('update:modelValue', []);
     }
