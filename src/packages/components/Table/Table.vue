@@ -28,6 +28,7 @@
         <slot name="actions" />
       </div>
     </div>
+
     <SidePanel :show="showSidePanel">
       <template #header>
         <div class="govuk-grid-row govuk-!-padding-top-3 govuk-!-padding-bottom-3">
@@ -163,9 +164,9 @@
         <slot name="footer" />
       </tbody>
     </table>
-    <div v-else-if="!loading">
-      No data
-    </div>
+
+    <EmptySearchResults v-else-if="!loading" />
+
     <nav
       v-if="showPaging"
       class="moj-pagination"
@@ -238,6 +239,7 @@ import SidePanel from './SidePanel';
 import Badge from './Badge';
 import CustomForm from './CustomForm';
 import LoadingMessage from '../LoadingMessage';
+import EmptySearchResults from './EmptySearchResults';
 import _has from 'lodash/has';
 const ACTIONS = {
   LOAD: 'load',
@@ -257,6 +259,7 @@ export default {
     Badge,
     CustomForm,
     LoadingMessage,
+    EmptySearchResults,
   },
   props: {
     columns: {
