@@ -7,13 +7,11 @@
       class="result-info"
     >
       <div class="govuk-grid-row">
-        <div class="result-info__header">
-          <h2
-            class="govuk-heading-s govuk-!-margin-bottom-2 govuk-!-margin-left-3"
-          >
-          0 results
-          </h2>
-        </div>
+        <h2
+          class="govuk-heading-s govuk-!-margin-bottom-2 govuk-!-margin-left-3"
+        >
+        0 results
+        </h2>
       </div>
       <div class="facet-tags__container">
         <span class="govuk-visually-hidden">
