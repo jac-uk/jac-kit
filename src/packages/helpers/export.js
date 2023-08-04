@@ -1,5 +1,5 @@
 import XLSXPopulate from 'xlsx-populate';
-import { save } from 'save-file';
+import { saveSync } from 'save-file';
 
 const downloadXLSX = async (data, options) => {
   const workbook = await XLSXPopulate.fromBlankAsync();
@@ -24,7 +24,7 @@ const downloadXLSX = async (data, options) => {
   sheet.freezePanes(0, 1);
 
   const blob = await workbook.outputAsync();
-  await save(blob, options.fileName);
+  saveSync(blob, options.fileName);
 };
 
 export {
