@@ -3,7 +3,7 @@
     class="jac-table"
     :class="{ 'sticky-headers-table': sticky }"
   >
-    <div class="govuk-grid-row">
+    <div class="govuk-grid-row govuk-!-margin-bottom-4">
       <div
         v-if="hasSearch"
         class="govuk-grid-column-one-half"
@@ -73,11 +73,11 @@
     </SidePanel>
     <LoadingMessage
       v-if="loading"
-      class="loading"
+      class="loading govuk-!-margin-bottom-2"
     />
     <table
       v-if="hasData"
-      class="govuk-table govuk-!-margin-top-2"
+      class="govuk-table"
     >
       <thead class="govuk-table__head">
         <slot name="header" />
