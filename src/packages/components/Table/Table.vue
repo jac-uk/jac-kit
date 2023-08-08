@@ -709,6 +709,14 @@ export default {
           }
         }
       }
+      // If search is used then use numbered pagination
+      if (this.searchTerm.length >= 3) {
+        this.currentPageItemType = 'number';
+      }
+      else {
+        // Revert to original value
+        this.currentPageItemType = this.pageItemType;
+      }
       if (!this.defaultState.searchMap || (this.searchTerm.length === 0 || this.searchTerm.length >= 3)) {
         if (this.currentPageItemType === 'number') {
           this.page = 0; // reset current page to first page when using search function
