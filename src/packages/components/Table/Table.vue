@@ -3,7 +3,7 @@
     class="jac-table"
     :class="{ 'sticky-headers-table': sticky }"
   >
-    <div class="govuk-grid-row">
+    <div class="govuk-grid-row govuk-!-margin-bottom-4">
       <div
         v-if="hasSearch"
         class="govuk-grid-column-one-half"
@@ -73,11 +73,11 @@
     </SidePanel>
     <LoadingMessage
       v-if="loading"
-      class="loading"
+      class="loading govuk-!-margin-bottom-2"
     />
     <table
       v-if="hasData"
-      class="govuk-table govuk-!-margin-top-2"
+      class="govuk-table"
     >
       <thead class="govuk-table__head">
         <slot name="header" />
@@ -708,6 +708,14 @@ export default {
             this.customSearchValues = handlerResults;
           }
         }
+      }
+      // If search is used then use numbered pagination
+      if (this.searchTerm.length >= 3) {
+        this.currentPageItemType = 'number';
+      }
+      else {
+        // Revert to original value
+        this.currentPageItemType = this.pageItemType;
       }
       if (!this.defaultState.searchMap || (this.searchTerm.length === 0 || this.searchTerm.length >= 3)) {
         if (this.currentPageItemType === 'number') {
