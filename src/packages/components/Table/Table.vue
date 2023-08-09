@@ -711,7 +711,7 @@ export default {
       }
       // If search is used then use numbered pagination
       if (this.searchTerm.length >= 3) {
-        this.currentPageItemType = 'number';
+        this.currentPageItemType = null;
       }
       else {
         // Revert to original value
