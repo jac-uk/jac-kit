@@ -1,5 +1,6 @@
 import firebase from '@firebase/app';
 import vuexfireSerialize from '../../helpers/vuexfireSerialize';
+import { formatSearchTerm } from '../../helpers/search';
 
 const search = (searchValue) => {
   let returnValue = null;
@@ -58,6 +59,7 @@ const filteredQuery = (ref, params) => {
   }
 
   if (params.searchTerm) {
+    params.searchTerm = formatSearchTerm(params.searchTerm);
     if (params.customSearch) {
       if (params.customSearchValues) {
         if (params.customSearch.field === 'id') {
