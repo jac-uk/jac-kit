@@ -75,7 +75,10 @@
       v-if="loading"
       class="loading govuk-!-margin-bottom-2"
     />
-    <div v-if="hasData" style="overflow: auto;">
+    <div
+      v-if="hasData"
+      style="overflow: auto;"
+    >
       <table class="govuk-table">
         <thead class="govuk-table__head">
           <slot name="header" />
