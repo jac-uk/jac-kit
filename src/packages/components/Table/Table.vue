@@ -75,95 +75,97 @@
       v-if="loading"
       class="loading govuk-!-margin-bottom-2"
     />
-    <table
+    <div
       v-if="hasData"
-      class="govuk-table"
+      style="overflow: auto;"
     >
-      <thead class="govuk-table__head">
-        <slot name="header" />
-        <tr class="govuk-table__row">
-          <th
-            v-if="multiSelect"
-            scope="col"
-            class="govuk-table__header govuk-!-padding-top-0"
-          >
-            <div class="govuk-checkboxes govuk-checkboxes--small">
-              <div class="govuk-checkboxes__item">
-                <input
-                  id="selectAll"
-                  v-model="selectAll"
-                  class="govuk-checkboxes__input"
-                  type="checkbox"
-                >
-                <label
-                  class="govuk-label govuk-checkboxes__label"
-                  for="checkboxes"
-                />
-              </div>
-            </div>
-          </th>
-          <th
-            v-for="(column, index) in columns"
-            :key="index"
-            scope="col"
-            :class="[ 'govuk-table__header', column.class ]"
-            :aria-sort="columnSortState(column)"
-            @click="clickHeaderColumn(column)"
-          >
-            <button
-              v-if="column.sort"
-              type="button"
-              :data-index="index"
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <slot name="header" />
+          <tr class="govuk-table__row">
+            <th
+              v-if="multiSelect"
+              scope="col"
+              class="govuk-table__header govuk-!-padding-top-0"
             >
-              {{ column.title }}
-            </button>
-            <span
-              v-else-if="column.emitEvent"
-              class="header-link"
-            >
-              {{ column.title }}
-            </span>
-            <span v-else>
-              {{ column.title }}
-            </span>
-          </th>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-        <tr
-          v-for="(row, index) in data"
-          :key="row[dataKey]"
-          class="govuk-table__row govuk-!-padding-left-2 govuk-!-padding-right-2"
-        >
-          <td
-            v-if="multiSelect"
-            class="govuk-table__cell govuk-!-padding-top-0"
-          >
-            <div class="govuk-checkboxes govuk-checkboxes--small">
-              <div class="govuk-checkboxes__item">
-                <input
-                  :id="`item-${row[dataKey]}`"
-                  v-model="selectedItems"
-                  :value="row[dataKey]"
-                  class="govuk-checkboxes__input"
-                  type="checkbox"
-                >
-                <label
-                  class="govuk-label govuk-checkboxes__label"
-                  :for="`item-${row[dataKey]}`"
-                />
+              <div class="govuk-checkboxes govuk-checkboxes--small">
+                <div class="govuk-checkboxes__item">
+                  <input
+                    id="selectAll"
+                    v-model="selectAll"
+                    class="govuk-checkboxes__input"
+                    type="checkbox"
+                  >
+                  <label
+                    class="govuk-label govuk-checkboxes__label"
+                    for="checkboxes"
+                  />
+                </div>
               </div>
-            </div>
-          </td>
-          <slot
-            name="row"
-            :row="row"
-            :index="index"
-          />
-        </tr>
-        <slot name="footer" />
-      </tbody>
-    </table>
+            </th>
+            <th
+              v-for="(column, index) in columns"
+              :key="index"
+              scope="col"
+              :class="[ 'govuk-table__header', column.class ]"
+              :aria-sort="columnSortState(column)"
+              @click="clickHeaderColumn(column)"
+            >
+              <button
+                v-if="column.sort"
+                type="button"
+                :data-index="index"
+              >
+                {{ column.title }}
+              </button>
+              <span
+                v-else-if="column.emitEvent"
+                class="header-link"
+              >
+                {{ column.title }}
+              </span>
+              <span v-else>
+                {{ column.title }}
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <tr
+            v-for="(row, index) in data"
+            :key="row[dataKey]"
+            class="govuk-table__row govuk-!-padding-left-2 govuk-!-padding-right-2"
+          >
+            <td
+              v-if="multiSelect"
+              class="govuk-table__cell govuk-!-padding-top-0"
+            >
+              <div class="govuk-checkboxes govuk-checkboxes--small">
+                <div class="govuk-checkboxes__item">
+                  <input
+                    :id="`item-${row[dataKey]}`"
+                    v-model="selectedItems"
+                    :value="row[dataKey]"
+                    class="govuk-checkboxes__input"
+                    type="checkbox"
+                  >
+                  <label
+                    class="govuk-label govuk-checkboxes__label"
+                    :for="`item-${row[dataKey]}`"
+                  />
+                </div>
+              </div>
+            </td>
+            <slot
+              name="row"
+              :row="row"
+              :index="index"
+            />
+          </tr>
+          <slot name="footer" />
+        </tbody>
+      </table>
+    </div>
 
     <EmptySearchResults v-else-if="!loading" />
 
