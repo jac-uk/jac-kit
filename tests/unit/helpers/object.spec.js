@@ -1,5 +1,5 @@
 import * as helpers from '@/helpers/object';
-const firebase = require('firebase-admin');
+import firebase from '@firebase/app';
 const Timestamp = firebase.firestore.Timestamp;
 
 const ts1 = Timestamp.fromDate(new Date('2023-08-24'));
