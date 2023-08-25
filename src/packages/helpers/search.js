@@ -27,7 +27,7 @@ const replaceCharacters = (inputString, characterMap) => {
  * Firestore keys cannot contain certain (illegal) characters so replace them with an acceptable character
  * @param String str 
  */
-function formatSearchTerm(str) {
+const formatSearchTerm = (str) => {
   const characterMap = {
     '[': '-',
     ']': '-',
@@ -38,7 +38,7 @@ function formatSearchTerm(str) {
     '\\': '-',
   };
   return replaceCharacters(str, characterMap);
-}
+};
 
 export {
   replaceCharacters,
