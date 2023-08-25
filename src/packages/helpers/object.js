@@ -10,23 +10,17 @@ import firebase from '@firebase/app';
  * @returns 
  */
 const deepKeysDiff = (obj1, obj2, keysToIgnore = []) => {
-  const keys1 = Object.keys(obj1);
-  const keys2 = Object.keys(obj2);
+  const keys1 = Object.keys(obj1).sort();
   const diffKeys = [];
   for (const key of keys1) {
     if (keysToIgnore.includes(key) || key.charAt(0) === '_') {
       // If the key is in the keysToIgnore array or begins with an underscore, skip the comparison
       continue;
     }
-    if (!keys2.includes(key)) {
-      diffKeys.push(key);
-    } else if (!deepEqual(obj1[key], obj2[key])) {
-      diffKeys.push(key);
-    }
-  }
-  for (const key of keys2) {
-    if (!keys1.includes(key) && !diffKeys.includes(key)) {
-      diffKeys.push(key);
+    if (obj1.hasOwnProperty(key) && obj2.hasOwnProperty(key)) {
+      if (!deepEqual(obj1[key], obj2[key])) {
+        diffKeys.push(key);
+      }
     }
   }
   return diffKeys;
@@ -36,21 +30,30 @@ const isFirebaseTimestamp = (input) => {
   return input instanceof firebase.firestore.Timestamp;
 };
 
+const isDate = (input) => {
+  return input instanceof Date;
+};
+
 /**
  * Deep compare two values
  * Includes nested structures by using recursion
  * Does not include js dates
  * (Deliberately) Ignores the order of values in an array!!
- * @param {*} val1 
- * @param {*} val2 
- * @returns 
+ * @param {*} val1
+ * @param {*} val2
+ * @returns
  */
 const deepEqual = (val1, val2) => {
   if (val1 === val2) {
     return true;
   }
+  // Handle comparisons for firebase timestamps
   if ((isFirebaseTimestamp(val1) && isFirebaseTimestamp(val2)) && val1 === val2) {
     return true;
+  }
+  // Handle comparisons for JS Date objects
+  if (isDate(val1) && isDate(val2)) {
+    return val1.getTime() === val2.getTime();
   }
   if (Array.isArray(val1) && Array.isArray(val2)) {
     if (val1.length !== val2.length) {
