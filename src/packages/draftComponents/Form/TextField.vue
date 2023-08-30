@@ -26,6 +26,7 @@
       :class="[inputClass, { 'govuk-input--error': hasError }]"
       :type="fieldType"
       :autocomplete="localAutocomplete"
+      :disabled="disabled"
       @input="validate"
     >
   </div>
@@ -59,6 +60,10 @@ export default {
     autocomplete: {
       default: 'on',
       type: String,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['update:modelValue'],
