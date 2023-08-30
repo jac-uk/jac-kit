@@ -341,6 +341,7 @@ export default {
   data() {
     return {
       currentPageItemType: this.pageItemType,
+      currentPageSize: this.pageSize,
       currentLetter: this.getInitCurrentLetter(this.pageItemType),
       loading: !this.localData,
       searchTerm: null,
@@ -355,9 +356,6 @@ export default {
     };
   },
   computed: {
-    currentPageSize() {
-      return this.pageSize;
-    },
     defaultState() {
       const state = {};
       if (this.currentPageSize) {
@@ -485,6 +483,7 @@ export default {
       },
     },
     pageSize() {
+      this.currentPageSize = this.pageSize;
       this.changeTableState(ACTIONS.PAGE_SIZE, this.currentState);
     },
   },
