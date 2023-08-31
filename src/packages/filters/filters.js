@@ -193,6 +193,7 @@ const lookup = (value) => {
       'crime': 'Crime',
       'critical-analysis-qualifying-test': 'Critical analysis qualifying test (QT)',
       'devolution-questions': 'Devolution questions',
+      'do-not-know': 'Do not know',
       'draft': 'Draft',
       'drafting-documents-that-affect-rights-obligations': 'Drafting documents intended to affect persons\' rights or obligations',
       'dry-run': 'Dry run',
