@@ -134,6 +134,15 @@ export default {
               this.setError(`Please enter a number lower than ${this.numMax}`);
             }
           }
+
+          if (this.required && (value === null || value === undefined) || (this.type === 'number' && value === '')) {
+            if (this.messages && this.messages.required) {
+              this.setError(this.messages.required);
+            } else {
+              this.setError(`Please enter a value for ${this.label}`);
+            }
+          }
+
         } else {
 
           const isNull = (value === null);
