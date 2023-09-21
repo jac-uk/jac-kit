@@ -3,7 +3,8 @@
     <div class="modal__title govuk-!-padding-2 govuk-heading-m">
       {{ title }}
     </div>
-    <p class="modal__message govuk-body-l">
+    <slot v-if="$slots.body" name="body" />
+    <p v-else class="modal__message govuk-body-l">
       {{ message }}
     </p>
     <div class="modal__content govuk-!-margin-6">
@@ -84,5 +85,9 @@ export default {
 }
 .deny {
   background-color: #f3f2f1;
+}
+/* Only shot slot if it has content */
+.body-content:empty {
+  display: none;
 }
 </style>
