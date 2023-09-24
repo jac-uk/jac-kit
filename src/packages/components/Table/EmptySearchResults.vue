@@ -10,7 +10,7 @@
         <h2
           class="govuk-heading-s govuk-!-margin-bottom-2 govuk-!-margin-left-3"
         >
-        0 results
+          There are no matching results.
         </h2>
       </div>
       <div class="facet-tags__container">
@@ -22,25 +22,43 @@
     </div>
     <div>
       <div class="govuk-body">
-        <p class="govuk-!-font-weight-bold">
-          There are no matching results.
-        </p>
         <p>
-          Improve your search results by:
+          Increase your search results by:
         </p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>removing filters</li>
-          <li>double-checking your spelling</li>
-          <li>using fewer keywords</li>
-          <li>searching for something less specific</li>
+        <ul
+          class="govuk-list govuk-list--bullet"
+        >
+          <li v-if="hasVisibleFields">
+            Ensuring your search term matches one of the following fields:
+            <ul class="govuk-!-padding-left-4">
+              <li
+                v-for="field in searchMap.tooltip.visible"
+                :key="field"
+              >
+                {{ field }}
+              </li>
+            </ul>
+          </li>
+          <li>Removing filters</li>
+          <li>Double-checking your spelling</li>
+          <li>Using fewer keywords</li>
         </ul>
       </div>
     </div>
   </div>
 </template>
 <script>
+import searchMixin from '@/mixins/searchMixin';
 export default {
   name: 'EmptySearchResults',
+  mixins: [searchMixin],
+  props: {
+    searchMap: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
