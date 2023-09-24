@@ -10,10 +10,14 @@
       >
         <Search
           :placeholder="searchPlaceholderText"
+          :search-map="searchMap"
           @search="useSearch"
         />
       </div>
-      <div :class="hasSearch ? 'govuk-grid-column-one-quarter' : 'govuk-grid-column-one-half'">
+      <div
+        :class="hasSearch ? 'govuk-grid-column-one-quarter' : 'govuk-grid-column-one-half'"
+        class="govuk-!-margin-top-6"
+      >
         <button
           v-if="filters.length"
           type="button"
@@ -24,7 +28,10 @@
         </button>
         <Badge :number="numberOfFiltersApplied" />
       </div>
-      <div :class="[hasSearch ? 'govuk-grid-column-one-quarter' : 'govuk-grid-column-one-half', 'text-right']">
+      <div
+        :class="[hasSearch ? 'govuk-grid-column-one-quarter' : 'govuk-grid-column-one-half', 'text-right']"
+        class="govuk-!-margin-top-6"
+      >
         <slot name="actions" />
       </div>
     </div>
@@ -167,7 +174,10 @@
       </table>
     </div>
 
-    <EmptySearchResults v-else-if="!loading" />
+    <EmptySearchResults
+      v-else-if="!loading"
+      :search-map="searchMap"
+    />
 
     <nav
       v-if="showPaging"
@@ -314,7 +324,7 @@ export default {
     searchPlaceholder: {
       type: String,
       required: false,
-      default: 'Search - enter at least three letters',
+      default: 'Type at least three letters to show the results.',
     },
     customSearch: {
       type: Object,
@@ -322,9 +332,9 @@ export default {
       default: () => {},
     },
     searchMap: {
-      type: String,
+      type: Object,
       required: false,
-      default: '',
+      default: null,
     },
     localData: {
       type: Boolean,
@@ -373,7 +383,7 @@ export default {
         state.customSearch = this.customSearch;
       }
       if (this.searchMap) {
-        state.searchMap = this.searchMap;
+        state.searchMap = '_search';
       }
 
       return state;
