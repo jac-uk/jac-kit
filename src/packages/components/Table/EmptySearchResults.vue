@@ -48,7 +48,7 @@
   </div>
 </template>
 <script>
-import searchMixin from '@/mixins/searchMixin';
+import searchMixin from '../../mixins/searchMixin';
 export default {
   name: 'EmptySearchResults',
   mixins: [searchMixin],

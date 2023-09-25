@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import searchMixin from '@/mixins/searchMixin';
+import searchMixin from '../../mixins/searchMixin';
 import _has from 'lodash/has.js';
 export default {
   mixins: [searchMixin],
