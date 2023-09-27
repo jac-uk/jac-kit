@@ -73,7 +73,7 @@ export default {
         return this.modelValue;
       },
       set(val) {
-        val = val.trim();
+        val = typeof val === 'number' ? val : val.trim();
         switch (this.type) {
         case 'number':
           this.$emit('update:modelValue', val ? parseFloat(val) : '');
