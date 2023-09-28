@@ -149,7 +149,7 @@ export default {
 
           const isNull = (value === null);
           const isUndefined = (value === undefined);
-          const isEmpty = (value !== null && value.length === 0);
+          const isEmpty = (value !== null && Array.isArray(value) && value.length === 0);
           const isEmptyString = (typeof value === 'string' && value.replace(/\s/g, '').length === 0);
 
           if (this.required && ((isNull || isUndefined || isEmpty) || isEmptyString)) {

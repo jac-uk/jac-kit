@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import { nextTick } from 'vue';
 export default {
   data() {
     return {
@@ -29,12 +30,13 @@ export default {
         }
       }
       if (this.errors.length) {
-        this.scrollToErrorSummary();
+        nextTick(() => {  // Use nextTick as the error summary isn't displayed until after render
+          this.scrollToErrorSummary();
+        });
       }
     },
     scrollToErrorSummary(){
-      //This is just scrolling to top of page
-      this.$el.scrollIntoView();
+      document.getElementById('error-summary').scrollIntoView(); 
     },
     isValid() {
       return this.errors.length === 0;
