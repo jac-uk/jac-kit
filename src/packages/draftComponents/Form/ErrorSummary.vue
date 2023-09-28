@@ -1,6 +1,7 @@
 <template>
   <div
     v-if="errors.length"
+    id="error-summary"
     class="govuk-error-summary"
     aria-labelledby="error-summary-title"
     role="alert"
