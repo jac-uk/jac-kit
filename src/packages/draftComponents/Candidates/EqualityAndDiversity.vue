@@ -130,8 +130,7 @@
           {{ $filters.lookup(data.stateOrFeeSchool16) }}
         </dd>
       </div>
-
-      <div v-else-if="has(data, 'stateOrFeeSchool1')" class="govuk-summary-list__row">
+      <div v-else-if="has(data, 'stateOrFeeSchool')" class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
           Attended state or fee-paying school
         </dt>
@@ -157,12 +156,12 @@
         </dd>
       </div>
 
-      <div v-if="has(data, 'parentsNotAttendedUniversity')" class="govuk-summary-list__row">
+      <div v-if="has(data, 'parentsAttendedUniversity')" class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
-          Parents did not attend university
+          Parents attended university
         </dt>
         <dd class="govuk-summary-list__value">
-          {{ $filters.toYesNo($filters.lookup(data.parentsNotAttendedUniversity)) }}
+          {{ $filters.toYesNo($filters.lookup(data.parentsAttendedUniversity)) }}
         </dd>
       </div>
       <div v-else-if="has(data, 'firstGenerationStudent')" class="govuk-summary-list__row">
