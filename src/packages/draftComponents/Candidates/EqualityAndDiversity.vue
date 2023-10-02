@@ -120,7 +120,18 @@
         </dd>
       </div>
 
-      <div class="govuk-summary-list__row">
+      <!-- START OF PRE/POST 01-04-2023 SECTION (POST 01-04-2023 ANSWERS TAKE PRIORITY AS MORE RECENT) -->
+
+      <div v-if="has(data, 'stateOrFeeSchool16')" class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Attended state or fee-paying school between 11-16
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ $filters.lookup(data.stateOrFeeSchool16) }}
+        </dd>
+      </div>
+
+      <div v-else-if="has(data, 'stateOrFeeSchool1')" class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
           Attended state or fee-paying school
         </dt>
@@ -129,7 +140,15 @@
         </dd>
       </div>
 
-      <div class="govuk-summary-list__row">
+      <div v-if="has(data, 'occupationOfChildhoodEarner')" class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Occupation of childhood earner
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ $filters.lookup($filters.lookup(data.occupationOfChildhoodEarner)) }}
+        </dd>
+      </div>
+      <div v-else-if="has(data, 'oxbridgeUni')" class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
           Attended Oxbridge universities
         </dt>
@@ -138,7 +157,15 @@
         </dd>
       </div>
 
-      <div class="govuk-summary-list__row">
+      <div v-if="has(data, 'parentsNotAttendedUniversity')" class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Parents did not attend university
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ $filters.toYesNo($filters.lookup(data.parentsNotAttendedUniversity)) }}
+        </dd>
+      </div>
+      <div v-else-if="has(data, 'firstGenerationStudent')" class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
           First generation to go to university
         </dt>
@@ -146,6 +173,8 @@
           {{ $filters.toYesNo($filters.lookup(data.firstGenerationStudent)) }}
         </dd>
       </div>
+
+      <!-- END OF PRE/POST 01-04-2023 SECTION -->
 
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
@@ -287,7 +316,7 @@
 </template>
 
 <script>
-
+import _has from 'lodash/has.js';
 export default {
   props: {
     data: {
@@ -334,6 +363,9 @@ export default {
       // TODO add this functionality
       // return this.exercise.typeOfExercise === 'legal';
       return true;
+    },
+    has(obj, prop) {
+      return _has(obj, prop);
     },
   },
 };
