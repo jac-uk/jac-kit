@@ -25,7 +25,7 @@
         :id="id"
         :error-message="errorMessage"
       />
-      <div class="govuk-radios">
+      <div class="govuk-radios" :class="{'govuk-radios--inline': inline}">
         <slot />
       </div>
     </fieldset>
@@ -50,6 +50,11 @@ export default {
       required: true,
       validator: () => true,
     },
+    inline: { // If true then make the radio buttons inline (ie horizontal alignment)
+      type: Boolean,
+      required: false,
+      default: false,
+    }
   },
   emits: ['update:modelValue'],
   computed: {
