@@ -1,6 +1,6 @@
 {
   "name": "@jac-uk/jac-kit",
-  "version": "3.0.40",
+  "version": "3.0.41",
   "publishConfig": {
     "access": "public"
   },
