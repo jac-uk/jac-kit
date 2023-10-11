@@ -159,10 +159,10 @@
 
       <div v-if="has(data, 'parentsAttendedUniversity')" class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
-          Parents did not attend university
+          Parents attended university
         </dt>
         <dd class="govuk-summary-list__value">
-          {{ $filters.toYesNo($filters.lookup(!data.parentsAttendedUniversity)) }}
+          {{ $filters.toYesNo($filters.lookup(data.parentsAttendedUniversity)) }}
         </dd>
       </div>
       <div v-else-if="has(data, 'firstGenerationStudent')" class="govuk-summary-list__row">
