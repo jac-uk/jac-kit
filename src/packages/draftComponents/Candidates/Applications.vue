@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import Table from '../../components/Table/Table';
-import TableCell from '../../components/Table/TableCell';
+import Table from '../../components/Table/Table.vue';
+import TableCell from '../../components/Table/TableCell.vue';
 
 export default {
   components: {

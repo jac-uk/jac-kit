@@ -238,13 +238,13 @@
 </template>
 
 <script>
-import TextField from './Form/TextField';
-import TextareaInput from './Form/TextareaInput';
-import DateInput from './Form/DateInput';
-import formatEmail from '../helpers/Form/formatEmail';
+import TextField from './Form/TextField.vue';
+import TextareaInput from './Form/TextareaInput.vue';
+import DateInput from './Form/DateInput.vue';
+import formatEmail from '../helpers/Form/formatEmail.vue';
 import Select from './Form/Select.vue';
-import CheckboxGroup from './Form/CheckboxGroup';
-import CheckboxItem from './Form/CheckboxItem';
+import CheckboxGroup from './Form/CheckboxGroup.vue';
+import CheckboxItem from './Form/CheckboxItem.vue';
 //import * as filters from '../filters/filters';
 import Form from './Form/Form';
 import { transformOnSelection } from '../helpers/array';

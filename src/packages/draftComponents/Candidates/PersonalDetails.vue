@@ -136,7 +136,7 @@
 </template>
 
 <script>
-import EditableField from '../EditableField';
+import EditableField from '../EditableField.vue';
 import { splitFullName } from '@jac-uk/jac-kit/helpers/splitFullName';
 
 export default {

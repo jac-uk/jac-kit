@@ -34,8 +34,8 @@
 </template>
 
 <script>
-import FormField from './FormField';
-import FormFieldError from './FormFieldError';
+import FormField from './FormField.vue';
+import FormFieldError from './FormFieldError.vue';
 
 export default {
   // Below needs to be included while using vue2 compat mode

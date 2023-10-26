@@ -71,8 +71,8 @@
 <script>
 import parseAndClipNumber from '../../helpers/Form/parseAndClipNumber';
 import zeroPad from '../../helpers/Form/zeroPad';
-import FormField from './FormField';
-import FormFieldError from './FormFieldError';
+import FormField from './FormField.vue';
+import FormFieldError from './FormFieldError.vue';
 
 export default {
   compatConfig: {

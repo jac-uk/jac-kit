@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import FormField from './FormField';
-import FormFieldError from './FormFieldError';
+import FormField from './FormField.vue';
+import FormFieldError from './FormFieldError.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import CKEditor from '@ckeditor/ckeditor5-vue';
 // Test
