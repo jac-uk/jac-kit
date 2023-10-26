@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import EventRenderer from '../EventRenderer';
+import EventRenderer from '../EventRenderer.vue';
 
 export default {
   components: {

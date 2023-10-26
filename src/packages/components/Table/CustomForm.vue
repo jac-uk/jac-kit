@@ -100,13 +100,13 @@
 </template>
 
 <script>
-import CheckboxGroup from '../../draftComponents/Form/CheckboxGroup';
-import TextField from '../../draftComponents/Form/TextField';
-import CheckboxItem from '../../draftComponents/Form/CheckboxItem';
-import DateInput from '../../draftComponents/Form/DateInput';
-import Checkbox from '../../draftComponents/Form/Checkbox';
-import RadioGroup from '../../draftComponents/Form/RadioGroup';
-import RadioItem from '../../draftComponents/Form/RadioItem';
+import CheckboxGroup from '../../draftComponents/Form/CheckboxGroup.vue';
+import TextField from '../../draftComponents/Form/TextField.vue';
+import CheckboxItem from '../../draftComponents/Form/CheckboxItem.vue';
+import DateInput from '../../draftComponents/Form/DateInput.vue';
+import Checkbox from '../../draftComponents/Form/Checkbox.vue';
+import RadioGroup from '../../draftComponents/Form/RadioGroup.vue';
+import RadioItem from '../../draftComponents/Form/RadioItem.vue';
 
 export default {
   components: {

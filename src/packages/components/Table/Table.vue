@@ -246,12 +246,12 @@
 </template>
 
 <script>
-import Search from './Search';
-import SidePanel from './SidePanel';
-import Badge from './Badge';
-import CustomForm from './CustomForm';
-import LoadingMessage from '../LoadingMessage';
-import EmptySearchResults from './EmptySearchResults';
+import Search from './Search.vue';
+import SidePanel from './SidePanel.vue';
+import Badge from './Badge.vue';
+import CustomForm from './CustomForm.vue';
+import LoadingMessage from '../LoadingMessage.vue';
+import EmptySearchResults from './EmptySearchResults.vue';
 import _has from 'lodash/has';
 const ACTIONS = {
   LOAD: 'load',

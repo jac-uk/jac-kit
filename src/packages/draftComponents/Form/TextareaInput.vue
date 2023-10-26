@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import FormField from './FormField';
-import FormFieldError from './FormFieldError';
+import FormField from './FormField.vue';
+import FormFieldError from './FormFieldError.vue';
 
 export default {
   compatConfig: {
