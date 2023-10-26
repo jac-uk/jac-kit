@@ -241,12 +241,12 @@
 import TextField from './Form/TextField.vue';
 import TextareaInput from './Form/TextareaInput.vue';
 import DateInput from './Form/DateInput.vue';
-import formatEmail from '../helpers/Form/formatEmail.vue';
+import formatEmail from '../helpers/Form/formatEmail';
 import Select from './Form/Select.vue';
 import CheckboxGroup from './Form/CheckboxGroup.vue';
 import CheckboxItem from './Form/CheckboxItem.vue';
 //import * as filters from '../filters/filters';
-import Form from './Form/Form';
+import Form from './Form/Form.vue';
 import { transformOnSelection } from '../helpers/array';
 
 export default {
