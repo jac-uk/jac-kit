@@ -30,13 +30,15 @@ export default {
         }
       }
       if (this.errors.length) {
-        nextTick(() => {  // Use nextTick as the error summary isn't displayed until after render
+        this.$nextTick(() => {  // Use nextTick as the error summary isn't displayed until after render
           this.scrollToErrorSummary();
         });
       }
     },
     scrollToErrorSummary(){
-      document.getElementById('error-summary').scrollIntoView(); 
+      if (document.getElementById('error-summary')) {
+        document.getElementById('error-summary').scrollIntoView(); 
+      }
     },
     isValid() {
       return this.errors.length === 0;
