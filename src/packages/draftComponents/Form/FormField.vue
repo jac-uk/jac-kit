@@ -111,8 +111,21 @@ export default {
         if (event && event.target) {
           value = event.target.value;
         }
-
-        if (this.type && !['date', 'text'].includes(this.type)) {
+        const isNull = (value === null);
+        const isUndefined = (value === undefined);
+        const isEmpty = (value !== null && Array.isArray(value) && value.length === 0);
+        const isEmptyString = (typeof value === 'string' && value.replace(/\s/g, '').length === 0);
+        if (!this.required && ((isNull || isUndefined || isEmpty) || isEmptyString)) {
+          return;
+        }
+        else if (this.required && ((isNull || isUndefined || isEmpty) || isEmptyString)) {
+          if (this.messages && this.messages.required) {
+            this.setError(this.messages.required);
+          } else {
+            this.setError(`Please enter a value for ${this.label}`);
+          }
+        }
+        else if (this.type && !['date', 'text'].includes(this.type)) {
           // This block is for specialised inputs so we ignore date and text fields (so they hit the main validation block below)
 
           if (this.type === 'email') {
@@ -137,29 +150,8 @@ export default {
             }
           }
 
-          if (this.required && (value === null || value === undefined) || (this.type === 'number' && value === '')) {
-            if (this.messages && this.messages.required) {
-              this.setError(this.messages.required);
-            } else {
-              this.setError(`Please enter a value for ${this.label}`);
-            }
-          }
-
-        } else {
-
-          const isNull = (value === null);
-          const isUndefined = (value === undefined);
-          const isEmpty = (value !== null && Array.isArray(value) && value.length === 0);
-          const isEmptyString = (typeof value === 'string' && value.replace(/\s/g, '').length === 0);
-
-          if (this.required && ((isNull || isUndefined || isEmpty) || isEmptyString)) {
-            if (this.messages && this.messages.required) {
-              this.setError(this.messages.required);
-            } else {
-              this.setError(`Please enter a value for ${this.label}`);
-            }
-          }
-
+        }
+        else {
           if (this.minLength) {
             if (value.length + 1 <= this.minLength) {
               this.setError(`${this.label} should have ${this.minLength} or more characters`);
@@ -181,7 +173,8 @@ export default {
           if (this.wordLimit) {
             if (this.words.length > this.wordLimit) {
               this.setError(`Answer must be ${this.wordLimit} words or fewer`);
-            } else {
+            } 
+            else {
               this.setError('');
             }
           }
