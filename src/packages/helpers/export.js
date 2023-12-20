@@ -1,7 +1,22 @@
 import XLSXPopulate from 'xlsx-populate';
 import { saveSync } from 'save-file';
 
-const downloadXLSX = async (data, options) => {
+/**
+ * Download data as .xlsx file
+ *
+ * @param {Array} data
+ * @param {Object} options
+ * @param {Object} styles Set up styles for rows and columns. 
+ * Check all available styles in https://github.com/dtjohnson/xlsx-populate?tab=readme-ov-file#styles-1.
+ * ex. {
+ *       column: {
+ *         'S': {
+ *           wrapText: true,
+ *         },
+ *       },
+ *     }
+ */
+const downloadXLSX = async (data, options, styles) => {
   const workbook = await XLSXPopulate.fromBlankAsync();
 
   workbook.property({
@@ -21,6 +36,21 @@ const downloadXLSX = async (data, options) => {
     bold: true,
     fill: 'eeeeee',
   });
+
+  if (styles) {
+    // Set up styles for specific columns
+    const columStyles = styles.column || {};
+    for (const [colNo, colStyle] of Object.entries(columStyles)) {
+      sheet.column(colNo).style(colStyle);
+    }
+
+    // Set up styles for specific rows
+    const rowStyles = styles.row || {};
+    for (const [rowNo, rowStyle] of Object.entries(rowStyles)) {
+      sheet.column(rowNo).style(rowStyle);
+    }
+  }
+
   sheet.freezePanes(0, 1);
 
   const blob = await workbook.outputAsync();
