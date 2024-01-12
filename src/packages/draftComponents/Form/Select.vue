@@ -6,7 +6,8 @@
     <label
       v-if="label"
       :for="id"
-      class="govuk-heading-m govuk-!-margin-bottom-2"
+      class="govuk-!-margin-bottom-2"
+      :class="labelClass"
     >
       {{ label }}
     </label>
@@ -57,6 +58,11 @@ export default {
     //   default: '',
     //   type: [String, Number, Boolean],
     // },
+    labelClass: {
+      required: false,
+      type: String,
+      default: 'govuk-heading-m'
+    }
   },
   //emits: ['input'],
   emits: ['update:modelValue'],
