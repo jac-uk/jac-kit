@@ -3,7 +3,10 @@
     class="jac-table"
     :class="{ 'sticky-headers-table': sticky }"
   >
-    <div class="govuk-grid-row govuk-!-margin-bottom-4">
+    <div
+      v-if="hasSearch || hasFilers || hasActions"
+      class="govuk-grid-row govuk-!-margin-bottom-4"
+    >
       <div
         v-if="hasSearch"
         class="govuk-grid-column-one-half"
@@ -15,11 +18,11 @@
         />
       </div>
       <div
+        v-if="hasFilters"
         :class="hasSearch ? 'govuk-grid-column-one-quarter' : 'govuk-grid-column-one-half'"
         class="govuk-!-margin-top-6"
       >
         <button
-          v-if="filters.length"
           type="button"
           class="btn-filter govuk-button govuk-button--secondary govuk-!-margin-bottom-0"
           @click="btnToggleSidePanel"
@@ -29,6 +32,7 @@
         <Badge :number="numberOfFiltersApplied" />
       </div>
       <div
+        v-if="hasActions"
         :class="[hasSearch ? 'govuk-grid-column-one-quarter' : 'govuk-grid-column-one-half', 'text-right']"
         class="govuk-!-margin-top-6"
       >
@@ -458,6 +462,12 @@ export default {
     },
     hasData() {
       return this.data.length > 0;
+    },
+    hasActions() {
+      return this.$slots.actions;
+    },
+    hasFilters() {
+      return this.filters.length;
     },
     hasCustomSearch() {
       return this.customSearch && Object.keys(this.customSearch).length;
