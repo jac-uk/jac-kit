@@ -103,6 +103,9 @@ export default {
   methods: {
     async getDownloadURL() {
       const urlString = this.filePath ? this.filePath : this.savePath + this.fileName;
+      /**
+       * @see https://firebase.google.com/docs/storage/web/download-files#download_data_via_url
+       */
       const storage = getStorage()
       const fileRef = ref(storage, urlString)
 
