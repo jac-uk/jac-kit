@@ -1,6 +1,7 @@
-import firebase from '@firebase/app';
+// TODO: @KO upgrade to module API
 import vuexfireSerialize from '../../helpers/vuexfireSerialize';
 import { formatSearchTerm } from '../../helpers/search';
+import { query, where, orderBy, limit, startAfter, endBefore, documentId, limitToLast, getDocs } from "firebase/firestore";
 
 const search = (searchValue) => {
   let returnValue = null;
@@ -43,7 +44,7 @@ const filteredQuery = (ref, params) => {
   let queryRef = ref;
   if (params.where) {
     params.where.forEach(item => {
-      queryRef = queryRef.where(item.field, item.comparator, item.value);
+      queryRef = query(queryRef, where(item.field, item.comparator, item.value));
     });
   }
 
@@ -53,9 +54,11 @@ const filteredQuery = (ref, params) => {
   }
 
   if (['uppercase-letter', 'lowercase-letter'].includes(params.pageItemType) && params.orderBy && params.currentLetter) {
-    queryRef = queryRef
-      .where(params.orderBy, '>=', params.currentLetter)
-      .where(params.orderBy, '<=', `${params.currentLetter}\uf8ff`);
+    queryRef = query(
+      queryRef,
+      where(params.orderBy, '>=', params.currentLetter),
+      where(params.orderBy, '<=', `${params.currentLetter}\uf8ff`),
+    );
   }
 
   if (params.searchTerm) {
@@ -63,28 +66,27 @@ const filteredQuery = (ref, params) => {
     if (params.customSearch) {
       if (params.customSearchValues) {
         if (params.customSearch.field === 'id') {
-          queryRef = queryRef
-            .where(firebase.firestore.FieldPath.documentId(), 'in', params.customSearchValues);
+          queryRef = query(queryRef, where(documentId(), 'in', params.customSearchValues));
         } else {
-          queryRef = queryRef
-            .where(params.customSearch.field, 'in', params.customSearchValues);
+          queryRef = query(queryRef, where(params.customSearch.field, 'in', params.customSearchValues));
         }
       } else {
-        queryRef = queryRef
-        .where(params.customSearch.field, '==', null);
+        queryRef = query(queryRef, where(params.customSearch.field, '==', null));
       }
     } else if (params.searchMap) {
       const searchParts = getSearchMap([params.searchTerm]);
       Object.keys(searchParts).forEach(searchPart => {
-        queryRef = queryRef.where(`${params.searchMap}.${searchPart}`, '==', true);
+        queryRef = query(queryRef, where(`${params.searchMap}.${searchPart}`, '==', true));
       });
     } else {
       const returnSearch = search(params.searchTerm);
       if (returnSearch) {
-        queryRef = queryRef
-          .where(params.search[0], '>=', returnSearch.value1)
-          .where(params.search[0], '<', returnSearch.value2)
-          .orderBy(params.search[0], 'asc');
+        queryRef = query(
+          queryRef,
+          where(params.search[0], '>=', returnSearch.value1),
+          where(params.search[0], '<', returnSearch.value2),
+          orderBy(params.search[0], 'asc'),
+        );
         orderBy = [params.search[0]];
       }
     }
@@ -92,9 +94,9 @@ const filteredQuery = (ref, params) => {
     const direction = params.direction ? params.direction : 'asc';
     orderBy.forEach(field => {
       if (field === 'documentId') {
-        queryRef = queryRef.orderBy(firebase.firestore.FieldPath.documentId(), direction);
+        queryRef = query(queryRef, orderBy(documentId(), direction));
       } else {
-        queryRef = queryRef.orderBy(field, direction);
+        queryRef = query(queryRef, orderBy(field, direction));
       }
     });
   }
@@ -135,24 +137,28 @@ const paginatedPrevNextQuery = (data, ref, params, orderBy) => {
       // page forward
       if (data.length) {
         const startAfter = getStartAfter(data, orderBy);
-        queryRef = queryRef
-          .startAfter(...startAfter)
-          .limit(params.pageSize);
+        queryRef = query(
+          queryRef,
+          startAfter(...startAfter),
+          limit(params.pageSize),
+        );
       } else {
-        queryRef = queryRef.limit(params.pageSize);
+        queryRef = query(queryRef, limit(params.pageSize));
       }
     } else if (params.pageChange < 0) {
       // page backward
       if (data.length) {
         const endBefore = getEndBefore(data, orderBy);
-        queryRef = queryRef
-          .endBefore(...endBefore)
-          .limitToLast(params.pageSize);
+        queryRef = query(
+          queryRef,
+          endBefore(...endBefore),
+          limitToLast(params.pageSize),
+        );
       } else {
-        queryRef = queryRef.limit(params.pageSize);
+        queryRef = query(queryRef, limit(params.pageSize));
       }
     } else {
-      queryRef = queryRef.limit(params.pageSize);
+      queryRef = query(queryRef, limit(params.pageSize));
     }
   }
   return queryRef;
@@ -171,10 +177,12 @@ const paginatedQuery = async (data, ref, params, orderBy) => {
         // should query first to update startAfter position if jump more than 1 page
         if (params.pageChange > 1) {
           const limit = params.pageSize * (params.pageChange - 1);
-          const tmpRef = queryRef
-            .startAfter(...startAfter)
-            .limit(limit);
-          const snap = await tmpRef.get();
+          const tmpRef = query(
+            queryRef,
+            startAfter(...startAfter),
+            limit(limit),
+          );
+          const snap = await getDocs(tmpRef);
           const tmpData = [];
           snap.forEach(doc => {
             tmpData.push(vuexfireSerialize(doc));
@@ -182,11 +190,13 @@ const paginatedQuery = async (data, ref, params, orderBy) => {
           startAfter = getStartAfter(tmpData, orderBy);
         }
 
-        queryRef = queryRef
-          .startAfter(...startAfter)
-          .limit(params.pageSize);
+        queryRef = query(
+          queryRef,
+          startAfter(...startAfter),
+          limit(params.pageSize),
+        );
       } else {
-        queryRef = queryRef.limit(params.pageSize);
+        queryRef = query(queryRef, limit(params.pageSize));
       }
     } else if (params.pageChange < 0) {
       // page backward
@@ -196,10 +206,12 @@ const paginatedQuery = async (data, ref, params, orderBy) => {
         // should query first to update endBefore position if jump more than 1 page
         if (params.pageChange < -1) {
           const limit = params.pageSize * (Math.abs(params.pageChange) - 1);
-          const tmpRef = queryRef
-            .endBefore(...endBefore)
-            .limitToLast(limit);
-          const snap = await tmpRef.get();
+          const tmpRef = query(
+            queryRef,
+            endBefore(...endBefore),
+            limitToLast(limit),
+          );
+          const snap = await getDocs(tmpRef);
           const tmpData = [];
           snap.forEach(doc => {
             tmpData.push(vuexfireSerialize(doc));
@@ -207,14 +219,16 @@ const paginatedQuery = async (data, ref, params, orderBy) => {
           endBefore = getEndBefore(tmpData, orderBy);
         }
 
-        queryRef = queryRef
-          .endBefore(...endBefore)
-          .limitToLast(params.pageSize);
+        queryRef = query(
+          queryRef,
+          endBefore(...endBefore),
+          limitToLast(params.pageSize),
+        );
       } else {
-        queryRef = queryRef.limit(params.pageSize);
+        queryRef = query(queryRef, limit(params.pageSize));
       }
     } else {
-      queryRef = queryRef.limit(params.pageSize);
+      queryRef = query(queryRef, limit(params.pageSize));
     }
   }
   return queryRef;
@@ -222,7 +236,7 @@ const paginatedQuery = async (data, ref, params, orderBy) => {
 
 const getTotal = async queryRef => {
   try {
-    const snap = await queryRef.get();
+    const snap = await getDocs(queryRef);
     return snap.size;
   } catch (error) {
     return null;
