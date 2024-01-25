@@ -1,7 +1,6 @@
-// TODO: @KO upgrade to module API
 import vuexfireSerialize from '../../helpers/vuexfireSerialize';
 import { formatSearchTerm } from '../../helpers/search';
-import { query, where, orderBy, limit, startAfter, endBefore, documentId, limitToLast, getDocs } from "firebase/firestore";
+import { query, where, orderBy as firesoterOrderBy, limit, startAfter as firestoreStarAfter, endBefore as firestoreEndBefore, documentId, limitToLast, getDocs } from "firebase/firestore";
 
 const search = (searchValue) => {
   let returnValue = null;
@@ -85,7 +84,7 @@ const filteredQuery = (ref, params) => {
           queryRef,
           where(params.search[0], '>=', returnSearch.value1),
           where(params.search[0], '<', returnSearch.value2),
-          orderBy(params.search[0], 'asc'),
+         firesoterOrderBy(params.search[0], 'asc'),
         );
         orderBy = [params.search[0]];
       }
@@ -94,9 +93,9 @@ const filteredQuery = (ref, params) => {
     const direction = params.direction ? params.direction : 'asc';
     orderBy.forEach(field => {
       if (field === 'documentId') {
-        queryRef = query(queryRef, orderBy(documentId(), direction));
+        queryRef = query(queryRef,firesoterOrderBy(documentId(), direction));
       } else {
-        queryRef = query(queryRef, orderBy(field, direction));
+        queryRef = query(queryRef,firesoterOrderBy(field, direction));
       }
     });
   }
@@ -139,7 +138,7 @@ const paginatedPrevNextQuery = (data, ref, params, orderBy) => {
         const startAfter = getStartAfter(data, orderBy);
         queryRef = query(
           queryRef,
-          startAfter(...startAfter),
+          firestoreStarAfter(...startAfter),
           limit(params.pageSize),
         );
       } else {
@@ -151,7 +150,7 @@ const paginatedPrevNextQuery = (data, ref, params, orderBy) => {
         const endBefore = getEndBefore(data, orderBy);
         queryRef = query(
           queryRef,
-          endBefore(...endBefore),
+          firestoreEndBefore(...endBefore),
           limitToLast(params.pageSize),
         );
       } else {
@@ -179,7 +178,7 @@ const paginatedQuery = async (data, ref, params, orderBy) => {
           const limit = params.pageSize * (params.pageChange - 1);
           const tmpRef = query(
             queryRef,
-            startAfter(...startAfter),
+            firestoreStarAfter(...startAfter),
             limit(limit),
           );
           const snap = await getDocs(tmpRef);
@@ -192,7 +191,7 @@ const paginatedQuery = async (data, ref, params, orderBy) => {
 
         queryRef = query(
           queryRef,
-          startAfter(...startAfter),
+          firestoreStarAfter(...startAfter),
           limit(params.pageSize),
         );
       } else {
@@ -208,7 +207,7 @@ const paginatedQuery = async (data, ref, params, orderBy) => {
           const limit = params.pageSize * (Math.abs(params.pageChange) - 1);
           const tmpRef = query(
             queryRef,
-            endBefore(...endBefore),
+            firestoreEndBefore(...endBefore),
             limitToLast(limit),
           );
           const snap = await getDocs(tmpRef);
@@ -221,7 +220,7 @@ const paginatedQuery = async (data, ref, params, orderBy) => {
 
         queryRef = query(
           queryRef,
-          endBefore(...endBefore),
+          firestoreEndBefore(...endBefore),
           limitToLast(params.pageSize),
         );
       } else {
