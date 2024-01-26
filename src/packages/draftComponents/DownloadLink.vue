@@ -17,7 +17,8 @@
 </template>
 
 <script>
-import { getStorage, getDownloadURL, ref } from '@firebase/storage'
+import { storage } from '@/firebase'
+import { getDownloadURL, ref } from 'firebase/storage'
 
 export default {
   props: {
@@ -103,12 +104,15 @@ export default {
   methods: {
     async getDownloadURL() {
       const urlString = this.filePath ? this.filePath : this.savePath + this.fileName;
+      console.log(urlString)
+      console.log(this.savePath)
+      console.log(this.fileName)
+      console.log(storage)
+
       /**
        * @see https://firebase.google.com/docs/storage/web/download-files#download_data_via_url
        */
-      const storage = getStorage()
       const fileRef = ref(storage, urlString)
-
       try {
         const downloadUrl = await getDownloadURL(fileRef);
 
