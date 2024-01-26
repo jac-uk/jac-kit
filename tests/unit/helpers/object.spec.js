@@ -1,6 +1,5 @@
 import * as helpers from '@/helpers/object';
-import firebase from '@firebase/app';
-const Timestamp = firebase.firestore.Timestamp;
+import { Timestamp }from '@firebase/firestore';
 
 const jsDate1 = new Date('2023-08-24');
 const jsDate2 = new Date('2023-08-25');
