@@ -104,10 +104,6 @@ export default {
   methods: {
     async getDownloadURL() {
       const urlString = this.filePath ? this.filePath : this.savePath + this.fileName;
-      console.log(urlString)
-      console.log(this.savePath)
-      console.log(this.fileName)
-      console.log(storage)
 
       /**
        * @see https://firebase.google.com/docs/storage/web/download-files#download_data_via_url
