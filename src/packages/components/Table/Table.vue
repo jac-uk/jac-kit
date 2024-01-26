@@ -4,7 +4,7 @@
     :class="{ 'sticky-headers-table': sticky }"
   >
     <div
-      v-if="hasSearch || hasFilers || hasActions"
+      v-if="hasSearch || hasFilters || hasActions"
       class="govuk-grid-row govuk-!-margin-bottom-4"
     >
       <div
