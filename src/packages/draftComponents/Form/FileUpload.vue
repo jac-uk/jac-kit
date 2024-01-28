@@ -211,17 +211,11 @@ export default {
       }
 
       try {
-        const fileUploaded = await uploadBytes(uploadRef, file);
-        if (fileUploaded && fileUploaded.state === 'success') {
-          this.isReplacing = false;
-          this.fileName = fileName;
+        await uploadBytes(uploadRef, file);
+        this.isReplacing = false;
+        this.fileName = fileName;
 
-          return true;
-        } else {
-          this.setError('File upload failed, please try again [2]');
-
-          return false;
-        }
+        return true;
       } catch (e) {
         this.setError('File upload failed, please try again [3]');
 
