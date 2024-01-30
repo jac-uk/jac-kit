@@ -15,7 +15,9 @@ const vuexfireSerialize = (snapshot) => {
   // default, Vuefire adds it as a non enumerable property named id.
   // This allows to easily create copies when updating documents, as using
   // the spread operator won't copy it
-  data = Object.defineProperty(data, 'id', { value: snapshot.id });
+  if (data) {
+    data = Object.defineProperty(data, 'id', { value: snapshot.id });
+  } 
 
   return data;
 };

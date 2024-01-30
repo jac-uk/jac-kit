@@ -1,12 +1,13 @@
 import vuexfireSerialize from '@/helpers/vuexfireSerialize';
 import convertFirestoreTimestampsToDates from '@/helpers/convertFirestoreTimestampsToDates';
-import { Timestamp } from '../helpers';
+import { Timestamp } from '../helpers'; 
+import { collection, addDoc } from 'firebase/firestore';
 
 const createMockSnapshot = async (data) => {
   const mockFirebase = (require('firebase-mock')).MockFirebaseSdk();
   const mockFirestore = mockFirebase.firestore();
   mockFirestore.autoFlush();
-  const ref = await mockFirestore.collection('documents').add(data);
+  const ref = await addDoc(collection(mockFirestore, 'documents'), data);
   return await ref.get();
 };
 

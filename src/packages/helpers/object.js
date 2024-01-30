@@ -1,4 +1,4 @@
-import firebase from '@firebase/app';
+import { Timestamp } from '@firebase/firestore'
 
 /**
  * Deep compare two objects and return an array of the top level keys that have differences
@@ -27,7 +27,7 @@ const deepKeysDiff = (obj1, obj2, keysToIgnore = []) => {
 };
 
 const isFirebaseTimestamp = (input) => {
-  return input instanceof firebase.firestore.Timestamp;
+  return input instanceof Timestamp;
 };
 
 const isDate = (input) => {

@@ -47,8 +47,7 @@
 </template>
 
 <script>
-import firebase from '@firebase/app';
-import '@firebase/storage';
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from '@firebase/storage';
 import FormField from './FormField.vue';
 import FormFieldError from './FormFieldError.vue';
 
@@ -199,7 +198,12 @@ export default {
 
       this.isUploading = true;
       const fileName = this.generateFileName(file.name);
-      const uploadRef = firebase.storage().ref(`${this.path}/${fileName}`);
+
+      /**
+       * @see https://firebase.google.com/docs/storage/web/upload-files#upload_from_a_blob_or_file
+       */
+      const storage = getStorage();
+      const uploadRef = ref(storage ,`${this.path}/${fileName}`);
 
       // Delete the current file in file storage
       if (this.haveFile && this.enableDelete) {
@@ -207,17 +211,11 @@ export default {
       }
 
       try {
-        const fileUploaded = await uploadRef.put(file);
-        if (fileUploaded && fileUploaded.state === 'success') {
-          this.isReplacing = false;
-          this.fileName = fileName;
+        await uploadBytes(uploadRef, file);
+        this.isReplacing = false;
+        this.fileName = fileName;
 
-          return true;
-        } else {
-          this.setError('File upload failed, please try again [2]');
-
-          return false;
-        }
+        return true;
       } catch (e) {
         this.setError('File upload failed, please try again [3]');
 
@@ -230,11 +228,13 @@ export default {
       if (!fileName) {
         return false;
       }
-      const fileRef = firebase.storage().ref(`${this.path}/${fileName}`);
+
+      const storage = getStorage();
+      const fileRef = ref(storage, `${this.path}/${fileName}`);
 
       // Check if file exists in storage
       try {
-        const downloadUrl = await fileRef.getDownloadURL();
+        const downloadUrl = await getDownloadURL(fileRef);
 
         if (typeof downloadUrl === 'string' && downloadUrl.length) {
           return true;
@@ -250,9 +250,13 @@ export default {
       return `${name} - ${dateToNumber}`;
     },
     deleteFile(path, filename) {
-      const deleteRef = firebase.storage().ref(`${path}/${filename}`);
+      /**
+       * @see https://firebase.google.com/docs/storage/web/delete-files
+       */
+      const storage = getStorage();
+      const deleteRef = ref(storage, `${path}/${filename}`);
       try {
-        deleteRef.delete();
+        deleteObject(deleteRef);
       }
       catch (error) {
         // Uh-oh, an error occurred!
