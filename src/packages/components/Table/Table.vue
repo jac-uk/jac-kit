@@ -616,8 +616,13 @@ export default {
                 comparator: '!=',
                 value: [],
               });
-            }
-            else {
+            } else if (filter.fieldComparator === 'notEqual') {
+              where.push({
+                field: filter.field,
+                comparator: '!=',
+                value: filter.value,
+              });
+            } else {
               where.push({
                 field: filter.field,
                 comparator: '==',
