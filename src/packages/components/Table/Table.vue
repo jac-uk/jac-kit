@@ -616,6 +616,12 @@ export default {
                 comparator: '!=',
                 value: [],
               });
+            } else if (filter.fieldComparator === 'arrayEmpty') {
+              where.push({
+                field: filter.field,
+                comparator: '==',
+                value: [],
+              });
             } else if (filter.fieldComparator === 'notEqual') {
               where.push({
                 field: filter.field,
