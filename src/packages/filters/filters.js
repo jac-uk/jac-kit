@@ -311,7 +311,7 @@ const lookup = (value) => {
       'statement-of-suitability-with-skills-and-abilities-and-covering-letter': 'Statement of Suitability with skills and abilities and covering letter',
       'statement-of-suitability-with-skills-and-abilities-and-cv-and-covering-letter': 'Statement of Suitability with skills and abilities and CV and covering letter',
       's9-1': 's9(1)',
-      's9-4': 's9(4)',
+      's9-4': 'Class 1 ticket',
       'tax-and-chancery': 'Tax and Chancery',
       'tax-chamber': 'Tax Chamber',
       'teaching-researching-law': 'Teaching or researching law',
