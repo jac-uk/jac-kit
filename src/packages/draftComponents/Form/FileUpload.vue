@@ -104,7 +104,6 @@ export default {
       file: '',
       isReplacing: false,
       isUploading: false,
-      acceptableExtensions: ['pdf', 'docx', 'doc', 'odt', 'txt', 'fodt'],
     };
   },
   computed: {
@@ -184,7 +183,7 @@ export default {
         return false;
       }
       if (!this.validFileExtension(file.name)) {
-        this.setError(`Invalid file type. Choose from: ${this.acceptableExtensions}`);
+        this.setError(`Invalid file type. Choose from: ${this.types.split(',').map(type => type.replace(/\./g, '').trim()).join(',')}`);
         return false;
       }
       if (this.fileIsEmpty(file.size)){
