@@ -355,7 +355,7 @@ export default {
   data() {
     return {
       currentPageItemType: this.pageItemType,
-      currentPageSize: this.pageSize,
+      currentPageSize: this.isLetterPagination(this.pageItemType) ? 0 : this.pageSize,
       currentLetter: this.getInitCurrentLetter(this.pageItemType),
       loading: !this.localData,
       searchTerm: null,
