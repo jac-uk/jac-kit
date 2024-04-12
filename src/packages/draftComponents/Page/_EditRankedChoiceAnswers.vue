@@ -8,7 +8,7 @@
       :id="`${id}-answer-${index}`"
       v-model="selected"
       :name="`${id}-answer-${index}`"
-      :value="answer.answer"
+      :value="answer.id"
       type="checkbox"
       class="govuk-checkboxes__input"
       @change="changeSelection"
@@ -19,13 +19,13 @@
       :data-welsh="getDataWelsh(answer.answer)"
     >
       {{ $filters.lookup(answer.answer) }}
-    </label>    
-    <select 
-      v-if="selected.indexOf(answer.answer) >= 0"
+    </label>
+    <select
+      v-if="selected.indexOf(answer.id) >= 0"
       :id="`${id}-rank-${index}`"
-      v-model="localVModel[answer.answer]"
+      v-model="localVModel[answer.id]"
       class="govuk-select"
-      @change="changeRanking(answer.answer, $event)"
+      @change="changeRanking(answer.id, $event)"
     >
       <option
         v-for="score in numSelected"
@@ -34,18 +34,19 @@
       >
         {{ score }}
       </option>
-    </select>      
+    </select>
   </div>
 </template>
 
 <script>
 import { getDataWelsh } from '@/helpers/language';
+import { deleteField } from 'firebase/firestore';
 
 export default {
   name: 'EditRankedChoiceAnswers',
   props: {
     id: {
-      type: String,
+      type: [String, Number],
       required: true,
     },
     answers: {
@@ -59,8 +60,8 @@ export default {
     },
     modelValue: {
       type: Object,
-      default: function () { 
-        return new Object(); 
+      default: function () {
+        return new Object();
       },
     },
   },
@@ -73,8 +74,8 @@ export default {
   },
   computed: {
     localVModel: {
-      get() {  
-        return this.modelValue;
+      get() {
+        return this.modelValue || {};
       },
       set(val) {
         this.$emit('update:modelValue', val);
@@ -94,23 +95,26 @@ export default {
           this.localVModel[event.target.value] = 1;
           this.$emit('update:modelValue', this.localVModel);
         } else {
-          this.localVModel[event.target.value] = this.numSelected + 1;
+          const max = Math.max(...Object.values(this.localVModel));
+          this.localVModel[event.target.value] = max + 1;
         }
       } else {
         // remove un-selected
-        delete this.localVModel[event.target.value];
+        this.localVModel[event.target.value] = deleteField();
         this.$emit('update:modelValue', this.localVModel);
 
         if (this.config.allowEqualRanking) {
           // reduce any ranks above the maximum rank. Leave the others alone.
           const maxRank = this.numSelected;
-          Object.entries(this.localVModel).forEach(([key, value]) => { 
-            if (value > maxRank) this.localVModel[key] = maxRank;
+          Object.entries(this.localVModel).forEach(([key, value]) => {
+            // exclude the one we just removed
+            if (value?._methodName !== 'deleteField' && value > maxRank) this.localVModel[key] = maxRank;
           });
         } else {
           // ensure we have distinct ranks up to the maximum
           Object.entries(this.localVModel)
             .map(([key, value]) => { return { key: key, value: value }; })
+            .filter(item => item.value?._methodName !== 'deleteField') // exclude the one we just removed
             .sort(( item1, item2 ) => {
               if (item1.value < item2.value) {
                 return -1;
@@ -145,7 +149,7 @@ export default {
           startRank = newRank;
           endRank = previousRank;
           change = 1;
-        }        
+        }
         if (previousRank < newRank) {
           startRank = previousRank;
           endRank = newRank;
@@ -158,6 +162,6 @@ export default {
         });
       }
     },
-  },   
+  },
 };
 </script>

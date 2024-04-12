@@ -21,6 +21,7 @@
         :id="id"
         v-model="selected"
         :answers="answers"
+        :config="config"
       />
     </div>
   </div>
@@ -28,6 +29,7 @@
 
 <script>
 import EditMultipleChoiceAnswers from './_EditMultipleChoiceAnswers.vue';
+import { cloneDeep } from 'lodash';
 
 export default {
   compatConfig: {
@@ -45,7 +47,7 @@ export default {
       required: true,
     },
     answers: {
-      type: Array,
+      type: [Array, Object],
       required: true,
     },
     config: {
@@ -54,7 +56,7 @@ export default {
       default: () => ({}),
     },
     modelValue: {
-      type: Array,
+      type: [Array, Object],
       default: function () {
         return new Array();
       },
@@ -67,8 +69,26 @@ export default {
         return this.modelValue ? this.modelValue : [];
       },
       set(val) {
-        this.$emit('update:modelValue', val);
+        const copyVal = cloneDeep(val);
+        if (this.config.groupAnswers && Array.isArray(this.config.answers)) {
+          // sort the answers based on the order of the answerIds
+          copyVal.sort((a, b) => this.answerIds.indexOf(a) - this.answerIds.indexOf(b));
+        }
+        this.$emit('update:modelValue', copyVal);
       },
+    },
+    answerIds() {
+      const ids = [];
+      if (this.config.groupAnswers && Array.isArray(this.config.answers)) {
+        this.config.answers.forEach((group) => {
+          if (Array.isArray(group.answers)) {
+            group.answers.forEach((answer) => {
+              ids.push(answer.id);
+            });
+          }
+        });
+      }
+      return ids;
     },
   },
 };
