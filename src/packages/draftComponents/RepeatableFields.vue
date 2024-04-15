@@ -15,6 +15,7 @@
         :path="path"
         :type="type"
         :label="typeName"
+        v-bind="extraProps"
       >
         <template #removeButton>
           <button
@@ -90,6 +91,10 @@ export default {
       type: String,
       required: false,
       default: '',
+    },
+    extraProps: {
+      type: Object,
+      default: {},
     },
   },
   //emits: ['input'],
