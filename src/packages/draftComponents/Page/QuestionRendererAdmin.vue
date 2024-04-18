@@ -76,7 +76,7 @@
 <script>
 
 export default {
-  name: 'LocationPreferences',
+  name: 'QuestionRendererAdmin',
   props: {
     section: {
       type: String,
