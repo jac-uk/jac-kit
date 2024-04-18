@@ -23,7 +23,7 @@
   "devDependencies": {
     "@babel/core": "^7.21.0",
     "@octokit/core": "^4.2.0",
-    "@storybook/vue3": "^6.5.16",
+    "@storybook/vue3": "^8.0.4",
     "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-service": "^5.0.8",
