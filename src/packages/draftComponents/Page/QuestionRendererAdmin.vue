@@ -52,7 +52,7 @@
           :key="answer"
           class="govuk-body"
         >
-          {{ answer }}
+          {{ $filters.lookup(answer) }}
         </p>
       </dd>
     </template>
@@ -141,7 +141,6 @@ export default {
       return Object.entries(groups).map(([rank, answers]) => ({ rank, answers }));
     },
     findGroupByAnswer(dataset, targetAnswer) {
-      console.log(dataset, targetAnswer);
       for (const question of dataset) {
 
         if (question.answers.some(answerObj => answerObj.answer === targetAnswer)) {
