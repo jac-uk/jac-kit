@@ -26,6 +26,9 @@ const formatDate = (value, type) => {
           case 'longdatetime':
             value = value.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
             break;
+          case 'DD.MM.YYYY':
+            value = value.toLocaleDateString('en-GB').replace(/\//g, '.');
+            break;
         }
       }
     }
