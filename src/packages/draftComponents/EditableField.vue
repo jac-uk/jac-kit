@@ -37,14 +37,14 @@
         v-else-if="isText"
         class="wrap"
       >
-        {{ value }} 
+        {{ value }}
       </span>
 
       <span
         v-else-if="isTextarea"
         class="wrap"
       >
-        {{ value }} 
+        {{ value }}
       </span>
 
       <span
@@ -60,7 +60,7 @@
       >
         {{ $filters.toYesNo($filters.lookup(value)) }}
       </span>
-      
+
       <div
         v-else-if="isMultiSelection"
         class="wrap"
@@ -70,7 +70,7 @@
           class="wrap"
         >
           <li
-            v-for="item in value" 
+            v-for="item in value"
             :key="item"
           >
             {{ $filters.toYesNo($filters.lookup(item)) }}
@@ -83,7 +83,7 @@
         class="wrap"
       >
         <li
-          v-for="(item, i) in value" 
+          v-for="(item, i) in value"
           :key="item"
         >
           <strong> {{ i + 1 }}: </strong>
@@ -127,7 +127,7 @@
         v-model="localField"
         type="tel"
       />
-      
+
       <TextField
         v-if="isText || isRoute"
         :id="`editable-field-${id}`"
@@ -147,11 +147,11 @@
         :type="(displayMonthYearOnly ? 'month' : 'date')"
         :value="localField"
       />
-      
+
       <Select
         v-if="isSelection"
         :id="`selection-input-${id}`"
-        v-model="localField" 
+        v-model="localField"
       >
         <option
           v-for="option in options"
@@ -175,7 +175,7 @@
         />
       </CheckboxGroup>
 
-      <div 
+      <div
         v-if="isRankedSelection"
         class="govuk-checkboxes"
       >
@@ -201,7 +201,7 @@
               {{ answer }}
             </label>
 
-            <Select 
+            <Select
               v-if="localField"
               :id="answer"
               v-model="ranking[answer]"
@@ -287,6 +287,10 @@ export default {
       type: String,
       default: 'text',
     },
+    dateFormat: {
+      type: String,
+      default: '',
+    },
     link: {
       type: String,
       default: 'Change',
@@ -352,10 +356,13 @@ export default {
       return newDate;
     },
     formattedDate() {
-      return this.$filters.formatDate(this.value, (this.displayMonthYearOnly ? 'month' : ''));
+      if (this.dateFormat === 'DD.MM.YYYY') {
+        return this.$filters.formatDate(this.value, this.dateFormat);
+      }
+      return this.$filters.formatDate(this.value, (this.displayMonthYearOnly ? 'month' : '')) ;
     },
   },
-  watch: { 
+  watch: {
     editMode: function() {
       if (this.editField && !this.editMode) {
         this.cancelEdit();
@@ -410,7 +417,7 @@ export default {
         }
 
         if (this.index != undefined || this.extension != undefined) { // is nested or indexed item
-          resultObj = { 
+          resultObj = {
             field: this.field,
             change: this.localField,
           };
@@ -419,13 +426,13 @@ export default {
               ...resultObj,
               index: this.index,
             };
-          } 
+          }
           if (this.extension != undefined) { // is nested item
             resultObj = {
               ...resultObj,
               extension: this.extension,
             };
-          } 
+          }
         } else {
           resultObj = { [this.field]: this.localField }; // else
         }
