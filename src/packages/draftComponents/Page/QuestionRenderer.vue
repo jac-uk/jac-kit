@@ -3,81 +3,96 @@
     v-if="shouldRenderQuestion"
     class="govuk-summary-list__row"
   >
-    <dt
-      class="govuk-summary-list__key"
-    >
+    <dt class="govuk-summary-list__key">
       {{ currentItem.hasOwnProperty('topic') ? currentItem.topic : '' }}
       <br>
       {{ currentItem.question }}
-      <span
-        v-if="onAdminSite"
-        class="govuk-hint"
-      >
-        {{ $filters.lookup(currentItem.questionType) }}
-        {{ currentItem.groupAnswers ? ' - Grouped Answers' : '' }}
-        {{ currentItem.minimumAnswerMode === 'some' ? ` - ${currentItem.minimumAnswerQuantity} Answer minimum` : '' }}
-        {{ currentItem.allowEqualRanking ? ' - Allow Equal Rank' : '' }}
-        {{ currentItem.allowLinkedQuestions ? ' - has linked Questions' : '' }}
-      </span>
     </dt>
-    <template
-      v-if="currentItem.groupAnswers"
+    <dd
+      v-if="currentItem.questionType === 'multiple-choice'"
+      class="govuk-summary-list__value"
     >
+      <!-- Render multiple-choice answers -->
+      <p
+        v-for="answer in application[section][currentItem.id]"
+        :key="answer"
+        class="govuk-body"
+      >
+        <template v-if="currentItem.groupAnswers">
+          <strong>
+            {{ findGroupByAnswer(currentItem.answers, answer) + ' - ' }}
+          </strong>
+          <span>
+            {{ findGroupAnswer(currentItem.answers, answer) }}
+          </span>
+        </template>
+        <template v-else>
+          {{ findAnswer(currentItem.answers, answer) }}
+        </template>
+      </p>
+    </dd>
+    <template v-else-if="currentItem.questionType === 'ranked-choice'">
       <dd
+        v-if="!currentItem.allowEqualRanking"
         class="govuk-summary-list__value"
       >
-        <!-- Render grouped multiple-choice answers -->
+        <!-- Render ranked-choice answers without equal ranking -->
         <p
-          v-for="(group) in currentItem.answers"
-          :key="group"
+          v-for="(answerIndex, answer) in sortRankedSelection(application[section][currentItem.id])"
+          :key="answer"
           class="govuk-body"
         >
           <strong>
-            {{ group.group }} -
+            {{ answerIndex }}:
+          </strong>
+          <template v-if="currentItem.groupAnswers">
+            <strong>
+              {{ findGroupByAnswer(currentItem.answers, answer) + ' - ' }}
+            </strong>
+            <span>
+              {{ findGroupAnswer(currentItem.answers, answer) }}
+            </span>
+          </template>
+          <template v-else>
+            {{ findAnswer(currentItem.answers, answer) }}
+          </template>
+        </p>
+      </dd>
+      <dd
+        v-else-if="currentItem.allowEqualRanking"
+        class="govuk-summary-list__value"
+      >
+        <!-- Render ranked-choice answers with equal ranking -->
+        <p
+          v-for="sortedAnswers in sortEqualRankedSelection(application[section][currentItem.id])"
+          :key="sortedAnswers.rank"
+          class="govuk-body"
+        >
+          <strong>
+            {{ sortedAnswers.rank }}:
           </strong>
           <span
-            v-for="(answer, idx) in group.answers"
+            v-for="(answer, sortedAnswerIndex) in sortedAnswers.answers"
             :key="answer"
           >
-            {{ answer.answer }}{{ idx + 1 < group.answers.length ? ', ' : '' }}
+            {{ `${findAnswer(currentItem.answers, answer)}${(sortedAnswerIndex + 1 < sortedAnswers.answers.length) ? ', ' : ''}` }}
           </span>
-          <br>
         </p>
       </dd>
     </template>
-    <template v-else-if="currentItem.answerSource === 'jurisdictions'">
-      <dd
-        class="govuk-summary-list__value"
-      >
-        <p
-          v-for="answer in exercise.jurisdiction"
-          :key="answer"
-          class="govuk-body"
-        >
-          {{ answer }}
-        </p>
-      </dd>
-    </template>
-    <template v-else>
-      <dd
-        class="govuk-summary-list__value"
-      >
-        <p
-          v-for="answer in currentItem.answers"
-          :key="answer"
-          class="govuk-body"
-        >
-          {{ answer.answer }}
-        </p>
-      </dd>
-    </template>
+    <dd
+      v-else-if="currentItem.questionType === 'single-choice'"
+      class="govuk-summary-list__value"
+    >
+      <!-- Render single-choice answer -->
+      {{ currentItem.answers.find(item => item.id === application[section][currentItem.id]).answer }}
+    </dd>
   </div>
 </template>
 
 <script>
-
 export default {
-  name: 'LocationPreferences',
+  name: 'QuestionRenderer',
   props: {
     section: {
       type: String,
@@ -89,36 +104,24 @@ export default {
     },
     application: {
       type: Object,
-      required: false,
-      default: null,
-    },
-    onAdminSite: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    review: {
-      type: Boolean,
       required: true,
     },
-    exercise: {
+    vacancy: {
       type: Object,
       required: true,
     },
   },
   computed: {
     currentItem() {
-      return this.exercise[this.section][this.index];
+      return this.vacancy[this.section][this.index];
     },
     shouldRenderQuestion() {
-      if (this.review) {
-        // If there's a linked question and its answer doesn't match this question's linked answer, do not render the question
-        if (this.currentItem.linkedQuestion && this.currentItem.linkedAnswer) {
-          return this.isLinkedByAnswer;
-        }
-
-        // If there's no linked question, render the question
+      // If there's a linked question and its answer doesn't match this question's linked answer, do not render the question
+      if (this.currentItem.linkedQuestion && this.currentItem.linkedAnswer) {
+        return this.isLinkedByAnswer;
       }
+
+      // If there's no linked question, render the question
       return true;
     },
     isLinkedByAnswer() {
@@ -150,12 +153,41 @@ export default {
     findGroupByAnswer(dataset, targetAnswer) {
       for (const question of dataset) {
 
-        if (question.answers.some(answerObj => answerObj.answer === targetAnswer)) {
+        if (question.answers.some(answerObj => answerObj.id === targetAnswer)) {
           return question.group;
         }
       }
       return null; // Return null if the answer is not found in any group
     },
+    findGroupAnswer(groupAnswers, targetAnswer) {
+      if (this.currentItem.answerSource === 'jurisdictions') {
+        return this.$filters.lookup(targetAnswer);
+      }
+
+      for (const groupAnswer of groupAnswers) {
+        const match = groupAnswer.answers.find(item => item.id === targetAnswer);
+        if (match) return match.answer;
+      }
+      return null;
+    },
+    findAnswer(answers, targetAnswer) {
+      if (this.currentItem.answerSource === 'jurisdictions') {
+        return this.$filters.lookup(targetAnswer);
+      }
+      if (!Array.isArray(answers)) return null;
+      const match = answers.find(item => item.id === targetAnswer);
+      return match ? match.answer : null;
+    }
   },
 };
 </script>
+
+<style lang="scss" scoped>
+  .govuk-summary-list__value,
+  .govuk-summary-list__value:last-child,
+  .govuk-summary-list__key {
+    @include govuk-media-query($from: tablet) {
+      width: auto;
+    }
+  }
+</style>
