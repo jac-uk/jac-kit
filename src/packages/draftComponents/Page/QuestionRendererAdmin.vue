@@ -6,7 +6,7 @@
     <dt
       class="govuk-summary-list__key"
     >
-      <div v-if="currentItem.hasOwnProperty('topic')">{{ currentItem.topic }}</div>
+      <span v-if="currentItem.topic">{{ currentItem.topic }}<br></span>
       {{ currentItem.question }}
       <span
         class="govuk-hint"
