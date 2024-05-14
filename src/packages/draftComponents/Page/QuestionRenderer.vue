@@ -4,8 +4,7 @@
     class="govuk-summary-list__row"
   >
     <dt class="govuk-summary-list__key">
-      {{ currentItem.hasOwnProperty('topic') ? currentItem.topic : '' }}
-      <br>
+      <span v-if="currentItem.topic">{{ currentItem.topic }}<br></span>
       {{ currentItem.question }}
     </dt>
     <dd
