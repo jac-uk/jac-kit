@@ -170,10 +170,10 @@ export default {
             }
           }
 
-          if (this.wordLimit) {
-            if (this.words.length > this.wordLimit) {
-              this.setError(`Answer must be ${this.wordLimit} words or fewer`);
-            } 
+          if (this.resolvedWordLimit) {
+            if (this.words.length > this.resolvedWordLimit) {
+              this.setError(`Answer must be ${this.resolvedWordLimit} words or fewer`);
+            }
             else {
               this.setError('');
             }

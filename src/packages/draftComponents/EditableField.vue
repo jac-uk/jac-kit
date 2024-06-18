@@ -41,7 +41,7 @@
       </span>
 
       <span
-        v-else-if="isTextarea"
+        v-else-if="isTextarea || isTextareaV2"
         class="wrap"
       >
         {{ value }}
@@ -140,6 +140,13 @@
         v-model="localField"
       />
 
+      <TextareaInputV2
+        v-if="isTextareaV2"
+        :id="`editable-field-${id}`"
+        v-model="localField"
+        :type-props="typeProps"
+      />
+
       <DateInput
         v-if="isDate"
         :id="`data-of-birth-${id}`"
@@ -222,6 +229,7 @@
       <div class="change-link">
         <button
           class="govuk-button govuk-!-margin-right-3"
+          :disabled="disableSubmitOnError && hasError"
           @click="btnClickSubmit()"
         >
           Save
@@ -240,6 +248,7 @@
 <script>
 import TextField from './Form/TextField.vue';
 import TextareaInput from './Form/TextareaInput.vue';
+import TextareaInputV2 from './Form/TextareaInputV2.vue';
 import DateInput from './Form/DateInput.vue';
 import formatEmail from '../helpers/Form/formatEmail';
 import Select from './Form/Select.vue';
@@ -248,11 +257,13 @@ import CheckboxItem from './Form/CheckboxItem.vue';
 //import * as filters from '../filters/filters';
 import Form from './Form/Form.vue';
 import { transformOnSelection } from '../helpers/array';
+import { uid } from 'uid/secure';
 
 export default {
   components: {
     TextField,
     TextareaInput,
+    TextareaInputV2,
     DateInput,
     Select,
     CheckboxGroup,
@@ -287,6 +298,12 @@ export default {
       type: String,
       default: 'text',
     },
+    // Specify properties specific to the type of input (to assist with using the InformationReviewRenderer)
+    typeProps: {
+      type: Object,
+      required: false,
+      default: () => ({}),
+    },
     dateFormat: {
       type: String,
       default: '',
@@ -312,6 +329,11 @@ export default {
       required: false,
       default: true,
     },
+    disableSubmitOnError: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   emits: ['changeField'],
   data() {
@@ -319,11 +341,14 @@ export default {
       localField: '',
       editField: false,
       id: null,
-      //filters: filters,
+      errorField: null,
       ranking: {},
     };
   },
   computed: {
+    hasError() {
+      return Boolean(this.errorField in this.errorObject && this.errorObject[this.errorField]);
+    },
     isEmail() {
       return this.type === 'email';
     },
@@ -335,6 +360,9 @@ export default {
     },
     isTextarea() {
       return this.type === 'textarea';
+    },
+    isTextareaV2() {
+      return this.type === 'textareaV2';
     },
     isRoute() {
       return this.type === 'route' && this.routeTo !== null;
@@ -375,7 +403,8 @@ export default {
     },
   },
   mounted () {
-    this.id = this._uid;
+    this.id = uid();
+    this.errorField = `editable-field-${this.id}`;
   },
   methods: {
     updateRanking() {
