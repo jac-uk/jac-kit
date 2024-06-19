@@ -254,9 +254,9 @@ import formatEmail from '../helpers/Form/formatEmail';
 import Select from './Form/Select.vue';
 import CheckboxGroup from './Form/CheckboxGroup.vue';
 import CheckboxItem from './Form/CheckboxItem.vue';
-//import * as filters from '../filters/filters';
 import Form from './Form/Form.vue';
 import { transformOnSelection } from '../helpers/array';
+
 import { uid } from 'uid/secure';
 
 export default {
@@ -329,7 +329,12 @@ export default {
       required: false,
       default: true,
     },
-    disableSubmitOnError: {
+    disableSubmitOnError: { // Ensure the submit button is disabled if there's an error in the input
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    disableUniversalValidation: { // Ignore other invalid fields
       type: Boolean,
       required: false,
       default: false,
@@ -438,7 +443,7 @@ export default {
     btnClickSubmit() {
       let resultObj;
       this.validate();
-      if (this.isValid()) {
+      if (this.isValid() || this.disableUniversalValidation) {
 
         if (this.isEmail) {
           const value = formatEmail(this.localField);
