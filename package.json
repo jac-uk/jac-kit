@@ -29,7 +29,7 @@
     "@vue/cli-service": "^5.0.8",
     "@vue/test-utils": "^2.3.0",
     "firebase": "^10.12.2",
-    "firebase-admin": "^11.5.0",
+    "firebase-admin": "^12.1.1",
     "firebase-mock": "^2.3.2",
     "lerna": "^6.5.1",
     "postcss": "^8.4.21",
