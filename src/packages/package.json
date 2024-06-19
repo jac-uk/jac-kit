@@ -14,6 +14,8 @@
     "@ckeditor/ckeditor5-vue": "^5.1.0",
     "save-file": "^2.3.1",
     "stream-browserify": "^3.0.0",
+    "uid": "^2.0.2",
+    "vue-dompurify-html": "^5.1.0",
     "xlsx-populate": "^1.21.0"
   }
 }
