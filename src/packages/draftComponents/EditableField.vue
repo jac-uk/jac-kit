@@ -246,17 +246,27 @@
 </template>
 
 <script>
-import TextField from './Form/TextField.vue';
-import TextareaInput from './Form/TextareaInput.vue';
+// import TextField from './Form/TextField.vue';
+// import TextareaInput from './Form/TextareaInput.vue';
 import TextareaInputV2 from './Form/TextareaInputV2.vue';
-import DateInput from './Form/DateInput.vue';
-import formatEmail from '../helpers/Form/formatEmail';
-import Select from './Form/Select.vue';
-import CheckboxGroup from './Form/CheckboxGroup.vue';
-import CheckboxItem from './Form/CheckboxItem.vue';
-//import * as filters from '../filters/filters';
-import Form from './Form/Form.vue';
-import { transformOnSelection } from '../helpers/array';
+// import DateInput from './Form/DateInput.vue';
+// import formatEmail from '../helpers/Form/formatEmail';
+// import Select from './Form/Select.vue';
+// import CheckboxGroup from './Form/CheckboxGroup.vue';
+// import CheckboxItem from './Form/CheckboxItem.vue';
+// import Form from './Form/Form.vue';
+// import { transformOnSelection } from '../helpers/array';
+
+import TextField from '@jac-uk/jac-kit/draftComponents/Form/TextField.vue';
+import TextareaInput from '@jac-uk/jac-kit/draftComponents/Form/TextareaInput.vue';
+import DateInput from '@jac-uk/jac-kit/draftComponents/Form/DateInput.vue';
+import formatEmail from '@jac-uk/jac-kit/helpers/Form/formatEmail';
+import Select from '@jac-uk/jac-kit/draftComponents/Form/Select.vue';
+import CheckboxGroup from '@jac-uk/jac-kit/draftComponents/Form/CheckboxGroup.vue';
+import CheckboxItem from '@jac-uk/jac-kit/draftComponents/Form/CheckboxItem.vue';
+import Form from '@jac-uk/jac-kit/draftComponents/Form/Form.vue';
+import { transformOnSelection } from '@jac-uk/jac-kit/helpers/array';
+
 import { uid } from 'uid/secure';
 
 export default {
@@ -329,7 +339,12 @@ export default {
       required: false,
       default: true,
     },
-    disableSubmitOnError: {
+    disableSubmitOnError: { // Ensure the submit button is disabled if there's an error in the input
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    disableUniversalValidation: { // Ignore other invalid fields
       type: Boolean,
       required: false,
       default: false,
@@ -438,7 +453,7 @@ export default {
     btnClickSubmit() {
       let resultObj;
       this.validate();
-      if (this.isValid()) {
+      if (this.isValid() || this.disableUniversalValidation) {
 
         if (this.isEmail) {
           const value = formatEmail(this.localField);
