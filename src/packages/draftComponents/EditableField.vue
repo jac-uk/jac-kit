@@ -340,7 +340,7 @@ export default {
       default: false,
     },
   },
-  emits: ['changeField'],
+  emits: ['changeField', 'editField'],
   data() {
     return {
       localField: '',
@@ -435,10 +435,18 @@ export default {
     },
     cancelEdit() {
       this.editField = false;
+      this.$emit('editField', {
+        id: this.id,
+        value: false,
+      });
     },
     btnClickEdit() {
       this.localField = this.value;
       this.editField = true;
+      this.$emit('editField', {
+        id: this.id,
+        value: true,
+      });
     },
     btnClickSubmit() {
       let resultObj;
@@ -472,7 +480,10 @@ export default {
         }
 
         this.$emit('changeField', resultObj);
-
+        this.$emit('editField', {
+          id: this.id,
+          value: false,
+        });
         this.editField = false;
       }
     },
