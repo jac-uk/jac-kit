@@ -167,6 +167,7 @@ const lookup = (value) => {
       'advising-application-of-law': 'Advising on the application of the law',
       'advocate-scottish-bar': 'Advocate – enrolled with the Scottish bar',
       'advocate-scotland': 'Advocate - Scotland',
+      'no-legal-qualification': 'None of the above',
       'african': 'African',
       'another-commonwealth-country': 'Another Commonwealth country',
       'approved': 'Approved',
