@@ -387,6 +387,9 @@ const lookup = (value) => {
       'diciplinaryActionOrAskedToResignDetails': 'diciplinary action or asked to resign',
       'otherCharacterIssuesDetails': 'other character issues',
       'nonMotoringFixedPenaltyNoticeDetails': 'non-motoring fixed penalty notice',
+      // qualification schedule
+      'schedule-2-d': 'Schedule 2(d)',
+      'schedule-2-3': 'Schedule 3(d)',
       // 'xxx': 'xxx',
     };
     // STAGES
