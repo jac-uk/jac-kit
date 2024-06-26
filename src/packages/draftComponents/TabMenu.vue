@@ -80,7 +80,7 @@ export default {
         this.showTab = index;
       }
     },
-    navigate(arg, tab, index) { // router object or a function
+    navigate(arg, tab, index) { // Either router object or a function
       if (typeof arg === 'function') {
         arg();
       }
