@@ -2,7 +2,7 @@
   <div />
 </template>
 <script>
-import { splitWords } from '@jac-uk/jac-kit/helpers/splitWords';
+import { splitWords } from '../../helpers/splitWords';
 export default {
   props: {
     id: {
