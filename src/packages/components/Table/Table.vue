@@ -106,6 +106,7 @@
                     v-model="selectAll"
                     class="govuk-checkboxes__input"
                     type="checkbox"
+                    @click.stop
                   >
                   <label
                     class="govuk-label govuk-checkboxes__label"
@@ -146,6 +147,8 @@
             v-for="(row, index) in data"
             :key="row[dataKey]"
             class="govuk-table__row govuk-!-padding-left-2 govuk-!-padding-right-2"
+            :class="{ clickable: row.rowLink }"
+            @click.stop="row.rowLink ? navigate(row.rowLink) : null"
           >
             <td
               v-if="multiSelect"
@@ -159,6 +162,7 @@
                     :value="row[dataKey]"
                     class="govuk-checkboxes__input"
                     type="checkbox"
+                    @click.stop
                   >
                   <label
                     class="govuk-label govuk-checkboxes__label"
@@ -804,6 +808,9 @@ export default {
       this.page = 0;
       this.reload();
     },
+    navigate(routerObj) {
+      this.$router.push(routerObj);
+    },
   },
 };
 </script>
@@ -826,6 +833,13 @@ export default {
     padding-top: 50px;
     width: 100%;
     height: 100%;
+  }
+
+  tr.clickable {
+    cursor: pointer;
+  }
+  tr.clickable:hover {
+    background-color: #f3f2f1;
   }
 
   @include mobile-view {
