@@ -13,7 +13,7 @@
             class="icon-expand"
             :class="showTab === index ? 'close' : 'open'"
           >
-            <img src="./assets/expand.svg">
+            <img src="../assets/expand.svg">
           </span>
           {{ tab.title }}
           <div
