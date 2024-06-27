@@ -254,13 +254,21 @@
 </template>
 
 <script>
-import Search from './Search.vue';
-import SidePanel from './SidePanel.vue';
-import Badge from './Badge.vue';
-import CustomForm from './CustomForm.vue';
-import LoadingMessage from '../LoadingMessage.vue';
-import EmptySearchResults from './EmptySearchResults.vue';
+// import Search from './Search.vue';
+// import SidePanel from './SidePanel.vue';
+// import Badge from './Badge.vue';
+// import CustomForm from './CustomForm.vue';
+// import LoadingMessage from '../LoadingMessage.vue';
+// import EmptySearchResults from './EmptySearchResults.vue';
 import _has from 'lodash/has';
+
+import Search from '@jac-uk/jac-kit/components/Table/Search.vue';
+import SidePanel from '@jac-uk/jac-kit/components/Table/SidePanel.vue';
+import Badge from '@jac-uk/jac-kit/components/Table/Badge.vue';
+import CustomForm from '@jac-uk/jac-kit/components/Table/CustomForm.vue';
+import LoadingMessage from '@jac-uk/jac-kit/components/LoadingMessage.vue';
+import EmptySearchResults from '@jac-uk/jac-kit/components/Table/EmptySearchResults.vue';
+
 const ACTIONS = {
   LOAD: 'load',
   RELOAD: 'reload',
@@ -833,6 +841,10 @@ export default {
     padding-top: 50px;
     width: 100%;
     height: 100%;
+  }
+
+  thead th * {
+    line-height: normal;
   }
 
   tr.clickable {
