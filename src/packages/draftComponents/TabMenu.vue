@@ -26,7 +26,7 @@
               />
             </svg>
           </span>
-          {{ tab.title }}
+          <a class="govuk-!-margin-left-1">{{ tab.title }}</a>
           <div
             v-show="showTab === index"
             class="tab-content"
@@ -126,6 +126,8 @@ export default {
 .tab {
   cursor: pointer;
   position: relative;
+  padding-left: 5px;  /** Make underline fit better */
+  padding-right: 5px;  /** Make underline fit better */
 }
 
 .tab.active::after {
