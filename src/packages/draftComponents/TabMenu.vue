@@ -13,21 +13,32 @@
             class="icon-expand"
             :class="showTab === index ? 'close' : 'open'"
           >
-            <img src="../assets/expand.svg">
+            <svg
+              width="12"
+              height="8"
+              viewBox="0 0 12 8"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1.41 7.70508L6 3.12508L10.59 7.70508L12 6.29508L6 0.295078L0 6.29508L1.41 7.70508Z"
+                fill="#1D70B8"
+              />
+            </svg>
           </span>
           {{ tab.title }}
           <div
             v-show="showTab === index"
             class="tab-content"
           >
-            <div
+            <a
               v-for="(item, i) in tab.content"
               :key="i"
               class="submenuItem"
               @click.stop="navigate(item.link, item, index)"
             >
               {{ item.title }}
-            </div>
+            </a>
           </div>
         </template>
         <template v-else>
@@ -171,6 +182,7 @@ export default {
 
 .submenuItem {
   padding: 0 10px;
+  display: block;
 }
 
 .submenuItem:not(:last-child) {
