@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-menu">
+  <nav class="tab-menu">
     <ul class="tabs govuk-header__navigation user-menu">
       <li
         v-for="(tab, index) in tabs"
@@ -50,7 +50,7 @@
         </template>
       </li>
     </ul>
-  </div>
+  </nav>
 </template>
 
 <script>
@@ -115,6 +115,10 @@ export default {
 </script>
 
 <style scoped>
+.tab-menu {
+  position: relative; /* Create a new stacking context */
+  z-index: 1000; /* Ensure it has a high z-index */
+}
 
 .tabs {
   list-style-type: none;
