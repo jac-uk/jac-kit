@@ -79,10 +79,12 @@ export default {
 }
 .flex-item {
   color: #753880;
-  margin-bottom: 10px;
   text-align: left;
   font-size: 1rem;
   line-height: 1.25;
   font-weight: 700;
+}
+.flex-column .flex-item:not(:last-child) {
+  margin-bottom: 10px !important;
 }
 </style>
