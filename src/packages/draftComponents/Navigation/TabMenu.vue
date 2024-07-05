@@ -66,11 +66,8 @@
 </template>
 
 <script>
-
-// @TODO: IGNORE MAX-ITEMS PER COLUMN IF FULL WIDTH MENU IS FALSE
-
-import FullWidthMenu from '@/components/TESTER/FullWidthMenu.vue';
-import ArrowMenu from '@/components/TESTER/ArrowMenu.vue';
+import FullWidthMenu from './FullWidthMenu.vue';
+import ArrowMenu from './ArrowMenu.vue';
 export default {
   name: 'TabMenu',
   components: {
@@ -207,16 +204,15 @@ export default {
   text-decoration: none !important;
 }
 .flex-item {
-  /* background-color: #1d70b8; */
   color: #753880;
-  /*padding: 10px;*/
-  margin-bottom: 10px;
-  /*border-radius: 4px;*/
   text-align: left;
   font-size: 1rem;
   line-height: 1.25;
   font-weight: 700;
   cursor: pointer;
+}
+.flex-column .flex-item:not(:last-child) {
+  margin-bottom: 10px;
 }
 .flex-item:hover {
   text-decoration: underline;
