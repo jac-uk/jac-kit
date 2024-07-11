@@ -201,7 +201,7 @@ const lookup = (value) => {
       'do-not-know': 'Do not know',
       'draft': 'Draft',
       'drafting-documents-that-affect-rights-obligations': 'Drafting documents intended to affect persons\' rights or obligations',
-      'dry-run': 'Dry run',
+      'dry-run': 'Mock assessment',
       'employment-appeals-tribunal': 'Employment Appeals Tribunal',
       'employment-tribunal': 'Employment Tribunal',
       'england-wales': 'England and Wales',
