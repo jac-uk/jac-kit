@@ -53,7 +53,7 @@ export default {
   position: fixed;
   right: 0;
   top: 0;
-  z-index: 11;
+  z-index: 1000;
   background-color: white;
 
   hr {
