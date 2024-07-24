@@ -525,14 +525,20 @@ export default {
       this.direction = this.defaultState.direction;
     }
     this.initialiseFilters();
-    this.changeTableState(ACTIONS.LOAD, this.currentState);
+
+    // check if there are any default filters
+    if (Object.keys(this.filterValues).length) {
+      this.btnUpdateFilters();
+    } else {
+      this.changeTableState(ACTIONS.LOAD, this.currentState);
+    }
   },
   methods: {
     initialiseFilters() {
       for (const filter of this.filters) {
         if ('defaultValue' in filter) {
-          // Only supports radio currently (others can be supported as and when they're needed)
-          if (filter.type === 'radio') {
+          // Only supports radio and checkbox currently (others can be supported as and when they're needed)
+          if (['radio', 'checkbox'].includes(filter.type)) {
             this.filterValues[filter.field] = filter.defaultValue;
           }
         }
@@ -696,6 +702,7 @@ export default {
           }
           break;
         case 'radio':
+        case 'option':
           if (this.filterValues[filter.field]) {
             const value = this.filterValues[filter.field];
             // Ensure if empty option is selected the 'where' clause is skipped
