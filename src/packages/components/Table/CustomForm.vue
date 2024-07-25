@@ -183,6 +183,9 @@ export default {
       },
     },
   },
+  mounted() {
+    this.initLocalGroupOptionData();
+  },
   methods: {
     getOptions(options) {
       return options.map((option) => {
@@ -198,6 +201,16 @@ export default {
           label: this.$filters.lookup(option.toString()),
           value: option,
         }
+      });
+    },
+    initLocalGroupOptionData() {
+      const groupOptionFields = this.fields.filter((field) => field.type === 'groupOption');
+      groupOptionFields.forEach((groupOptionField) => {
+        groupOptionField.groups.forEach((group) => {
+          if (group.field in this.data && !this.localGroupOptionData[group.field]) {
+            this.localGroupOptionData[group.field] = this.data[group.field];
+          }
+        });
       });
     },
     updateGroupOptionData(field, value) {

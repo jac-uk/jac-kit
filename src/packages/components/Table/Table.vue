@@ -613,8 +613,17 @@ export default {
       const where = [];
       this.appliedFilterValues = JSON.parse(JSON.stringify(this.filterValues));
       this.numberOfFiltersApplied = 0;
+      // get all filters
+      const filters = [];
+      this.filters.forEach(filter => {
+        if (filter.type === 'groupOption') {
+          filters.push(...filter.groups);
+        } else {
+          filters.push(filter);
+        }
+      })
       // iterate filters and build where clause if a filter value has been chosen
-      this.filters.forEach((filter) => {
+      filters.forEach((filter) => {
         switch (filter.type) {
         case 'checkbox':
           if (this.filterValues[filter.field] && this.filterValues[filter.field].length) {
