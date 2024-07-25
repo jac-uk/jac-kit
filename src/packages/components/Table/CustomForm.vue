@@ -12,10 +12,10 @@
           hint="Select all that apply."
         >
           <CheckboxItem
-            v-for="(option, i) in field.options"
+            v-for="(option, i) in getOptions(field.options)"
             :key="i"
-            :value="option"
-            :label="$filters.lookup(option.toString())"
+            :value="option.value"
+            :label="option.label"
           />
         </CheckboxGroup>
       </div>
@@ -86,14 +86,30 @@
           v-model="localData[`${field.field}`]"
           :label="field.title"
           hint="Select one."
-      >
-        <RadioItem
-          v-for="(option, i) in field.options"
-          :key="i"
-          :value="option"
-          :label="$filters.lookup(option.toString())"
-        />
-      </RadioGroup>
+        >
+          <RadioItem
+            v-for="(option, i) in getOptions(field.options)"
+            :key="i"
+            :value="option.value"
+            :label="option.label"
+          />
+        </RadioGroup>
+      </div>
+      <div v-if="field.type === 'option'">
+        <Select
+          :id="`filter-${field.field}`"
+          v-model="localData[`${field.field}`]"
+          :label="field.title"
+          :hint="field.hint"
+        >
+          <option
+            v-for="(option, i) in getOptions(field.options)"
+            :key="i"
+            :value="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </Select>
       </div>
     </div>
   </div>
@@ -107,6 +123,7 @@ import DateInput from '../../draftComponents/Form/DateInput.vue';
 import Checkbox from '../../draftComponents/Form/Checkbox.vue';
 import RadioGroup from '../../draftComponents/Form/RadioGroup.vue';
 import RadioItem from '../../draftComponents/Form/RadioItem.vue';
+import Select from '../../draftComponents/Form/Select.vue';
 
 export default {
   components: {
@@ -117,6 +134,7 @@ export default {
     Checkbox,
     RadioGroup,
     RadioItem,
+    Select,
   },
   props: {
     fields: {
@@ -138,6 +156,24 @@ export default {
       set(value) {
         this.$emit('update:data', value);
       },
+    },
+  },
+  methods: {
+    getOptions(options) {
+      return options.map((option) => {
+        // check if option is an object with label and value
+        if (typeof option === 'object' 
+          && option !== null
+          && 'label' in option
+          && 'value' in option
+        ) {
+          return option
+        }
+        return {
+          label: this.$filters.lookup(option.toString()),
+          value: option,
+        }
+      });
     },
   },
 };
