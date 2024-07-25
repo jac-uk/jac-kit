@@ -2,8 +2,9 @@
   <div>
     <div
       v-if="!loadFailed"
+      style="display: flex; align-items: center; gap: 8px;"
     >
-      <Spinner style="vertical-align: text-bottom" />
+      <Spinner />
       Loading...
     </div>
     <div

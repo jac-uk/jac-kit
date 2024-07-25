@@ -12,10 +12,10 @@
           hint="Select all that apply."
         >
           <CheckboxItem
-            v-for="(option, i) in field.options"
+            v-for="(option, i) in getOptions(field.options)"
             :key="i"
-            :value="option"
-            :label="$filters.lookup(option.toString())"
+            :value="option.value"
+            :label="option.label"
           />
         </CheckboxGroup>
       </div>
@@ -86,14 +86,50 @@
           v-model="localData[`${field.field}`]"
           :label="field.title"
           hint="Select one."
-      >
-        <RadioItem
-          v-for="(option, i) in field.options"
-          :key="i"
-          :value="option"
-          :label="$filters.lookup(option.toString())"
-        />
-      </RadioGroup>
+        >
+          <RadioItem
+            v-for="(option, i) in getOptions(field.options)"
+            :key="i"
+            :value="option.value"
+            :label="option.label"
+          />
+        </RadioGroup>
+      </div>
+      <div v-if="field.type === 'option'">
+        <Select
+          :id="`filter-${field.field}`"
+          v-model="localData[`${field.field}`]"
+          :label="field.title"
+          :hint="field.hint"
+        >
+          <option
+            v-for="(option, i) in getOptions(field.options)"
+            :key="i"
+            :value="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </Select>
+      </div>
+      <div v-if="field.type === 'groupOption'">
+        <div v-for="(group, index) in field.groups" :key="index">
+          <p v-if="index > 0" class="govuk-hint">OR</p>
+          <Select
+            :id="`filter-${group.field}`"
+            :model-value="localGroupOptionData[`${group.field}`] || ''"
+            @change="updateGroupOptionData(group.field, $event.target.value)"
+            :label="group.title"
+            :hint="group.hint"
+          >
+            <option
+              v-for="(option, i) in getOptions(group.options)"
+              :key="i"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </Select>
+        </div>
       </div>
     </div>
   </div>
@@ -107,6 +143,7 @@ import DateInput from '../../draftComponents/Form/DateInput.vue';
 import Checkbox from '../../draftComponents/Form/Checkbox.vue';
 import RadioGroup from '../../draftComponents/Form/RadioGroup.vue';
 import RadioItem from '../../draftComponents/Form/RadioItem.vue';
+import Select from '../../draftComponents/Form/Select.vue';
 
 export default {
   components: {
@@ -117,6 +154,7 @@ export default {
     Checkbox,
     RadioGroup,
     RadioItem,
+    Select,
   },
   props: {
     fields: {
@@ -128,6 +166,11 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      localGroupOptionData: {},
+    };
+  },
   emits: ['update:data'],
   computed: {
     localData: {
@@ -138,6 +181,51 @@ export default {
       set(value) {
         this.$emit('update:data', value);
       },
+    },
+  },
+  mounted() {
+    this.initLocalGroupOptionData();
+  },
+  methods: {
+    getOptions(options) {
+      return options.map((option) => {
+        // check if option is an object with label and value
+        if (typeof option === 'object'
+          && option !== null
+          && 'label' in option
+          && 'value' in option
+        ) {
+          return option
+        }
+        return {
+          label: this.$filters.lookup(option.toString()),
+          value: option,
+        }
+      });
+    },
+    initLocalGroupOptionData() {
+      const groupOptionFields = this.fields.filter((field) => field.type === 'groupOption');
+      groupOptionFields.forEach((groupOptionField) => {
+        groupOptionField.groups.forEach((group) => {
+          if (group.field in this.data && !this.localGroupOptionData[group.field]) {
+            this.localGroupOptionData[group.field] = this.data[group.field];
+          }
+        });
+      });
+    },
+    updateGroupOptionData(field, value) {
+      this.localGroupOptionData[field] = value;
+      const groupOptionFields = this.fields.filter((field) => field.type === 'groupOption');
+      groupOptionFields.forEach((groupOptionField) => {
+        groupOptionField.groups.forEach((group) => {
+          if (group.field !== field) {
+            // exclude group if not selected
+            delete this.localGroupOptionData[group.field];
+            delete this.localData[group.field];
+          }
+        });
+      });
+      this.localData = { ...this.localData, ...this.localGroupOptionData };
     },
   },
 };
