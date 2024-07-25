@@ -111,6 +111,26 @@
           </option>
         </Select>
       </div>
+      <div v-if="field.type === 'groupOption'">
+        <div v-for="(group, index) in field.groups" :key="index">
+          <p v-if="index > 0" class="govuk-hint">OR</p>
+          <Select
+            :id="`filter-${group.field}`"
+            :model-value="localGroupOptionData[`${group.field}`] || ''"
+            @change="updateGroupOptionData(group.field, $event.target.value)"
+            :label="group.title"
+            :hint="group.hint"
+          >
+            <option
+              v-for="(option, i) in getOptions(group.options)"
+              :key="i"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </Select>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -146,6 +166,11 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      localGroupOptionData: {},
+    };
+  },
   emits: ['update:data'],
   computed: {
     localData: {
@@ -162,7 +187,7 @@ export default {
     getOptions(options) {
       return options.map((option) => {
         // check if option is an object with label and value
-        if (typeof option === 'object' 
+        if (typeof option === 'object'
           && option !== null
           && 'label' in option
           && 'value' in option
@@ -174,6 +199,20 @@ export default {
           value: option,
         }
       });
+    },
+    updateGroupOptionData(field, value) {
+      this.localGroupOptionData[field] = value;
+      const groupOptionFields = this.fields.filter((field) => field.type === 'groupOption');
+      groupOptionFields.forEach((groupOptionField) => {
+        groupOptionField.groups.forEach((group) => {
+          if (group.field !== field) {
+            // exclude group if not selected
+            delete this.localGroupOptionData[group.field];
+            delete this.localData[group.field];
+          }
+        });
+      });
+      this.localData = { ...this.localData, ...this.localGroupOptionData };
     },
   },
 };
