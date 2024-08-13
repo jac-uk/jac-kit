@@ -7,7 +7,7 @@
     <a
       v-if="fileName && isFileClean && linkHref"
       class="govuk-link govuk-body-m"
-      :class="{'download-visited' : visited, 'govuk-button govuk-button--secondary': type === 'button' }"
+      :class="{'download-visited': visited, 'govuk-button govuk-button--secondary': type === 'button' }"
       :download="fileName"
       :href="linkHref"
       @click.prevent="validateBeforeDownload"
@@ -24,10 +24,11 @@
 </template>
 
 <script>
-import { storage } from '@/firebase';
+import { storage, firestore } from '@/firebase';
 import { getDownloadURL, getMetadata, ref } from 'firebase/storage';
 import { functions } from '@/firebase';
 import { httpsCallable } from '@firebase/functions';
+import { doc, getDoc } from 'firebase/firestore';
 
 export default {
   name: 'DownloadLink',
@@ -80,6 +81,7 @@ export default {
       metadata: null,
       isFileClean: false,
       checksumResult: null, // To store the checksum validation result
+      checksumsEnabled: false, // Flag to determine if checksum validation is enabled
     };
   },
   computed: {
@@ -109,36 +111,46 @@ export default {
   },
   methods: {
     async init() {
-      // Check the metadata to determine if the file is safe for download
-      this.metadata = await this.getMetadata();
-      this.isFileClean = this.metadata?.customMetadata?.status === 'clean';
+      try {
+        // Fetch the feature flag
+        const settingsDoc = doc(firestore, 'settings/services/checksums');
+        const settingsSnapshot = await getDoc(settingsDoc);
+        this.checksumsEnabled = settingsSnapshot.exists() ? settingsSnapshot.data().enabled : false;
 
-      // If the file is marked clean, generate the download URL
-      if (this.isFileClean) {
-        const downloadUrl = await this.getDownloadURL();
-        if (downloadUrl) {
-          this.linkHref = downloadUrl;
+        // Check the metadata to determine if the file is safe for download
+        this.metadata = await this.getMetadata();
+        this.isFileClean = this.metadata?.customMetadata?.status === 'clean';
+
+        // If the file is marked clean, generate the download URL
+        if (this.isFileClean) {
+          this.linkHref = await this.getDownloadURL();
+        } else {
+          console.error('File validation failed, download not allowed');
         }
-      } else {
-        console.error('File validation failed, download not allowed');
+      } catch (error) {
+        console.error('Initialization failed:', error);
       }
     },
     async validateBeforeDownload(event) {
-      // Perform the final checksum validation before download
-      const isValid = await this.validateChecksum();
+      if (this.checksumsEnabled) {
+        // Perform checksum validation if checksums are enabled
+        const isValid = await this.validateChecksum();
 
-      if (isValid) {
-        // If valid, trigger the download
-        window.location.href = this.linkHref;
+        if (isValid) {
+          this.visited = true; // Set visited to true after validation
+          window.location.href = this.linkHref;
+        } else {
+          console.error('File checksum validation failed. Download aborted.');
+          alert('This file is currently unavailable');
+          event.preventDefault();
+        }
       } else {
-        // If invalid, prevent the download and show an error message
-        console.error('File checksum validation failed. Download aborted.');
-        alert('This file is currently unavailable');
-        event.preventDefault();
+        // If checksums are not enabled, proceed with download
+        this.visited = true; // Set visited to true
+        window.location.href = this.linkHref; // Trigger download
       }
     },
     async validateChecksum() {
-      // Call the Cloud Function to validate the checksum
       const verifyFileChecksum = httpsCallable(functions, 'verifyFileChecksum');
       try {
         const result = await verifyFileChecksum({ filePath: this.url });
