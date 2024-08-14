@@ -3,13 +3,14 @@
     class="govuk-form-group"
     :class="{'govuk-form-group--error': hasError}"
   >
-    <label
-      v-if="label"
-      :for="id"
-      class="govuk-heading-m govuk-!-margin-bottom-2"
-    >
-      {{ label }}
-    </label>
+    <h1 class="govuk-label-wrapper">
+      <label
+        class="govuk-label govuk-label--l"
+        :for="id"
+      >
+        {{ label }}
+      </label>
+    </h1>
     <span
       v-if="hint"
       class="govuk-hint"
@@ -37,12 +38,12 @@
       <ul
         v-if="filteredResults.length"
         id="autocomplete-list"
-        class="autocomplete-results"
+        class="govuk-list govuk-list--unstyled autocomplete-list"
       >
         <li
           v-for="(result, index) in filteredResults"
           :key="result.id"
-          :class="{'highlighted': highlightedIndex === index}"
+          :class="{'govuk-list__item--highlighted': highlightedIndex === index}"
           @mousedown="onSelect(result)"
           @mouseover="highlightedIndex = index"
         >
@@ -54,13 +55,10 @@
 </template>
 
 <script>
-// import FormField from './FormField.vue';
-// import FormFieldError from './FormFieldError.vue';
-import FormField from '@jac-uk/jac-kit/draftComponents/Form/FormField.vue';
-import FormFieldError from '@jac-uk/jac-kit/draftComponents/Form/FormFieldError.vue';
+import FormField from '.FormField.vue';
+import FormFieldError from './FormFieldError.vue';
 
 export default {
-  name: 'PredictiveSearch',
   components: {
     FormFieldError,
   },
@@ -82,14 +80,10 @@ export default {
       type: String,
       required: true,
     },
-    label: {
-      type: String,
-      default: () => '',
-    },
-    hint: {
-      type: String,
-      default: () => '',
-    },
+    label: String,
+    hint: String,
+    required: Boolean,
+    errorMessage: String,
   },
   data() {
     return {
@@ -101,11 +95,6 @@ export default {
   computed: {
     hasError() {
       return !!this.errorMessage;
-    },
-  },
-  watch: {
-    searchTerm() {
-      this.filterResults();
     },
   },
   methods: {
@@ -141,7 +130,7 @@ export default {
       }
     },
     onSelect(result) {
-      this.searchTerm = result.name;
+      this.searchTerm = result.name; // or however you want to display the result
       this.$emit('update:modelValue', result);
       this.filteredResults = [];
       this.highlightedIndex = -1;
@@ -154,23 +143,32 @@ export default {
 .autocomplete-container {
   position: relative;
 }
-.autocomplete-results {
+
+.autocomplete-list {
   position: absolute;
-  border: 1px solid #ddd;
+  width: 100%; /* Match the width of the input */
+  border: 1px solid #b3b3b3;
   border-top: none;
   background: #fff;
   max-height: 200px;
   overflow-y: auto;
   z-index: 1000;
-  list-style-type: none;
   padding: 0;
   margin: 0;
+  list-style-type: none;
 }
-.autocomplete-results li {
+
+.govuk-list__item {
   padding: 8px;
   cursor: pointer;
 }
-.autocomplete-results li.highlighted {
-  background: #b3d4fc;
+
+.govuk-list__item--highlighted {
+  background-color: #b3d4fc;
+}
+
+.govuk-input--error {
+  border-color: #d4351c;
+  box-shadow: 0 0 0 2px rgba(211, 53, 28, 0.2);
 }
 </style>
