@@ -43,6 +43,12 @@
       :class="{'govuk-input--error': hasError}"
       @change="fileSelected"
     >
+    <span
+      :if="!haveFile || (isReplacing && file)"
+      class="govuk-hint"
+    >
+      Please ensure your file is in {{ formattedTypesWithOr }} format and is less than {{ sizeLimit }}MB
+    </span>
   </div>
 </template>
 
@@ -89,9 +95,11 @@ export default {
       },
     },
     types: {
-      type: String,
+      type: [Array, String],
       required: false,
-      default: '.pdf,.docx,.doc,.odt,.txt,.fodt',
+      default: () => {
+        return ['.pdf','.docx','.doc','.odt','.txt','.fodt'];
+      },
     },
     enableDelete: {
       type: Boolean,
@@ -104,6 +112,7 @@ export default {
       file: '',
       isReplacing: false,
       isUploading: false,
+      sizeLimit: 2,
     };
   },
   computed: {
@@ -120,8 +129,11 @@ export default {
         }
       },
     },
+    formattedTypesWithOr() {
+      return this.$props.types.length ? `${this.$props.types.join(', ')  } or ${  this.$props.types[this.$props.types.length - 1]}` : this.$props.types;
+    },
     fileExtensions() {
-      return this.$props.types;
+      return this.$props.types.length ? this.$props.types.join(',') : this.$props.types;
     },
   },
   async mounted () {
@@ -159,8 +171,7 @@ export default {
       const fileExtension = parts.pop();
 
       if (this.$props.types) {
-        const providedTypes = this.$props.types.split(',');
-        if (providedTypes.includes(`.${fileExtension}`)) {
+        if (this.$props.types.includes(`.${fileExtension}`)) {
           return true;
         }
       }
@@ -171,7 +182,7 @@ export default {
     },
     fileIsTooBig(size){
       const megabyteSize = size / 1024 / 1024; // in MB
-      return megabyteSize > 2;
+      return megabyteSize > this.sizeLimit;
     },
     resetFile() {
       this.isUploading = false;
@@ -183,7 +194,7 @@ export default {
         return false;
       }
       if (!this.validFileExtension(file.name)) {
-        this.setError(`Invalid file type. Choose from: ${this.types.split(',').map(type => type.replace(/\./g, '').trim()).join(',')}`);
+        this.setError(`Invalid file type. Please ensure the file is in ${this.formattedTypesWithOr} format`);
         return false;
       }
       if (this.fileIsEmpty(file.size)){
@@ -191,7 +202,7 @@ export default {
         return false;
       }
       if (this.fileIsTooBig(file.size)){
-        this.setError('File is too large. Limit: 2MB');
+        this.setError(`File is too large. Limit: ${this.sizeLimit}MB`);
         return false;
       }
 

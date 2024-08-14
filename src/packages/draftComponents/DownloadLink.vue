@@ -28,7 +28,7 @@ import { storage, firestore } from '@/firebase';
 import { getDownloadURL, getMetadata, ref } from 'firebase/storage';
 import { functions } from '@/firebase';
 import { httpsCallable } from '@firebase/functions';
-import { doc, getDoc } from 'firebase/firestore';
+import { collection, doc, getDoc } from 'firebase/firestore';
 
 export default {
   name: 'DownloadLink',
@@ -112,9 +112,11 @@ export default {
   methods: {
     async init() {
       try {
+        // Reference to the 'settings' collection
+        const checksumsRef = doc(firestore, 'settings/candidateSettings/checksums/enabled');
+
         // Fetch the feature flag
-        const settingsDoc = doc(firestore, 'settings/services/checksums');
-        const settingsSnapshot = await getDoc(settingsDoc);
+        const settingsSnapshot = await getDoc(checksumsRef);
         this.checksumsEnabled = settingsSnapshot.exists() ? settingsSnapshot.data().enabled : false;
 
         // Check the metadata to determine if the file is safe for download
