@@ -2,6 +2,7 @@
   <div>
     <p class="govuk-visually-hidden">
       Checksum Valid: {{ checksumResult }}
+      Checksums enabled: {{ checksumsEnabled }}
     </p>
 
     <a
@@ -28,7 +29,7 @@ import { storage, firestore } from '@/firebase';
 import { getDownloadURL, getMetadata, ref } from 'firebase/storage';
 import { functions } from '@/firebase';
 import { httpsCallable } from '@firebase/functions';
-import { collection, doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 
 export default {
   name: 'DownloadLink',
@@ -80,8 +81,8 @@ export default {
       linkHref: '',
       metadata: null,
       isFileClean: false,
-      checksumResult: null, // To store the checksum validation result
-      checksumsEnabled: false, // Flag to determine if checksum validation is enabled
+      checksumResult: null,
+      checksumsEnabled: false,
     };
   },
   computed: {
@@ -113,11 +114,11 @@ export default {
     async init() {
       try {
         // Reference to the 'settings' collection
-        const checksumsRef = doc(firestore, 'settings/candidateSettings/checksums/enabled');
+        const settingsRef = doc(firestore, 'settings/candidateSettings');
 
         // Fetch the feature flag
-        const settingsSnapshot = await getDoc(checksumsRef);
-        this.checksumsEnabled = settingsSnapshot.exists() ? settingsSnapshot.data().enabled : false;
+        const settingsSnapshot = await getDoc(settingsRef);
+        this.checksumsEnabled = settingsSnapshot.exists() ? settingsSnapshot.data().checksums.enabled : false;
 
         // Check the metadata to determine if the file is safe for download
         this.metadata = await this.getMetadata();
