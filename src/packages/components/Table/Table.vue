@@ -143,40 +143,49 @@
           </tr>
         </thead>
         <tbody class="govuk-table__body">
-          <tr
+          <template
             v-for="(row, index) in data"
             :key="row[dataKey]"
-            class="govuk-table__row govuk-!-padding-left-2 govuk-!-padding-right-2"
-            :class="{ clickable: row.rowLink }"
-            @click.stop="row.rowLink ? navigate(row.rowLink) : null"
           >
-            <td
-              v-if="multiSelect"
-              class="govuk-table__cell govuk-!-padding-top-0"
+            <tr
+              class="govuk-table__row govuk-!-padding-left-2 govuk-!-padding-right-2"
+              :class="{ clickable: row.rowLink }"
+              @click.stop="row.rowLink ? navigate(row.rowLink) : null"
             >
-              <div class="govuk-checkboxes govuk-checkboxes--small">
-                <div class="govuk-checkboxes__item">
-                  <input
-                    :id="`item-${row[dataKey]}`"
-                    v-model="selectedItems"
-                    :value="row[dataKey]"
-                    class="govuk-checkboxes__input"
-                    type="checkbox"
-                    @click.stop
-                  >
-                  <label
-                    class="govuk-label govuk-checkboxes__label"
-                    :for="`item-${row[dataKey]}`"
-                  />
+              <td
+                v-if="multiSelect"
+                class="govuk-table__cell govuk-!-padding-top-0"
+              >
+                <div class="govuk-checkboxes govuk-checkboxes--small">
+                  <div class="govuk-checkboxes__item">
+                    <input
+                      :id="`item-${row[dataKey]}`"
+                      v-model="selectedItems"
+                      :value="row[dataKey]"
+                      class="govuk-checkboxes__input"
+                      type="checkbox"
+                      @click.stop
+                    >
+                    <label
+                      class="govuk-label govuk-checkboxes__label"
+                      :for="`item-${row[dataKey]}`"
+                    />
+                  </div>
                 </div>
-              </div>
-            </td>
+              </td>
+              <slot
+                name="row"
+                :row="row"
+                :index="index"
+              />
+            </tr>
             <slot
-              name="row"
+              name="extra-row"
               :row="row"
               :index="index"
             />
-          </tr>
+          </template>
+
           <slot name="footer" />
         </tbody>
       </table>
@@ -711,7 +720,6 @@ export default {
           }
           break;
         case 'radio':
-        case 'option':
           if (this.filterValues[filter.field]) {
             const value = this.filterValues[filter.field];
             // Ensure if empty option is selected the 'where' clause is skipped
@@ -939,6 +947,7 @@ export default {
         cursor: pointer;
       }
     }
+
     /* Get the JAC-KIT colour from Warren for header-link */
     tr:nth-child(2) > th {
       position: sticky;
@@ -974,4 +983,5 @@ export default {
       -o-text-overflow: ellipsis;  // for Opera 9 & 10
     }
   }
+
 </style>
