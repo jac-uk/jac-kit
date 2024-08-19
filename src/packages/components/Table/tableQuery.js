@@ -1,6 +1,6 @@
 import vuexfireSerialize from '../../helpers/vuexfireSerialize';
 import { formatSearchTerm } from '../../helpers/search';
-import { query, where, orderBy as firesoterOrderBy, limit, startAfter as firestoreStarAfter, endBefore as firestoreEndBefore, documentId, limitToLast, getDocs } from "firebase/firestore";
+import { query, where, orderBy as firestoreOrderBy, limit, startAfter as firestoreStarAfter, endBefore as firestoreEndBefore, documentId, limitToLast, getDocs } from "firebase/firestore";
 
 const search = (searchValue) => {
   let returnValue = null;
@@ -84,7 +84,7 @@ const filteredQuery = (ref, params) => {
           queryRef,
           where(params.search[0], '>=', returnSearch.value1),
           where(params.search[0], '<', returnSearch.value2),
-         firesoterOrderBy(params.search[0], 'asc'),
+          firestoreOrderBy(params.search[0], 'asc'),
         );
         orderBy = [params.search[0]];
       }
