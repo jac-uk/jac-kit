@@ -1,6 +1,6 @@
 <template>
   <a
-    v-if="fileName && linkHref"
+    v-if="fileName && isFileClean && linkHref"
     class="govuk-link govuk-body-m"
     :class="{'download-visited' : visited, 'govuk-button govuk-button--secondary': type === 'button' }"
     :download="fileName"
@@ -18,7 +18,7 @@
 
 <script>
 import { storage } from '@/firebase'
-import { getDownloadURL, ref } from 'firebase/storage'
+import { getDownloadURL, getMetadata, ref } from 'firebase/storage'
 
 export default {
   props: {
@@ -67,6 +67,8 @@ export default {
     return {
       visited: false,
       linkHref: '',
+      metadata: null,
+      isFileClean: false,
     };
   },
   computed: {
@@ -87,28 +89,43 @@ export default {
 
       return savePath;
     },
+    url() {
+      return this.filePath ? this.filePath : this.savePath + this.fileName;
+    },
   },
   watch: {
     async fileName() {
       // When the filename changes update the download link (so download links are not reactive unless the filename changes!)
-      this.linkHref = await this.getDownloadURL();
+      await this.init();
     },
   },
   async mounted() {
-    const downloadUrl = await this.getDownloadURL();
-
-    if (downloadUrl) {
-      this.linkHref = downloadUrl;
-    }
+    await this.init();
   },
   methods: {
+    async init() {
+      this.metadata = await this.getMetadata();
+      this.isFileClean = this.metadata?.customMetadata?.status === 'clean';
+      if (this.isFileClean) {
+        const downloadUrl = await this.getDownloadURL();
+        if (downloadUrl) {
+          this.linkHref = downloadUrl;
+        }
+      }
+    },
+    async getMetadata() {
+      try {
+        const fileRef = ref(storage, this.url);
+        return await getMetadata(fileRef);
+      } catch (e) {
+        return null;
+      }
+    },
     async getDownloadURL() {
-      const urlString = this.filePath ? this.filePath : this.savePath + this.fileName;
-
       /**
        * @see https://firebase.google.com/docs/storage/web/download-files#download_data_via_url
        */
-      const fileRef = ref(storage, urlString)
+      const fileRef = ref(storage, this.url);
       try {
         const downloadUrl = await getDownloadURL(fileRef);
 
