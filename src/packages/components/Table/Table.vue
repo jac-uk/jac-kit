@@ -720,6 +720,7 @@ export default {
           }
           break;
         case 'radio':
+        case 'option':
           if (this.filterValues[filter.field]) {
             const value = this.filterValues[filter.field];
             // Ensure if empty option is selected the 'where' clause is skipped
