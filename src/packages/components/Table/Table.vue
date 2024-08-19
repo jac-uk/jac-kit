@@ -905,10 +905,10 @@ export default {
     table {
       display: block;
       overflow-x: auto;
-      overflow-y: auto;
+      overflow-y: hidden;
       scroll-behavior: smooth;
       max-width: 100%;
-      max-height: 80vh;
+      // max-height: 80vh;
       margin: 0 !important;
       border-spacing: 0;
       table-layout: fixed;
@@ -921,7 +921,7 @@ export default {
     }
     th,
     td {
-        border: 1px solid #f3f2f1;
+        border: 1px solid #b1b4b6;
         vertical-align: middle;
         white-space: nowrap;
         &.v-top {
@@ -940,15 +940,13 @@ export default {
       top: 0;
       background-color:#f3f2f1;
       z-index: 2;
-      border: 0;
-      padding-left: 20px;
+      border-top: 0;
+      // padding-left: 20px;
       &.expandable {
         text-decoration: underline;
         cursor: pointer;
       }
     }
-
-    /* Get the JAC-KIT colour from Warren for header-link */
     tr:nth-child(2) > th {
       position: sticky;
       top: 46px;
