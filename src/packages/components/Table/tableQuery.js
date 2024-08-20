@@ -93,9 +93,9 @@ const filteredQuery = (ref, params) => {
     const direction = params.direction ? params.direction : 'asc';
     orderBy.forEach(field => {
       if (field === 'documentId') {
-        queryRef = query(queryRef,firesoterOrderBy(documentId(), direction));
+        queryRef = query(queryRef,firestoreOrderBy(documentId(), direction));
       } else {
-        queryRef = query(queryRef,firesoterOrderBy(field, direction));
+        queryRef = query(queryRef,firestoreOrderBy(field, direction));
       }
     });
   }
