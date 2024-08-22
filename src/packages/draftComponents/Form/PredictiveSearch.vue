@@ -30,10 +30,12 @@
         :required="required"
         aria-autocomplete="list"
         aria-controls="autocomplete-list"
-        @input="onInput"
+        autocomplete="off"
+        @input="filterResults"
+        @focus="onFocus"
         @keydown.down="onArrowDown"
         @keydown.up="onArrowUp"
-        @keydown.enter="onEnter"
+        @keydown.enter.prevent="onEnter"
       >
       <ul
         v-if="filteredResults.length"
@@ -47,7 +49,9 @@
           @mousedown="onSelect(result)"
           @mouseover="highlightedIndex = index"
         >
-          {{ result.name }} - {{ result.referenceNumber }}
+          <span>
+            {{ formatResult(result) }}
+          </span>
         </li>
       </ul>
     </div>
@@ -55,8 +59,10 @@
 </template>
 
 <script>
-import FormField from '.FormField.vue';
-import FormFieldError from './FormFieldError.vue';
+// import FormField from '.FormField.vue';
+// import FormFieldError from './FormFieldError.vue';
+import FormField from '@jac-uk/jac-kit/draftComponents/Form/FormField.vue';
+import FormFieldError from '@jac-uk/jac-kit/draftComponents/Form/FormFieldError.vue';
 
 export default {
   components: {
@@ -80,14 +86,15 @@ export default {
       type: String,
       required: true,
     },
-    label: String,
-    hint: String,
-    required: Boolean,
-    errorMessage: String,
+    showFullListOnFocus: {
+      type: Boolean,
+      default: false,
+    },
   },
+  emits: ['update:modelValue'],
   data() {
     return {
-      searchTerm: '',
+      searchTerm: this.modelValue,
       filteredResults: [],
       highlightedIndex: -1,
     };
@@ -99,6 +106,11 @@ export default {
   },
   methods: {
     filterResults() {
+      if (!this.searchTerm && this.showFullListOnFocus) {
+        this.filteredResults = this.data.slice(0, 50); // Show full list, limited to 50
+        return;
+      }
+
       if (!this.searchTerm) {
         this.filteredResults = [];
         return;
@@ -109,10 +121,12 @@ export default {
         return this.searchFields.some(field =>
           item[field].toLowerCase().includes(searchTerm)
         );
-      });
+      }).slice(0, 50); // Limit to 50 results
     },
-    onInput() {
-      this.filterResults();
+    onFocus() {
+      if (this.showFullListOnFocus && !this.searchTerm) {
+        this.filterResults();
+      }
     },
     onArrowDown() {
       if (this.highlightedIndex < this.filteredResults.length - 1) {
@@ -130,10 +144,21 @@ export default {
       }
     },
     onSelect(result) {
-      this.searchTerm = result.name; // or however you want to display the result
-      this.$emit('update:modelValue', result);
+      const selectedValue = result[this.searchFields[0]];
+
+      this.searchTerm = selectedValue;
+
+      // Emit the selected value as an update to the parent component
+      this.$emit('update:modelValue', selectedValue);
+
+      // Clear the filtered results and reset the highlighted index
       this.filteredResults = [];
       this.highlightedIndex = -1;
+    },
+    formatResult(result) {
+      return this.searchFields.map((field, index) => {
+        return result[field] + (index < this.searchFields.length - 1 ? ', ' : '');
+      }).join('');
     },
   },
 };
@@ -146,7 +171,7 @@ export default {
 
 .autocomplete-list {
   position: absolute;
-  width: 100%; /* Match the width of the input */
+  width: 100%;
   border: 1px solid #b3b3b3;
   border-top: none;
   background: #fff;
