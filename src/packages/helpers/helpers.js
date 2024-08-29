@@ -1,12 +1,9 @@
 /*eslint func-style: ["error", "declaration"]*/
 
-import { getApp } from 'firebase-admin/app';
-import { Timestamp } from 'firebase-admin/firestore';
 import get from 'lodash/get.js';
 
 export {
   getRandomString,
-  getDocument,
   getDocuments,
   getDocumentsFromQueries,
   getAllDocuments,  // @TODO consider names used here
@@ -17,13 +14,10 @@ export {
   isValidDate,
   isDateInPast, // @TODO we want one set of date & exercise helpers (see actions/shared/converters)
   formatDate,
-  getDate,
-  convertToDate,
   timeDifference,
   getEarliestDate,
   getLatestDate,
   convertStringToSearchParts,
-  isProduction,
   removeHtml,
   normaliseNINs,
   normaliseNIN,
@@ -68,39 +62,6 @@ function normaliseNINs(nins) {
 
 function normaliseNIN(nin) {
   return nin ? nin.trim().replace(/-|\s/g,'').toLowerCase() : ''; //replace hyphens and spaces inside and on the outer side and makes lower case
-}
-
-function reviver(key, value) {
-  // TODO remove this first block of code checking for `.seconds` rather than `._seconds`, when we're sure Timestamps no longer come through like this
-  if (value && typeof value === 'object' && typeof value.seconds === 'number' && typeof value.nanoseconds === 'number') {
-    value = new Timestamp(value.seconds, value.nanoseconds).toDate();
-  }
-  if (value && typeof value === 'object' && typeof value._seconds === 'number' && typeof value._nanoseconds === 'number') {
-    value = new Timestamp(value._seconds, value._nanoseconds).toDate();
-  }
-  return value;
-}
-
-function convertFirestoreTimestampsToDates(data) {
-  // Return non-object values untouched
-  if (typeof data !== 'object' || data === null) return data;
-  const json = JSON.stringify(data);
-  return JSON.parse(json, reviver);
-}
-
-async function getDocument(query, convertTimestamps) {
-  const doc = await query.get();
-  if (doc.exists) {
-    const document = doc.data();
-    document.id = doc.id;
-    document.ref = doc.ref;
-    if (convertTimestamps) {
-      return convertFirestoreTimestampsToDates(document);
-    } else {
-      return document;
-    }
-  }
-  return false;
 }
 
 async function getDocuments(query) {
@@ -240,21 +201,6 @@ function isDateInPast(date) {
   return dateToCompare < today;
 }
 
-function getDate(value) {
-  let returnValue;
-  if (value && (value.seconds || value._seconds)) { // convert firestore timestamp to date
-    const seconds = value.seconds || value._seconds;
-    const nanoseconds = value.nanoseconds || value._nanoseconds;
-    returnValue = new Timestamp(seconds, nanoseconds);
-    returnValue = returnValue.toDate();
-  } else if (value && !isNaN(new Date(value).valueOf())) {
-    returnValue = new Date(value);
-  } else {
-    returnValue = new Date(); // NOTE: returns today's date by default
-  }
-  return returnValue;
-}
-
 function toDateString(date) {
   return new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
     .toISOString()
@@ -303,21 +249,6 @@ function formatDate(value, type) {
   return value ? value : '';
 }
 
-function convertToDate(value) {
-  if (value && (value.seconds !== undefined || value._seconds !== undefined)) { // convert firestore timestamp to date
-    const seconds = value.seconds || value._seconds;
-    const nanoseconds = value.nanoseconds || value._nanoseconds;
-    value = new Timestamp(seconds, nanoseconds);
-    value = value.toDate();
-  }
-  if (!isNaN(new Date(value).valueOf()) && value !== null) {
-    if (!(value instanceof Date)) {
-      return new Date(value);
-    }
-  }
-  return value;
-}
-
 function getEarliestDate(arrDates) {
   const sortedDates = arrDates.sort((a, b) => timeDifference(a, b));
   return sortedDates[0];
@@ -362,11 +293,6 @@ function convertStringToSearchParts(value, delimiter) {
     }
   }
   return search;
-}
-
-function isProduction() {
-  const projectId = getApp().options.projectId;
-  return projectId.includes('production');
 }
 
 function removeHtml(str) {

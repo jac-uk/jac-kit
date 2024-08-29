@@ -1,10 +1,10 @@
 /*eslint func-style: ["error", "declaration"]*/
 
 import { DIVERSITY_CHARACTERISTICS, hasDiversityCharacteristic } from '@/helpers/diversityCharacteristics';
-import { downloadXLSX } from '@jac-uk/jac-kit/helpers/export';
-import createTimeline from '../../shared/Timeline/createTimeline.js';
-import { convertToDate, calculateMean, calculateStandardDeviation } from '../../shared/helpers.js';
-import initExerciseTimeline from '@jac-uk/jac-kit/Timeline/exerciseTimeline.js';
+import { downloadXLSX } from '@/helpers/export';
+import createTimeline from '@/helpers/Timeline/createTimeline.js';
+import { convertToDate, calculateMean, calculateStandardDeviation } from '@/helpers/helpers.js';
+import initExerciseTimeline from '@/helpers/Timeline/exerciseTimeline.js';
 
 export default (config) => {
   const exerciseTimeline = initExerciseTimeline(config);
