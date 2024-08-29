@@ -1,6 +1,6 @@
 /*eslint func-style: ["error", "declaration"]*/
 
-import { DIVERSITY_CHARACTERISTICS, hasDiversityCharacteristic } from '@/helpers/diversityCharacteristics';
+import { DIVERSITY_CHARACTERISTICS, hasDiversityCharacteristic } from './diversityCharacteristics';
 import { downloadXLSX } from './export.js';
 import createTimeline from './Timeline/createTimeline.js';
 import { convertToDate, calculateMean, calculateStandardDeviation } from './helpers.js';
