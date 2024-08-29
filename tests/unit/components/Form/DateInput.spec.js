@@ -1,4 +1,4 @@
-import { createTestSubject } from '../../helpers';
+import { createTestSubject } from '../../testHelpers';
 import DateInput from '@/draftComponents/Form/DateInput';
 
 describe('components/DateInput', () => {

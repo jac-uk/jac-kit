@@ -1,4 +1,4 @@
-import { createTestSubject } from '../helpers';
+import { createTestSubject } from '../testHelpers';
 import Warning from '@/draftComponents/Warning';
 
 describe('components/Warning', () => {

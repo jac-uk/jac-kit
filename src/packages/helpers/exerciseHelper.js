@@ -1436,6 +1436,7 @@ function shortlistingStatuses(exercise) {
 function isApplicationVersionGreaterThan(exercise, version) {
   return exercise?._applicationVersion > version;
 }
+
 function isApplicationVersionLessThan(exercise, version) {
   return exercise?._applicationVersion < version;
 }

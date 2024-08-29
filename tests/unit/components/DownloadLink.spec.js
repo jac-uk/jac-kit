@@ -1,4 +1,4 @@
-import { createTestSubject } from '../helpers';
+import { createTestSubject } from '../testHelpers';
 
 const mockGetDownloadURL = jest.fn()
   .mockName('getDownloadURL');

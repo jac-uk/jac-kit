@@ -1,4 +1,4 @@
-import { createTestSubject } from '../../helpers';
+import { createTestSubject } from '../../testHelpers';
 import TextareaInput from '@/draftComponents/Form/TextareaInput';
 
 describe('components/Form/TextareaInput', () => {

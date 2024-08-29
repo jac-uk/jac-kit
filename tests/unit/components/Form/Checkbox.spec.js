@@ -1,4 +1,4 @@
-import { createTestSubject } from '../../helpers';
+import { createTestSubject } from '../../testHelpers';
 import Checkbox from '@/draftComponents/Form/Checkbox';
 
 describe('components/Form/CheckboxItem', () => {

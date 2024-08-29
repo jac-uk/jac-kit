@@ -1,4 +1,4 @@
-import { createTestSubject } from '../../helpers';
+import { createTestSubject } from '../../testHelpers';
 
 import FormField from '@/draftComponents/Form/FormField';
 

@@ -1,4 +1,4 @@
-import { createTestSubject } from '../helpers';
+import { createTestSubject } from '../testHelpers';
 import Timeline from '@/draftComponents/Timeline';
 
 const testData = [

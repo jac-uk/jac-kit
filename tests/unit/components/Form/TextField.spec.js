@@ -1,4 +1,4 @@
-import { createTestSubject } from '../../helpers.js';
+import { createTestSubject } from '../../testHelpers.js';
 import TextField from '../../../../src/packages/draftComponents/Form/TextField';
 
 describe('components/Form/TextField', () => {

@@ -1,4 +1,4 @@
-import { createTestSubject } from '../../helpers';
+import { createTestSubject } from '../../testHelpers';
 import TimeInput from '@/draftComponents/Form/TimeInput';
 import zeroPad from '@/helpers/Form/zeroPad';
 import parseAndClipNumber from '@/helpers/Form/parseAndClipNumber';

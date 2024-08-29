@@ -1,4 +1,4 @@
-import { createTestSubject } from '../../helpers';
+import { createTestSubject } from '../../testHelpers';
 import ErrorSummary from '@/draftComponents/Form/ErrorSummary';
 
 describe('components/ErrorSummary', () => {

@@ -1,5 +1,5 @@
 import convertFirestoreTimestampsToDates from '@/helpers/convertFirestoreTimestampsToDates';
-import { Timestamp } from '../helpers';
+import { Timestamp } from '../testHelpers';
 
 describe('helpers/convertFirestoreTimestampsToDates', () => {
   const date = new Date('2015-12-23 22:33:44');
