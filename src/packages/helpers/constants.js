@@ -6,6 +6,44 @@ const STATUS = {
   DELETED: 'deleted', 
 };
 
+const TASK_TYPE = {
+  SIFT: 'sift',
+  SCENARIO: 'scenarioTest',
+  CRITICAL_ANALYSIS: 'criticalAnalysis',
+  SITUATIONAL_JUDGEMENT: 'situationalJudgement',
+  QUALIFYING_TEST: 'qualifyingTest',
+  TELEPHONE_ASSESSMENT: 'telephoneAssessment',
+  ELIGIBILITY_SCC: 'eligibilitySCC',
+  CHARACTER_AND_SELECTION_SCC: 'characterAndSelectionSCC',
+  STATUTORY_CONSULTATION: 'statutoryConsultation',
+  SHORTLISTING_OUTCOME: 'shortlistingOutcome',
+  WELSH_ASSESSMENT: 'welshAssessment',
+  PRE_SELECTION_DAY_QUESTIONNAIRE: 'preSelectionDayQuestionnaire',
+  SELECTION_DAY: 'selectionDay',
+  SELECTION_OUTCOME: 'selectionOutcome',
+  EMP_TIEBREAKER: 'empTiebreaker',
+};
+
+const SHORTLISTING_TASK_TYPES = [
+  TASK_TYPE.TELEPHONE_ASSESSMENT,
+  TASK_TYPE.SIFT,
+  TASK_TYPE.CRITICAL_ANALYSIS,
+  TASK_TYPE.SITUATIONAL_JUDGEMENT,
+  TASK_TYPE.QUALIFYING_TEST,
+  TASK_TYPE.SCENARIO,
+];
+
+const ASSESSMENT_METHOD = {
+  SELF_ASSESSMENT_WITH_COMPETENCIES: 'selfAssessmentWithCompetencies',
+  COVERING_LETTER: 'coveringLetter',
+  CV: 'cv',
+  STATEMENT_OF_SUITABILITY_WITH_COMPETENCIES: 'statementOfSuitabilityWithCompetencies',
+  STATEMENT_OF_SUITABILITY_WITH_SKILLS_AND_ABILITIES: 'statementOfSuitabilityWithSkillsAndAbilities',
+  STATEMENT_OF_ELIGIBILITY: 'statementOfEligibility',
+  INDEPENDENT_ASSESSMENTS: 'independentAssessments',
+  LEADERSHIP_JUDGE_ASSESSMENT: 'leadershipJudgeAssessment',
+};
+
 const EXERCISE_STAGE = {
   // v2
   SHORTLISTING: 'shortlisting',
@@ -209,4 +247,7 @@ export {
   ADVERT_TYPES,
   SORT,
   NOTIFICATIONS,
+  TASK_TYPE,
+  SHORTLISTING_TASK_TYPES,
+  ASSESSMENT_METHOD
 };
