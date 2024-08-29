@@ -1,7 +1,7 @@
 /*eslint func-style: ["error", "declaration"]*/
 import clone from 'clone';
 import { ADVERT_TYPES, EXERCISE_STAGE, APPLICATION_STATUS, SHORTLISTING, TASK_TYPE, SHORTLISTING_TASK_TYPES, ASSESSMENT_METHOD } from '@/helpers/constants';
-import exerciseTimeline from '../helpersTMP/Timeline/exerciseTimeline';
+import exerciseTimeline from './Timeline/exerciseTimeline';
 import createTimeline from '@jac-uk/jac-kit/helpers/Timeline/createTimeline';
 
 /** Used in Admin:-
