@@ -255,6 +255,12 @@ const ADVERT_TYPES = {
   LINK: 'link',
 };
 
+const ASSESSOR_TYPES = {
+  PROFESSIONAL: 'professional',
+  JUDICIAL: 'judicial',
+  PERSONAL: 'personal',
+};
+
 const SORT = {
   ASCENDING: 'ascending',
   DESCENDING: 'descending',
@@ -273,22 +279,92 @@ const WORKING_BASIS = {
   VOLUNTARY: 'voluntary',
 };
 
+const TASK_QT_MAP = {};
+TASK_QT_MAP[TASK_TYPE.CRITICAL_ANALYSIS] = QUALIFYING_TEST.TYPE.CRITICAL_ANALYSIS;
+TASK_QT_MAP[TASK_TYPE.SITUATIONAL_JUDGEMENT] = QUALIFYING_TEST.TYPE.SITUATIONAL_JUDGEMENT;
+TASK_QT_MAP[TASK_TYPE.SCENARIO] = QUALIFYING_TEST.TYPE.SCENARIO;
+
+const INDEPENDENT_ASSESSMENTS_STATUS = {
+  DRAFT: 'draft',
+  PENDING: 'pending',
+  COMPLETED: 'completed',
+  CANCELLED: 'cancelled',
+  DECLINED: 'declined',
+  DELETED: 'deleted',
+};
+
+const OFFENCE_CATEGORY = {
+  SINGLE_MOTORING_OFFENCE: 'singleMotoringOffence',
+  MULTIPLE_MOTORING_OFFENCES: 'multipleMotoringOffences',
+  SINGLE_PENALTY_NOTICE: 'singlePenaltyNotice',
+  MULTIPLE_PENALTY_NOTICES: 'multiplePenaltyNotices',
+  SINGLE_CRIMINAL_OFFENCE: 'singleCriminalOffence',
+  MULTIPLE_CRIMINAL_OFFENCES: 'multipleCriminalOffences',
+  SINGLE_FINANCIAL_OFFENCE: 'singleFinancialOffence',
+  MULTIPLE_FINANCIAL_OFFENCES: 'multipleFinancialOffences',
+  SINGLE_PROFESSIONAL_CONDUCT: 'singleProfessionalConduct',
+  MULTIPLE_PROFESSIONAL_CONDUCTS: 'multipleProfessionalConducts',
+  SINGLE_OTHER_MATTER: 'singleOtherMatter',
+  MULTIPLE_OTHER_MATTERS: 'multipleOtherMatters',
+  MIXED: 'mixed',
+};
+
+const GUIDANCE_REFERENCE = {
+  CRIMINAL_OFFENCES: 'criminalOffences',
+  MOTERING_OFFENCES: 'moteringOffences',
+  FIXED_PENALTY_NOTICES: 'fixedPenaltyNotices',
+  FINANCIAL_INSOLVENCY_DEBT: 'financialInsolvencyDebt',
+  FINANCIAL_VAT_TAX: 'financialVatTax',
+  PROFESSIONAL_CONDUCT: 'professionalConduct',
+  FURTHER_DISCLOSURES: 'furtherDisclosures',
+};
+
+const DEFAULT_WORD_COUNT = {
+  ADDITIONAL_SELECTION_CRITERIA: 250,
+};
+
+const SELF_ASSESSMENT_COMPETENCIES_QUESTIONS = [
+  'Exercising Judgement',
+  'Possessing and Building Knowledge',
+  'Assimilating and Clarifying Information',
+  'Working and Communicating with Others',
+  'Managing Work Efficiently',
+  'Leadership',
+  'Legal and judicial skills',
+  'Personal qualities',
+  'Working Effectively',
+  'Career Highlights',
+];
+
+const LANGUAGES = {
+  ENGLISH: 'eng',
+  WELSH: 'cym',
+};
+
 export {
-  STATUS,
-  EXERCISE_STAGE,
+  ADVERT_TYPES,
+  APPLICATION_FORM_PARTS,
   APPLICATION_STATUS,
-  SHORTLISTING,
+  ASSESSMENT_METHOD,
+  ASSESSOR_TYPES,
+  DEFAULT,
+  DEFAULT_WORD_COUNT,
+  DIVERSITY_CHARACTERISTICS,
+  EXERCISE_STAGE,
+  GUIDANCE_REFERENCE,
+  INDEPENDENT_ASSESSMENTS_STATUS,
+  LANGUAGES,
+  NOT_COMPLETE_PUPILLAGE_REASONS,
+  NOTIFICATIONS,
+  OFFENCE_CATEGORY,
   QUALIFYING_TEST,
   QUALIFYING_TEST_RESPONSE,
-  DEFAULT,
-  NOT_COMPLETE_PUPILLAGE_REASONS,
-  DIVERSITY_CHARACTERISTICS,
-  ADVERT_TYPES,
-  SORT,
-  NOTIFICATIONS,
-  TASK_TYPE,
+  SELF_ASSESSMENT_COMPETENCIES_QUESTIONS,
+  SHORTLISTING,
   SHORTLISTING_TASK_TYPES,
-  ASSESSMENT_METHOD,
-  APPLICATION_FORM_PARTS,
-  WORKING_BASIS
+  SORT,
+  STATUS,
+  TASK_QT_MAP,
+  TASK_TYPE,
+  WORKING_BASIS  
 };
