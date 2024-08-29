@@ -14,6 +14,7 @@ export {
   isValidDate,
   isDateInPast, // @TODO we want one set of date & exercise helpers (see actions/shared/converters)
   formatDate,
+  convertToDate,
   timeDifference,
   getEarliestDate,
   getLatestDate,
@@ -269,6 +270,21 @@ function timeDifference(date1, date2) {
   } else {
     return 0;
   }
+}
+
+function convertToDate(value) {
+  if (value && (value.seconds !== undefined || value._seconds !== undefined)) { // convert firestore timestamp to date
+    const seconds = value.seconds || value._seconds;
+    const nanoseconds = value.nanoseconds || value._nanoseconds;
+    value = new Timestamp(seconds, nanoseconds);
+    value = value.toDate();
+  }
+  if (!isNaN(new Date(value).valueOf()) && value !== null) {
+    if (!(value instanceof Date)) {
+      return new Date(value);
+    }
+  }
+  return value;
 }
 
 function convertStringToSearchParts(value, delimiter) {
