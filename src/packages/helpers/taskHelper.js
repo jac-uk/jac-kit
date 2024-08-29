@@ -1,7 +1,7 @@
 /*eslint func-style: ["error", "declaration"]*/
 
-import { DIVERSITY_CHARACTERISTICS, hasDiversityCharacteristic } from '@/helpers/diversityCharacteristics';
-import { downloadXLSX } from '@jac-uk/jac-kit/helpers/export';
+import { DIVERSITY_CHARACTERISTICS, hasDiversityCharacteristic } from './diversityCharacteristics';
+import { downloadXLSX } from './export';
 
 export {
   MARKING_TYPE,
