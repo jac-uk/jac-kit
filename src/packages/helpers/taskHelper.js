@@ -4,7 +4,7 @@ import { DIVERSITY_CHARACTERISTICS, hasDiversityCharacteristic } from '@/helpers
 import { downloadXLSX } from './export.js';
 import createTimeline from './Timeline/createTimeline.js';
 import { convertToDate, calculateMean, calculateStandardDeviation } from '@/helpers/helpers.js';
-import initExerciseTimeline from '@/helpers/Timeline/exerciseTimeline.js';
+import initExerciseTimeline from './Timeline/exerciseTimeline.js';
 
 export default (config) => {
   const exerciseTimeline = initExerciseTimeline(config);
