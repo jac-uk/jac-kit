@@ -298,6 +298,7 @@ function getDate(value) {
   return returnValue;
 }
 
+
 const toDateString = (date) => {
   const dateParts = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
     .toISOString()
