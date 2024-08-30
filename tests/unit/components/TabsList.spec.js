@@ -1,4 +1,4 @@
-import { createTestSubject } from '../helpers';
+import { createTestSubject } from '../testHelpers';
 import TabsList from '@/draftComponents/TabsList';
 
 describe('components/TabsList', () => {

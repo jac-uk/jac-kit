@@ -1,4 +1,4 @@
-import { createTestSubject } from '../../helpers';
+import { createTestSubject } from '../../testHelpers';
 import Currency from '@/draftComponents/Form/Currency';
 
 describe('components/Form/Currency', () => {

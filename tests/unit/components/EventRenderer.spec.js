@@ -1,4 +1,4 @@
-import { createTestSubject } from '../helpers';
+import { createTestSubject } from '../testHelpers';
 import EventRenderer from '@/draftComponents/EventRenderer';
 
 describe('components/Form/EventRenderer', () => {

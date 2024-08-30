@@ -1,6 +1,6 @@
 import vuexfireSerialize from '@/helpers/vuexfireSerialize';
 import convertFirestoreTimestampsToDates from '@/helpers/convertFirestoreTimestampsToDates';
-import { Timestamp } from '../helpers'; 
+import { Timestamp } from '../testHelpers'; 
 import { collection, addDoc } from 'firebase/firestore';
 
 const createMockSnapshot = async (data) => {

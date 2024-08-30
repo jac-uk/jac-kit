@@ -1,4 +1,4 @@
-import { createTestSubject } from '../../helpers';
+import { createTestSubject } from '../../testHelpers';
 import CheckboxItem from '@/draftComponents/Form/CheckboxItem';
 
 //@todo mock parent component
