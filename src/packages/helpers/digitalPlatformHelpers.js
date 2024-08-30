@@ -21,22 +21,6 @@ const toYesNo = (value) => {
   return value;
 };
 
-const formatDate = (value) => {
-  if (value && (value.seconds !== undefined || value._seconds !== undefined)) { // convert firestore timestamp to date
-    const seconds = value.seconds || value._seconds;
-    const nanoseconds = value.nanoseconds || value._nanoseconds;
-    value = new Timestamp(seconds, nanoseconds);
-    value = value.toDate();
-  }
-  if (!isNaN(new Date(value).valueOf()) && value !== null) {
-    if (!(value instanceof Date)) {
-      value = new Date(value);
-    }
-    value = toDateString(value);
-  }
-  return value ? value : '';
-};
-
 const formatNIN = (value) => {
   return value ? value.toUpperCase() : '';
 };
