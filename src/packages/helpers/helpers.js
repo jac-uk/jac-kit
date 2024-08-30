@@ -2,7 +2,7 @@
 
 import get from 'lodash/get.js';
 
-export {
+module.exports = {
   getRandomString,
   getDocuments,
   getDocumentsFromQueries,

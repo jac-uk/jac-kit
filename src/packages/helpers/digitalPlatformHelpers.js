@@ -434,6 +434,93 @@ function removeHtml(str) {
   return str.replace(/(<([^>]+)>)/gi, '');
 }
 
+/**
+ * Returns the number with its corresponding ordinal suffix.
+ *
+ * @param {number} n - The number for which the ordinal suffix needs to be determined.
+ * @returns {string} - The input number with its corresponding ordinal suffix.
+ *
+ * @example
+ * const result = ordinal(1);
+ * console.log(result); // Output: 1st
+ */
+const ordinal = (n) => {
+  const s = ['th', 'st', 'nd', 'rd'];
+  const v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+};
+
+
+const getJudicialExperienceString = (exercise, application) => {
+  let judicialExperience = '';
+  if (exercise._applicationVersion >= 3) {
+    let judicialExperiences = [];
+    let quasiJudicialExperiences = [];
+    Array.isArray(application.experience) && application.experience.forEach(experience => {
+      if (experience.jobTitle && experience.judicialFunctions) {
+        if (experience.judicialFunctions.type === 'judicial-post') {
+          judicialExperiences.push(experience.jobTitle);
+        } else if (experience.judicialFunctions.type === 'quasi-judicial-post') {
+          quasiJudicialExperiences.push(experience.jobTitle);
+        }
+      }
+    });
+
+    if (judicialExperiences.length) {
+      judicialExperience += `Judicial - ${judicialExperiences.join(', ')}\n`;
+    }
+    if (quasiJudicialExperiences.length) {
+      judicialExperience += `Quasi-judicial - ${quasiJudicialExperiences.join(', ')}`;
+    }
+
+    if (!judicialExperience) {
+      judicialExperience = `Acquired skills in other way - ${lookup(application.experienceDetails)}`;
+    }
+  } else {
+    if (application.feePaidOrSalariedJudge) {
+      judicialExperience = `Fee paid or salaried judge - ${lookup(application.feePaidOrSalariedSittingDaysDetails)} days`;
+    } else if (application.declaredAppointmentInQuasiJudicialBody) {
+      judicialExperience = `Quasi-judicial body - ${lookup(application.quasiJudicialSittingDaysDetails)} days`;
+    } else {
+      judicialExperience = `Acquired skills in other way - ${lookup(application.skillsAquisitionDetails)}`;
+    }
+  }
+
+  return judicialExperience;
+};
+
+const formatMemberships = (application, exercise) => {
+  const organisations = {
+    'chartered-association-of-building-engineers': 'charteredAssociationBuildingEngineers',
+    'chartered-institute-of-building': 'charteredInstituteBuilding',
+    'chartered-institute-of-environmental-health': 'charteredInstituteEnvironmentalHealth',
+    'general-medical-council': 'generalMedicalCouncilDate',
+    'royal-college-of-psychiatrists': 'royalCollegeOfPsychiatrist',
+    'royal-institution-of-chartered-surveyors': 'royalInstitutionCharteredSurveyors',
+    'royal-institute-of-british-architects': 'royalInstituteBritishArchitects',
+    'other': 'otherProfessionalMemberships',
+  };
+
+  if (application.professionalMemberships) {
+    const professionalMemberships = application.professionalMemberships.map(membership => {
+      let formattedMembership;
+      if (organisations[membership]) {
+        const fieldName = organisations[membership];
+        formattedMembership = `${lookup(membership)}, ${formatDate(application[`${fieldName}Date`])}, ${application[`${fieldName}Number`]} `;
+      }
+      if (application.memberships[membership]) {
+        const otherMembershipLabel = exercise.otherMemberships.find(m => m.value === membership).label;
+        formattedMembership = `${lookup(otherMembershipLabel)}, ${formatDate(application.memberships[membership].date)}, ${application.memberships[membership].number}`;
+      }
+      return formattedMembership;
+    }).join('\n');
+
+    return professionalMemberships;
+  } else {
+    return null;
+  }
+};
+
 module.exports = {
   addField,
   toYesNo,
@@ -467,4 +554,7 @@ module.exports = {
   normaliseNIN,
   calculateMean,
   calculateStandardDeviation,
+  ordinal,
+  getJudicialExperienceString,
+  formatMemberships,
 };
