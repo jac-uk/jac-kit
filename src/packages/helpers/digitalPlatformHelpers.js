@@ -21,15 +21,6 @@ const toYesNo = (value) => {
   return value;
 };
 
-
-const toDateString = (date) => {
-  const dateParts = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
-    .toISOString()
-    .split('T')[0]
-    .split('-');
-  return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
-};
-
 const formatDate = (value) => {
   if (value && (value.seconds !== undefined || value._seconds !== undefined)) { // convert firestore timestamp to date
     const seconds = value.seconds || value._seconds;
@@ -323,11 +314,13 @@ function getDate(value) {
   return returnValue;
 }
 
-function toDateString(date) {
-  return new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
+const toDateString = (date) => {
+  const dateParts = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
     .toISOString()
-    .split('T')[0];
-}
+    .split('T')[0]
+    .split('-');
+  return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+};
 
 function toTimeString(date) {
   return new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
