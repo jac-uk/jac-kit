@@ -1,7 +1,7 @@
 /*eslint func-style: ["error", "declaration"]*/
 
-import { DIVERSITY_CHARACTERISTICS, hasDiversityCharacteristic } from './diversityCharacteristics';
-import { downloadXLSX } from './export';
+import { DIVERSITY_CHARACTERISTICS, hasDiversityCharacteristic } from './diversityCharacteristics.js';
+import { downloadXLSX } from './export.js';
 
 export {
   MARKING_TYPE,

@@ -1,4 +1,4 @@
-import clipNumber from './clipNumber';
+import clipNumber from './clipNumber.js';
 
 const parseAndClipNumber = (val, min, max) => {
   val = parseInt(val);

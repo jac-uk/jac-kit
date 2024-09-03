@@ -1,8 +1,8 @@
 /*eslint func-style: ["error", "declaration"]*/
 import clone from 'clone';
 import { ADVERT_TYPES, EXERCISE_STAGE, APPLICATION_STATUS, SHORTLISTING, TASK_TYPE, SHORTLISTING_TASK_TYPES, ASSESSMENT_METHOD } from './constants.js'
-import exerciseTimeline from './Timeline/exerciseTimeline';
-import createTimeline from './Timeline/createTimeline';
+import exerciseTimeline from './Timeline/exerciseTimeline.js';
+import createTimeline from './Timeline/createTimeline.js';
 
 /** Used in Admin:-
 APPLICATION_STEPS,
