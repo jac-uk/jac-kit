@@ -184,6 +184,11 @@ function checkArguments(definitions, data) {
   return true;
 }
 
+/**
+ * 
+ * @param {*} date 
+ * @returns 
+ */
 function isDate(date) {
   return date instanceof Date;
 }

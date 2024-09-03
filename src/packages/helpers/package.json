@@ -1,6 +1,7 @@
 {
   "name": "@jac-uk/helpers",
   "version": "4.0.4-moving-helpers.21",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
