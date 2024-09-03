@@ -1,4 +1,4 @@
-import { isDate, formatDate } from '../date';
+import { isDate, formatDate } from '../date.js';
 
 const getDateString = (date, format) => {
   return isDate(date) ? formatDate(date, format) : null;
