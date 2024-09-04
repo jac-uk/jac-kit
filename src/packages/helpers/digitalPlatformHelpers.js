@@ -1,9 +1,9 @@
-const lookup = require('./lookup');
+import firebase from 'firebase-admin';
+import lookup from './lookup.js';
 
-const firebase = require('firebase-admin');
 const Timestamp = firebase.firestore.Timestamp;
 
-const addField = (array, label, value, lineBreak = false) => {
+export const addField = (array, label, value, lineBreak = false) => {
   if (value === undefined || value === null || value === '') {
     return;
   }
@@ -13,7 +13,7 @@ const addField = (array, label, value, lineBreak = false) => {
   array.push({ value: value, label: label, lineBreak: lineBreak });
 };
 
-const toYesNo = (value) => {
+export const toYesNo = (value) => {
   // Only convert booleans, not all falsy values mean "no"
   if (typeof value === 'boolean') {
     return value ? 'Yes' : 'No';
@@ -21,11 +21,11 @@ const toYesNo = (value) => {
   return value;
 };
 
-const formatNIN = (value) => {
+export const formatNIN = (value) => {
   return value ? value.toUpperCase() : '';
 };
 
-const heldFeePaidJudicialRole = (value) => {
+export const heldFeePaidJudicialRole = (value) => {
   if (typeof value === 'string' && ['fee-paid-court-post', 'fee-paid-tribunal-post', 'other-fee-paid-judicial-office'].includes(value)) {
     value = 'Yes';
     return value;
@@ -45,7 +45,7 @@ const heldFeePaidJudicialRole = (value) => {
   return value;
 };
 
-const flattenCurrentLegalRole = (equalityAndDiversitySurvey) => {
+export const flattenCurrentLegalRole = (equalityAndDiversitySurvey) => {
   if (!(equalityAndDiversitySurvey && equalityAndDiversitySurvey.currentLegalRole)) {
     return '';
   }
@@ -66,7 +66,7 @@ const flattenCurrentLegalRole = (equalityAndDiversitySurvey) => {
   return roles.join('\n');
 };
 
-const flattenProfessionalBackground = (equalityAndDiversitySurvey) => {
+export const flattenProfessionalBackground = (equalityAndDiversitySurvey) => {
   if (!(equalityAndDiversitySurvey && equalityAndDiversitySurvey.professionalBackground)) {
     return '';
   }
@@ -81,7 +81,7 @@ const flattenProfessionalBackground = (equalityAndDiversitySurvey) => {
   return roles.join('\n');
 };
 
-const attendedUKStateSchool = (equalityAndDiversitySurvey, exercise) => {
+export const attendedUKStateSchool = (equalityAndDiversitySurvey, exercise) => {
   // Add checks for different fields after 01-04-2023
   if (applicationOpenDatePost01042023(exercise)) {
     if (!(equalityAndDiversitySurvey && equalityAndDiversitySurvey.stateOrFeeSchool16)) {
@@ -97,18 +97,18 @@ const attendedUKStateSchool = (equalityAndDiversitySurvey, exercise) => {
   }
 };
 
-const applicationOpenDatePost01042023 = (exercise) => {
+export const applicationOpenDatePost01042023 = (exercise) => {
   return Object.prototype.hasOwnProperty.call(exercise, 'applicationOpenDate') && exercise.applicationOpenDate.toDate() > new Date('2023-04-01');
 };
 
-function calculateMean(numArray) {
+export function calculateMean(numArray) {
   let total = 0;
   numArray.forEach(num => total += num);
   const mean = total / numArray.length;
   return mean;
 }
 
-function calculateStandardDeviation(numArray) {
+export function calculateStandardDeviation(numArray) {
   const mean = calculateMean(numArray);
   let total = 0;
   numArray.forEach(num => total += Math.pow((num - mean), 2) );
@@ -116,15 +116,15 @@ function calculateStandardDeviation(numArray) {
   return Math.sqrt(variance);
 }
 
-function normaliseNINs(nins) {
+export function normaliseNINs(nins) {
   return nins.map(nin => normaliseNIN(nin));
 }
 
-function normaliseNIN(nin) {
+export function normaliseNIN(nin) {
   return nin ? nin.trim().replace(/-|\s/g,'').toLowerCase() : ''; //replace hyphens and spaces inside and on the outer side and makes lower case
 }
 
-function reviver(key, value) {
+export function reviver(key, value) {
   // TODO remove this first block of code checking for `.seconds` rather than `._seconds`, when we're sure Timestamps no longer come through like this
   if (value && typeof value === 'object' && typeof value.seconds === 'number' && typeof value.nanoseconds === 'number') {
     value = new Timestamp(value.seconds, value.nanoseconds).toDate();
@@ -135,14 +135,14 @@ function reviver(key, value) {
   return value;
 }
 
-function convertFirestoreTimestampsToDates(data) {
+export function convertFirestoreTimestampsToDates(data) {
   // Return non-object values untouched
   if (typeof data !== 'object' || data === null) return data;
   const json = JSON.stringify(data);
   return JSON.parse(json, reviver);
 }
 
-async function getDocument(query, convertTimestamps) {
+export async function getDocument(query, convertTimestamps) {
   const doc = await query.get();
   if (doc.exists) {
     const document = doc.data();
@@ -157,7 +157,7 @@ async function getDocument(query, convertTimestamps) {
   return false;
 }
 
-async function getDocuments(query) {
+export async function getDocuments(query) {
   const documents = [];
   const snapshot = await query.get();
   snapshot.forEach((doc) => {
@@ -169,7 +169,7 @@ async function getDocuments(query) {
   return documents;
 }
 
-async function getDocumentsFromQueries(queries) {
+export async function getDocumentsFromQueries(queries) {
   const documents = [];
   const querySnapshots = await Promise.all(queries.map(query => query.get()));
   querySnapshots.forEach((snapshot) => {
@@ -183,7 +183,7 @@ async function getDocumentsFromQueries(queries) {
   return documents;
 }
 
-async function getAllDocuments(db, references) {
+export async function getAllDocuments(db, references) {
   const documents = [];
   if (references.length) {
     const snapshot = await db.getAll(...references);
@@ -197,11 +197,11 @@ async function getAllDocuments(db, references) {
   return documents;
 }
 
-function isEmpty(obj) {
+export function isEmpty(obj) {
   return Object.keys(obj).length === 0;
 }
 
-async function applyUpdates(db, commands) {
+export async function applyUpdates(db, commands) {
   const BATCH_SIZE = 200;
   if (commands.length) {
     if (commands.length < BATCH_SIZE) {
@@ -235,7 +235,7 @@ async function applyUpdates(db, commands) {
   return false;
 }
 
-function chunkArray(arr, size) {
+export function chunkArray(arr, size) {
   var myArray = [];
   for (var i = 0; i < arr.length; i += size) {
     myArray.push(arr.slice(i, i + size));
@@ -243,7 +243,7 @@ function chunkArray(arr, size) {
   return myArray;
 }
 
-function checkArguments(definitions, data) {
+export function checkArguments(definitions, data) {
   // check data only contains defined props
   const allowedKeys = Object.keys(definitions);
   const providedKeys = Object.keys(data);
@@ -273,17 +273,17 @@ function checkArguments(definitions, data) {
   return true;
 }
 
-function isDate(date) {
+export function isDate(date) {
   return date instanceof Date;
 }
 
-function isDateInPast(date) {
+export function isDateInPast(date) {
   const dateToCompare = new Date(date);
   const today = new Date();
   return dateToCompare < today;
 }
 
-function getDate(value) {
+export function getDate(value) {
   let returnValue;
   if (value && (value.seconds || value._seconds)) { // convert firestore timestamp to date
     const seconds = value.seconds || value._seconds;
@@ -299,7 +299,7 @@ function getDate(value) {
 }
 
 
-const toDateString = (date) => {
+export const toDateString = (date) => {
   const dateParts = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
     .toISOString()
     .split('T')[0]
@@ -307,13 +307,13 @@ const toDateString = (date) => {
   return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
 };
 
-function toTimeString(date) {
+export function toTimeString(date) {
   return new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
     .toISOString()
     .split('T')[1];
 }
 
-function formatDate(value, type) {
+export function formatDate(value, type) {
   value = convertToDate(value);
   if (value) {
     const time = value.toLocaleTimeString('en-GB', {
@@ -342,7 +342,7 @@ function formatDate(value, type) {
   return value ? value : '';
 }
 
-function convertToDate(value) {
+export function convertToDate(value) {
   if (value && (value.seconds !== undefined || value._seconds !== undefined)) { // convert firestore timestamp to date
     const seconds = value.seconds || value._seconds;
     const nanoseconds = value.nanoseconds || value._nanoseconds;
@@ -357,17 +357,17 @@ function convertToDate(value) {
   return value;
 }
 
-function getEarliestDate(arrDates) {
+export function getEarliestDate(arrDates) {
   const sortedDates = arrDates.sort((a, b) => timeDifference(a, b));
   return sortedDates[0];
 }
 
-function getLatestDate(arrDates) {
+export function getLatestDate(arrDates) {
   const sortedDates = arrDates.sort((a, b) => timeDifference(a, b));
   return sortedDates[sortedDates.length - 1];
 }
 
-function timeDifference(date1, date2) {
+export function timeDifference(date1, date2) {
   date1 = convertToDate(date1);
   date2 = convertToDate(date2);
   if (date1 && date2) {
@@ -379,7 +379,7 @@ function timeDifference(date1, date2) {
   }
 }
 
-function convertStringToSearchParts(value, delimiter) {
+export function convertStringToSearchParts(value, delimiter) {
   const wordDelimiter = delimiter ? delimiter : ' ';
   const words = value.toLowerCase().split(wordDelimiter);
   const search = [];
@@ -403,12 +403,12 @@ function convertStringToSearchParts(value, delimiter) {
   return search;
 }
 
-function isProduction() {
+export function isProduction() {
   const projectId = firebase.instanceId().app.options.projectId;
   return projectId.includes('production');
 }
 
-function removeHtml(str) {
+export function removeHtml(str) {
   return str.replace(/(<([^>]+)>)/gi, '');
 }
 
@@ -422,14 +422,14 @@ function removeHtml(str) {
  * const result = ordinal(1);
  * console.log(result); // Output: 1st
  */
-const ordinal = (n) => {
+export const ordinal = (n) => {
   const s = ['th', 'st', 'nd', 'rd'];
   const v = n % 100;
   return n + (s[(v - 20) % 10] || s[v] || s[0]);
 };
 
 
-const getJudicialExperienceString = (exercise, application) => {
+export const getJudicialExperienceString = (exercise, application) => {
   let judicialExperience = '';
   if (exercise._applicationVersion >= 3) {
     let judicialExperiences = [];
@@ -467,7 +467,7 @@ const getJudicialExperienceString = (exercise, application) => {
   return judicialExperience;
 };
 
-const formatMemberships = (application, exercise) => {
+export const formatMemberships = (application, exercise) => {
   const organisations = {
     'chartered-association-of-building-engineers': 'charteredAssociationBuildingEngineers',
     'chartered-institute-of-building': 'charteredInstituteBuilding',
@@ -497,42 +497,4 @@ const formatMemberships = (application, exercise) => {
   } else {
     return null;
   }
-};
-
-module.exports = {
-  addField,
-  toYesNo,
-  formatDate,
-  toDateString,
-  formatNIN,
-  heldFeePaidJudicialRole,
-  flattenCurrentLegalRole,
-  flattenProfessionalBackground,
-  attendedUKStateSchool,
-  applicationOpenDatePost01042023,
-  getDocument,
-  getDocuments,
-  getDocumentsFromQueries,
-  getAllDocuments,  // @TODO consider names used here
-  isEmpty,
-  applyUpdates,
-  checkArguments,
-  isDate,
-  isDateInPast, // @TODO we want one set of date & exercise helpers (see actions/shared/converters)
-  formatDate,
-  getDate,
-  convertToDate,
-  timeDifference,
-  getEarliestDate,
-  getLatestDate,
-  convertStringToSearchParts,
-  isProduction,
-  removeHtml,
-  normaliseNINs,
-  normaliseNIN,
-  calculateMean,
-  calculateStandardDeviation,
-  ordinal,
-  getJudicialExperienceString,
-  formatMemberships,
 };
