@@ -2,38 +2,7 @@
 
 import get from 'lodash/get.js';
 
-module.exports = {
-  getRandomString,
-  getDocuments,
-  getDocumentsFromQueries,
-  getAllDocuments,  // @TODO consider names used here
-  isEmpty,
-  applyUpdates,
-  checkArguments,
-  isDate,
-  isValidDate,
-  isDateInPast, // @TODO we want one set of date & exercise helpers (see actions/shared/converters)
-  formatDate,
-  convertToDate,
-  timeDifference,
-  getEarliestDate,
-  getLatestDate,
-  convertStringToSearchParts,
-  removeHtml,
-  normaliseNINs,
-  normaliseNIN,
-  calculateMean,
-  calculateStandardDeviation,
-  objectHasNestedProperty,
-  getMissingNestedProperties,
-  replaceCharacters,
-  formatAddress,
-  formatPreviousAddresses,
-  splitFullName,
-  isDifferentPropsByPath
-};
-
-function getRandomString(length = 3) {
+export function getRandomString(length = 3) {
   const characters = 'abcdefghijklmnopqrstuvwxyz';
   let randomCharacters = '';
   for (let i = 0, len = length; i < len; i++) {
@@ -42,14 +11,14 @@ function getRandomString(length = 3) {
   return randomCharacters;
 }
 
-function calculateMean(numArray) {
+export function calculateMean(numArray) {
   let total = 0;
   numArray.forEach(num => total += num);
   const mean = total / numArray.length;
   return mean;
 }
 
-function calculateStandardDeviation(numArray) {
+export function calculateStandardDeviation(numArray) {
   const mean = calculateMean(numArray);
   let total = 0;
   numArray.forEach(num => total += Math.pow((num - mean), 2) );
@@ -57,15 +26,17 @@ function calculateStandardDeviation(numArray) {
   return Math.sqrt(variance);
 }
 
-function normaliseNINs(nins) {
+export function normaliseNINs(nins) {
   return nins.map(nin => normaliseNIN(nin));
 }
 
-function normaliseNIN(nin) {
+
+export function normaliseNIN(nin) {
   return nin ? nin.trim().replace(/-|\s/g,'').toLowerCase() : ''; //replace hyphens and spaces inside and on the outer side and makes lower case
 }
 
-async function getDocuments(query) {
+
+export async function getDocuments(query) {
   const documents = [];
   const snapshot = await query.get();
   snapshot.forEach((doc) => {
@@ -77,7 +48,8 @@ async function getDocuments(query) {
   return documents;
 }
 
-async function getDocumentsFromQueries(queries) {
+
+export async function getDocumentsFromQueries(queries) {
   const documents = [];
   const querySnapshots = await Promise.all(queries.map(query => query.get()));
   querySnapshots.forEach((snapshot) => {
@@ -91,7 +63,8 @@ async function getDocumentsFromQueries(queries) {
   return documents;
 }
 
-async function getAllDocuments(db, references) {
+
+export async function getAllDocuments(db, references) {
   const documents = [];
   if (references.length) {
     const snapshot = await db.getAll(...references);
@@ -105,11 +78,13 @@ async function getAllDocuments(db, references) {
   return documents;
 }
 
-function isEmpty(obj) {
+
+export function isEmpty(obj) {
   return Object.keys(obj).length === 0;
 }
 
-async function applyUpdates(db, commands) {
+
+export async function applyUpdates(db, commands) {
   const BATCH_SIZE = 200;
   if (commands.length) {
     if (commands.length < BATCH_SIZE) {
@@ -146,7 +121,8 @@ async function applyUpdates(db, commands) {
   return false;
 }
 
-function chunkArray(arr, size) {
+
+export function chunkArray(arr, size) {
   var myArray = [];
   for (var i = 0; i < arr.length; i += size) {
     myArray.push(arr.slice(i, i + size));
@@ -154,7 +130,8 @@ function chunkArray(arr, size) {
   return myArray;
 }
 
-function checkArguments(definitions, data) {
+
+export function checkArguments(definitions, data) {
   // check data only contains defined props
   const allowedKeys = Object.keys(definitions);
   const providedKeys = Object.keys(data);
@@ -189,11 +166,13 @@ function checkArguments(definitions, data) {
  * @param {*} date 
  * @returns 
  */
-function isDate(date) {
+
+export function isDate(date) {
   return date instanceof Date;
 }
 
-function isValidDate(dateString) {
+
+export function isValidDate(dateString) {
   if (typeof dateString !== 'string') {
     return false;
   }
@@ -201,25 +180,29 @@ function isValidDate(dateString) {
   return !isNaN(date.getTime());
 }
 
-function isDateInPast(date) {
+
+export function isDateInPast(date) {
   const dateToCompare = new Date(date);
   const today = new Date();
   return dateToCompare < today;
 }
 
-function toDateString(date) {
+
+export function toDateString(date) {
   return new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
     .toISOString()
     .split('T')[0];
 }
 
-function toTimeString(date) {
+
+export function toTimeString(date) {
   return new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
     .toISOString()
     .split('T')[1];
 }
 
-function formatDate(value, type) {
+
+export function formatDate(value, type) {
   value = convertToDate(value);
   if (value) {
     const day = value.getDate();
@@ -255,17 +238,20 @@ function formatDate(value, type) {
   return value ? value : '';
 }
 
-function getEarliestDate(arrDates) {
+
+export function getEarliestDate(arrDates) {
   const sortedDates = arrDates.sort((a, b) => timeDifference(a, b));
   return sortedDates[0];
 }
 
-function getLatestDate(arrDates) {
+
+export function getLatestDate(arrDates) {
   const sortedDates = arrDates.sort((a, b) => timeDifference(a, b));
   return sortedDates[sortedDates.length - 1];
 }
 
-function timeDifference(date1, date2) {
+
+export function timeDifference(date1, date2) {
   date1 = convertToDate(date1);
   date2 = convertToDate(date2);
   if (date1 && date2) {
@@ -277,7 +263,8 @@ function timeDifference(date1, date2) {
   }
 }
 
-function convertToDate(value) {
+
+export function convertToDate(value) {
   if (value && (value.seconds !== undefined || value._seconds !== undefined)) { // convert firestore timestamp to date
     const seconds = value.seconds || value._seconds;
     const nanoseconds = value.nanoseconds || value._nanoseconds;
@@ -292,7 +279,8 @@ function convertToDate(value) {
   return value;
 }
 
-function convertStringToSearchParts(value, delimiter) {
+
+export function convertStringToSearchParts(value, delimiter) {
   const wordDelimiter = delimiter ? delimiter : ' ';
   const words = value.toLowerCase().split(wordDelimiter);
   const search = [];
@@ -316,11 +304,13 @@ function convertStringToSearchParts(value, delimiter) {
   return search;
 }
 
-function removeHtml(str) {
+
+export function removeHtml(str) {
   return str.replace(/(<([^>]+)>)/gi, '');
 }
 
-function objectHasNestedProperty(obj, dotPath) {
+
+export function objectHasNestedProperty(obj, dotPath) {
   if (typeof dotPath !== 'string' || dotPath.trim() === '') {
     return false;
   }
@@ -335,7 +325,8 @@ function objectHasNestedProperty(obj, dotPath) {
   return true;
 }
 
-function getMissingNestedProperties(obj, dotPaths) {
+
+export function getMissingNestedProperties(obj, dotPaths) {
   const missingPaths = [];
   for (let i = 0; i < dotPaths.length; i++) {
     if (!objectHasNestedProperty(obj, dotPaths[i])) {
@@ -351,7 +342,8 @@ function getMissingNestedProperties(obj, dotPaths) {
  * @param String characterMap 
  * @returns 
  */
-function replaceCharacters(inputString, characterMap) {
+
+export function replaceCharacters(inputString, characterMap) {
   // Convert the inputString to an array of characters
   const inputArray = inputString.split('');
 
@@ -376,7 +368,8 @@ function replaceCharacters(inputString, characterMap) {
  * @param {object} address 
  * @returns {string}
  */
-function formatAddress(address) {
+
+export function formatAddress(address) {
   const result = [];
   if (address.street) result.push(address.street);
   if (address.street2) result.push(address.street2);
@@ -392,7 +385,8 @@ function formatAddress(address) {
  * @param {array} previousAddresses 
  * @returns {string}
  */
-function formatPreviousAddresses(previousAddresses) {
+
+export function formatPreviousAddresses(previousAddresses) {
   if (Array.isArray(previousAddresses) && previousAddresses.length) {
     return previousAddresses.map((address) => {
       const dates = `${formatDate(address.startDate)} - ${formatDate(address.endDate)}`;
@@ -403,7 +397,8 @@ function formatPreviousAddresses(previousAddresses) {
   return '';
 }
 
-function splitFullName(fullName) {
+
+export function splitFullName(fullName) {
   const name = fullName.split(' ');
   let firstName = null;
   let lastName = null;
@@ -421,7 +416,8 @@ function splitFullName(fullName) {
 /**
  * Compare two object properties by string path so compatible with lodash _get and _has
  */
-function isDifferentPropsByPath(object1, object2, pathInObject) {
+
+export function isDifferentPropsByPath(object1, object2, pathInObject) {
   const val1 = get(object1, pathInObject, null);
   const val2 = get(object2, pathInObject, null);
   return val1 !== val2;
