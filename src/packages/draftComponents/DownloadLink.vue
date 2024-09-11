@@ -25,55 +25,23 @@
 </template>
 
 <script>
-import { storage, firestore } from '@/firebase';
+import { storage } from '@/firebase';
 import { getDownloadURL, getMetadata, ref } from 'firebase/storage';
 import { functions } from '@/firebase';
 import { httpsCallable } from '@firebase/functions';
-import { doc, getDoc } from 'firebase/firestore';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'DownloadLink',
   props: {
-    fileName: {
-      required: true,
-      type: String,
-      default: '',
-    },
-    filePath: {
-      required: false,
-      type: String,
-      default: '',
-    },
-    exerciseId: {
-      required: true,
-      type: String,
-      default: '',
-    },
-    applicationId: {
-      required: false,
-      type: String,
-      default: '',
-    },
-    userId: {
-      required: false,
-      type: String,
-      default: null,
-    },
-    assessorId: {
-      required: false,
-      type: String,
-      default: '',
-    },
-    title: {
-      required: false,
-      type: String,
-      default: '',
-    },
-    type: {
-      required: false,
-      type: String,
-      default: 'link',
-    },
+    fileName: { required: true, type: String, default: '' },
+    filePath: { required: false, type: String, default: '' },
+    exerciseId: { required: true, type: String, default: '' },
+    applicationId: { required: false, type: String, default: '' },
+    userId: { required: false, type: String, default: null },
+    assessorId: { required: false, type: String, default: '' },
+    title: { required: false, type: String, default: '' },
+    type: { required: false, type: String, default: 'link' },
   },
   data() {
     return {
@@ -82,25 +50,20 @@ export default {
       metadata: null,
       isFileClean: false,
       checksumResult: null,
-      checksumsEnabled: false,
     };
   },
   computed: {
+    ...mapGetters({
+      checksumsEnabled: 'candidateSettings/getUploadStatus', // Get checksumsEnabled from Vuex store
+    }),
     linkText() {
       return this.title ? this.title : this.fileName;
     },
     savePath() {
       let savePath = `exercise/${this.exerciseId}/`;
-      if (this.applicationId) {
-        savePath += `application/${this.applicationId}/`;
-      }
-      if (this.userId) {
-        savePath += `user/${this.userId}/`;
-      }
-      if (this.assessorId) {
-        savePath += `assessor/${this.assessorId}/`;
-      }
-
+      if (this.applicationId) savePath += `application/${this.applicationId}/`;
+      if (this.userId) savePath += `user/${this.userId}/`;
+      if (this.assessorId) savePath += `assessor/${this.assessorId}/`;
       return savePath;
     },
     url() {
@@ -113,13 +76,6 @@ export default {
   methods: {
     async init() {
       try {
-        // Reference to the 'settings' collection
-        const settingsRef = doc(firestore, 'settings/candidateSettings');
-
-        // Fetch the feature flag
-        const settingsSnapshot = await getDoc(settingsRef);
-        this.checksumsEnabled = settingsSnapshot.exists() ? settingsSnapshot.data().checksums.enabled : false;
-
         // Check the metadata to determine if the file is safe for download
         this.metadata = await this.getMetadata();
         this.isFileClean = this.metadata?.customMetadata?.status === 'clean';
@@ -157,7 +113,6 @@ export default {
       const verifyFileChecksum = httpsCallable(functions, 'verifyFileChecksum');
       try {
         const result = await verifyFileChecksum({ filePath: this.url });
-
         this.checksumResult = result.data.valid; // Store the result
         return result.data.valid;
       } catch (error) {
@@ -186,9 +141,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.download-visited {
-  color: #4c2c92;
-}
-</style>
