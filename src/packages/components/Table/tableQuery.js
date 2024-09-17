@@ -175,11 +175,11 @@ const paginatedQuery = async (data, ref, params, orderBy) => {
 
         // should query first to update startAfter position if jump more than 1 page
         if (params.pageChange > 1) {
-          const limit = params.pageSize * (params.pageChange - 1);
+          const limitSize = params.pageSize * (params.pageChange - 1);
           const tmpRef = query(
             queryRef,
             firestoreStarAfter(...startAfter),
-            limit(limit),
+            limit(limitSize),
           );
           const snap = await getDocs(tmpRef);
           const tmpData = [];
