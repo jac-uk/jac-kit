@@ -35,6 +35,20 @@ export function normaliseNIN(nin) {
   return nin ? nin.trim().replace(/-|\s/g,'').toLowerCase() : ''; //replace hyphens and spaces inside and on the outer side and makes lower case
 }
 
+export async function getDocument(query, convertTimestamps) {
+  const doc = await query.get();
+  if (doc.exists) {
+    const document = doc.data();
+    document.id = doc.id;
+    document.ref = doc.ref;
+    if (convertTimestamps) {
+      return convertFirestoreTimestampsToDates(document);
+    } else {
+      return document;
+    }
+  }
+  return false;
+}
 
 export async function getDocuments(query) {
   const documents = [];

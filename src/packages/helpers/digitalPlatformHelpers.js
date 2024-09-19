@@ -1,7 +1,7 @@
-import firebase from 'firebase-admin';
+import firestore from 'firebase-admin';
 import lookup from './lookup.js';
 
-const Timestamp = firebase.firestore.Timestamp;
+const { Timestamp } = firestore;
 
 export const addField = (array, label, value, lineBreak = false) => {
   if (value === undefined || value === null || value === '') {
@@ -14,7 +14,7 @@ export const addField = (array, label, value, lineBreak = false) => {
 };
 
 export const toYesNo = (value) => {
-  // Only convert booleans, not all falsy values mean "no"
+  // Only convert booleans, not all falsy values mean "no" 
   if (typeof value === 'boolean') {
     return value ? 'Yes' : 'No';
   }
