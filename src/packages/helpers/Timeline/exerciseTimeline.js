@@ -1,4 +1,5 @@
-import { isDate, formatDate } from '../date.js';
+import { isDate, formatDate } from '../date';
+import { TASK_TYPE } from '../../helpers/constants';
 
 const getDateString = (date, format) => {
   return isDate(date) ? formatDate(date, format) : null;
@@ -28,9 +29,10 @@ const getDateAndTimeString = (date, startTime, endTime) => {
 
 const createSelectionDay = (selectionDay) => {
   const selectionDayEntry = {
-    entry: `Selection Day - ${  selectionDay.selectionDayLocation}`,
+    entry: `Selection Day - ${selectionDay.selectionDayLocation}`,
     date: selectionDay.selectionDayStart,
     dateString: null,
+    taskType: TASK_TYPE.SELECTION_DAY,
   };
 
   const selectionDayStart = getDateString(selectionDay.selectionDayStart);
@@ -46,11 +48,12 @@ const createSelectionDay = (selectionDay) => {
   return selectionDayEntry;
 };
 
-const createShortlistingMethod = (method, startDate, endDate) => {
+const createShortlistingMethod = (method, startDate, endDate, taskType) => {
   const shortlistingMethodEntry = {
     entry: `${method}`,
     date: startDate,
     dateString: null,
+    taskType: taskType,
   };
 
   const formattedStartDate = getDateString(startDate);
@@ -97,24 +100,25 @@ const exerciseTimeline = (data) => {
           entry: 'Shortlisting outcome',
           date: data.shortlistingOutcomeDate,
           dateString: getDateString(data.shortlistingOutcomeDate, 'month'),
+          taskType: TASK_TYPE.SHORTLISTING_OUTCOME,
         }
       );
     }
 
     if (data.shortlistingMethods.includes('paper-sift')) {
       timeline.push(
-        createShortlistingMethod('Sift', data.siftStartDate, data.siftEndDate)
+        createShortlistingMethod('Sift', data.siftStartDate, data.siftEndDate, TASK_TYPE.SIFT)
       );
     }
 
     if (data.shortlistingMethods.includes('name-blind-paper-sift')) {
       timeline.push(
-        createShortlistingMethod('Name-blind sift', data.nameBlindSiftStartDate, data.nameBlindSiftEndDate)
+        createShortlistingMethod('Name-blind sift', data.nameBlindSiftStartDate, data.nameBlindSiftEndDate, TASK_TYPE.SIFT)
       );
     }
 
     if (data.shortlistingMethods.includes('telephone-assessment')) {
-      timeline.push(createShortlistingMethod('Telephone assessment', data.telephoneAssessmentStartDate, data.telephoneAssessmentEndDate));
+      timeline.push(createShortlistingMethod('Telephone assessment', data.telephoneAssessmentStartDate, data.telephoneAssessmentEndDate, TASK_TYPE.TELEPHONE_ASSESSMENT ));
     }
 
     if (data.shortlistingMethods.includes('situational-judgement-qualifying-test')) {
@@ -123,7 +127,9 @@ const exerciseTimeline = (data) => {
           {
             entry: 'Situational judgement qualifying test (QT)',
             date: getDateAndTime(data.situationalJudgementTestDate, data.situationalJudgementTestStartTime),
+            endDate: getDateAndTime(data.situationalJudgementTestDate, data.situationalJudgementTestEndTime),
             dateString: getDateAndTimeString(data.situationalJudgementTestDate, data.situationalJudgementTestStartTime, data.situationalJudgementTestEndTime),
+            taskType: TASK_TYPE.SITUATIONAL_JUDGEMENT,
           }
         );
       }
@@ -144,7 +150,9 @@ const exerciseTimeline = (data) => {
           {
             entry: 'Critical analysis qualifying test (QT)',
             date: getDateAndTime(data.criticalAnalysisTestDate, data.criticalAnalysisTestStartTime),
+            endDate: getDateAndTime(data.criticalAnalysisTestDate, data.criticalAnalysisTestEndTime),
             dateString: getDateAndTimeString(data.criticalAnalysisTestDate, data.criticalAnalysisTestStartTime, data.criticalAnalysisTestEndTime),
+            taskType: TASK_TYPE.CRITICAL_ANALYSIS,
           }
         );
       }
@@ -165,7 +173,9 @@ const exerciseTimeline = (data) => {
           {
             entry: 'Scenario test',
             date: getDateAndTime(data.scenarioTestDate, data.scenarioTestStartTime),
+            endDate: getDateAndTime(data.scenarioTestDate, data.scenarioTestEndTime),
             dateString: getDateAndTimeString(data.scenarioTestDate, data.scenarioTestStartTime, data.scenarioTestEndTime),
+            taskType: TASK_TYPE.SCENARIO,
           }
         );
       }
@@ -213,6 +223,27 @@ const exerciseTimeline = (data) => {
     );
   }
 
+  if (data.preSelectionDayQuestionnaireSendDate) {
+    timeline.push(
+      {
+        entry: 'Pre Selection Day Questionnaire - send',
+        date: data.preSelectionDayQuestionnaireSendDate,
+        dateString: getDateString(data.preSelectionDayQuestionnaireSendDate),
+        taskType: TASK_TYPE.PRE_SELECTION_DAY_QUESTIONNAIRE,
+      }
+    );
+  }
+
+  if (data.preSelectionDayQuestionnaireReturnDate) {
+    timeline.push(
+      {
+        entry: 'Pre Selection Day Questionnaire - return',
+        date: data.preSelectionDayQuestionnaireReturnDate,
+        dateString: getDateString(data.preSelectionDayQuestionnaireReturnDate),
+      }
+    );
+  }
+
   if (data.selectionDays && data.selectionDays.length > 0) {
     for (let i = 0; i < data.selectionDays.length; i++) {
       if (data.selectionDays[i].selectionDayStart) {
@@ -224,7 +255,7 @@ const exerciseTimeline = (data) => {
   if (data.characterChecksDate) {
     timeline.push(
       {
-        entry: 'Character Checks',
+        entry: 'Character Checks - Candidate Consent sent',
         date: data.characterChecksDate,
         dateString: getDateString(data.characterChecksDate),
       }
@@ -234,9 +265,29 @@ const exerciseTimeline = (data) => {
   if (data.characterChecksReturnDate) {
     timeline.push(
       {
-        entry: 'Character Checks return',
+        entry: 'Character Checks - Candidate Consent return',
         date: data.characterChecksReturnDate,
         dateString: getDateString(data.characterChecksReturnDate),
+      }
+    );
+  }
+
+  if (data.characterChecksProfessionalDate) {
+    timeline.push(
+      {
+        entry: 'Character Checks - Professional Checks sent',
+        date: data.characterChecksProfessionalDate,
+        dateString: getDateString(data.characterChecksProfessionalDate),
+      }
+    );
+  }
+
+  if (data.characterChecksProfessionalReturnDate) {
+    timeline.push(
+      {
+        entry: 'Character Checks - Professional Checks return',
+        date: data.characterChecksProfessionalReturnDate,
+        dateString: getDateString(data.characterChecksProfessionalReturnDate),
       }
     );
   }
@@ -266,14 +317,15 @@ const exerciseTimeline = (data) => {
       {
         entry: 'Selection process outcome',
         date: data.finalOutcome,
-        dateString: getDateString(data.finalOutcome),
+        dateString: getDateString(data.finalOutcome, 'month'),
+        // taskType: TASK_TYPE.SELECTION_OUTCOME,
       }
     );
   }
 
   if (data.equalMeritSecondStageStartDate) {
     timeline.push(
-      createShortlistingMethod('Equal merit second stage', data.equalMeritSecondStageStartDate, data.equalMeritSecondStageEndDate)
+      createShortlistingMethod('Equal merit second stage', data.equalMeritSecondStageStartDate, data.equalMeritSecondStageEndDate, TASK_TYPE.EMP_TIEBREAKER)
     );
   }
 

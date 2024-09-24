@@ -4,7 +4,6 @@ const createTimeline = (timeline, maxEntriesNum) => {
   if (maxEntriesNum) {
     return timelineArray.slice(0, maxEntriesNum);
   }
-
   return timelineArray;
 };
 

@@ -174,7 +174,7 @@
         :id="`multi-selection-input-${id}`"
         v-model="localField"
       >
-        <CheckboxItem
+        <Checkboxitem
           v-for="option in options"
           :key="option"
           :value="option"
@@ -253,7 +253,7 @@ import DateInput from './Form/DateInput.vue';
 import formatEmail from '../helpers/Form/formatEmail';
 import Select from './Form/Select.vue';
 import CheckboxGroup from './Form/CheckboxGroup.vue';
-import CheckboxItem from './Form/CheckboxItem.vue';
+import Checkboxitem from './Form/Checkboxitem.vue';
 import Form from './Form/Form.vue';
 import { transformOnSelection } from '../helpers/array';
 
@@ -267,7 +267,7 @@ export default {
     DateInput,
     Select,
     CheckboxGroup,
-    CheckboxItem,
+    Checkboxitem,
   },
   extends: Form,
   props: {

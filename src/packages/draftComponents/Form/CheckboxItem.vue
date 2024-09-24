@@ -36,7 +36,7 @@
 let index = 0;
 
 export default {
-  name: 'CheckboxItem',
+  name: 'Checkboxitem',
   props: {
     label: {
       default: '',
@@ -73,7 +73,7 @@ export default {
   },
   created() {
     if (this.$parent.$options.name !== 'CheckboxGroup') {
-      throw new Error('CheckboxItem component can only be used inside a CheckboxGroup component');
+      throw new Error('Checkboxitem component can only be used inside a CheckboxGroup component');
     }
     index++;
   },

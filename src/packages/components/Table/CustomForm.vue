@@ -11,7 +11,7 @@
           :label="field.title"
           hint="Select all that apply."
         >
-          <CheckboxItem
+          <Checkboxitem
             v-for="(option, i) in getOptions(field.options)"
             :key="i"
             :value="option.value"
@@ -138,7 +138,7 @@
 <script>
 import CheckboxGroup from '../../draftComponents/Form/CheckboxGroup.vue';
 import TextField from '../../draftComponents/Form/TextField.vue';
-import CheckboxItem from '../../draftComponents/Form/CheckboxItem.vue';
+import Checkboxitem from '../../draftComponents/Form/Checkboxitem.vue';
 import DateInput from '../../draftComponents/Form/DateInput.vue';
 import Checkbox from '../../draftComponents/Form/Checkbox.vue';
 import RadioGroup from '../../draftComponents/Form/RadioGroup.vue';
@@ -148,7 +148,7 @@ import Select from '../../draftComponents/Form/Select.vue';
 export default {
   components: {
     CheckboxGroup,
-    CheckboxItem,
+    Checkboxitem,
     TextField,
     DateInput,
     Checkbox,

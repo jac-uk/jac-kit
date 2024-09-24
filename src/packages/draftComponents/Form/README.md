@@ -49,7 +49,7 @@ If type is not provided, the component is rendered using the default type "text"
 components.
 
 Similarly, [GOV.UK Checkboxes](https://design-system.service.gov.uk/components/checkboxes/) can be created using the
-`CheckboxGroup` and `CheckboxItem` components.
+`CheckboxGroup` and `Checkboxitem` components.
 
 Usage is the same between both pairs of components.
 
@@ -79,7 +79,7 @@ This must be unique on the current page. It's used to link `<input>` elements wi
 The `v-model` directive is used to create two-way data bindings (it's passed from parent component as v-model prop). The `value`
 prop is supplied by the `v-model` binding, so does not need to be specified when using `v-model`.
 
-#### `RadioItem` and `CheckboxItem` props
+#### `RadioItem` and `Checkboxitem` props
 
 ##### `label` (required)
 
@@ -120,8 +120,8 @@ Hint text will be displayed as a GOV.UK-styled hint underneath the label.
 </template>
 
 <script>
-import RadioGroup from '@/draftComponents/Form/RadioGroup';
-import RadioItem from '@/draftComponents/Form/RadioItem';
+import RadioGroup from '@/packages/draftComponents/Form/RadioGroup';
+import RadioItem from '@/packages/draftComponents/Form/RadioItem';
 
 export default {
   components: {
@@ -189,9 +189,9 @@ In this example, we wrap the `<RadioItem></RadioItem>` element around conditiona
 </template>
 
 <script>
-import RadioGroup from '@/draftComponents/Form/RadioGroup';
-import RadioItem from '@/draftComponents/Form/RadioItem';
-import TextField from '@/draftComponents/Form/TextField';
+import RadioGroup from '@/packages/draftComponents/Form/RadioGroup';
+import RadioItem from '@/packages/draftComponents/Form/RadioItem';
+import TextField from '@/packages/draftComponents/Form/TextField';
 
 export default {
   components: {

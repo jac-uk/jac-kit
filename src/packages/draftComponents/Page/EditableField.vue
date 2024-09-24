@@ -237,7 +237,7 @@
         :id="`multi-selection-input-${id}`"
         v-model="localField"
       >
-        <CheckboxItem
+        <Checkboxitem
           v-for="option in options"
           :key="option"
           :value="option"
@@ -342,7 +342,7 @@ import DateInput from '@jac-uk/jac-kit/draftComponents/Form/DateInput.vue';
 import formatEmail from '@jac-uk/jac-kit/helpers/Form/formatEmail';
 import Select from '@jac-uk/jac-kit/draftComponents/Form/Select.vue';
 import CheckboxGroup from '@jac-uk/jac-kit/draftComponents/Form/CheckboxGroup.vue';
-import CheckboxItem from '@jac-uk/jac-kit/draftComponents/Form/CheckboxItem.vue';
+import Checkboxitem from '@jac-uk/jac-kit/draftComponents/Form/Checkboxitem.vue';
 //import * as filters from '../filters/filters';
 import Form from '@jac-uk/jac-kit/draftComponents/Form/Form.vue';
 import { transformOnSelection } from '@jac-uk/jac-kit/helpers/array';
@@ -357,7 +357,7 @@ export default {
     DateInput,
     Select,
     CheckboxGroup,
-    CheckboxItem,
+    Checkboxitem,
     SingleChoice,
     MultipleChoice,
     RankedChoice,

@@ -1,8 +1,8 @@
 /*eslint func-style: ["error", "declaration"]*/
 import clone from 'clone';
-import { ADVERT_TYPES, EXERCISE_STAGE, APPLICATION_STATUS, SHORTLISTING, TASK_TYPE, SHORTLISTING_TASK_TYPES, ASSESSMENT_METHOD } from './constants.js'
-import exerciseTimeline from './Timeline/exerciseTimeline.js';
-import createTimeline from './Timeline/createTimeline.js';
+import { ADVERT_TYPES, EXERCISE_STAGE, APPLICATION_STATUS, SHORTLISTING, TASK_TYPE, SHORTLISTING_TASK_TYPES, ASSESSMENT_METHOD } from '@/packages/helpers/constants.js';
+import exerciseTimeline from '@/packages/helpers/Timeline/exerciseTimeline';
+import createTimeline from '@/packages/helpers/Timeline/createTimeline';
 
 /** Used in Admin:-
 APPLICATION_STEPS,
@@ -31,17 +31,21 @@ export {
   TASK_STATUS,
   TASK_TYPE,
   STAGE_TASKS,
+  PROCESSING_STAGE,
+  TASK_STEPS,
   getNextProcessingStage,
   getProcessingEntryStage,
-  getProcessingExitStage,
+  getProcessingexitStage,
   getTimelineTasks,
   getTaskTypes,
   getTaskCurrentStep,
   getTaskSteps,
+  taskStatuses,
   getMeritListTaskTypes,
   taskEntryStatus,
   previousTaskType,
   emptyScoreSheet,
+  applicationCurrentStep,
   exerciseStates,
   exerciseAdvertTypes,
   applicationContentSteps,
@@ -57,6 +61,7 @@ export {
   hasIndependentAssessments,
   hasLeadershipJudgeAssessment,
   hasQualifyingTests,
+  hasScenarioTest,
   hasRelevantMemberships,
   hasStatementOfSuitability,
   hasCoveringLetter,
@@ -95,10 +100,10 @@ export {
   getStagePassingStatuses,
   getStageMoveBackStatuses,
   getStageWithdrawalStatus,
+  shortlistingStatuses,
   isApplicationVersionGreaterThan,
   isApplicationVersionLessThan,
-  isJAC00187,
-  isPublished
+  isJAC00187
 };
 
 // const EXERCISE_STATES = ['draft', 'ready', 'approved', 'shortlisting', 'selection', 'recommendation', 'handover', 'archived'];
@@ -127,6 +132,7 @@ const APPLICATION_STEPS = [
   EXERCISE_STAGE.SCC, // v2
   EXERCISE_STAGE.RECOMMENDATION, // v2
 ];
+
 const APPLICATION_PARTS = [
   'personalDetails',
   'characterInformation',
@@ -174,6 +180,7 @@ const PROCESSING_STAGES = [
 ];
 
 const STAGE_TASKS = {};
+
 STAGE_TASKS[PROCESSING_STAGE.SHORTLISTING] = [
   TASK_TYPE.CRITICAL_ANALYSIS,
   TASK_TYPE.SITUATIONAL_JUDGEMENT,
@@ -183,6 +190,7 @@ STAGE_TASKS[PROCESSING_STAGE.SHORTLISTING] = [
   TASK_TYPE.ELIGIBILITY_SCC,
   TASK_TYPE.SHORTLISTING_OUTCOME,
 ];
+
 STAGE_TASKS[PROCESSING_STAGE.SELECTION] = [
   TASK_TYPE.SELECTION_DAY,
   TASK_TYPE.STATUTORY_CONSULTATION,
@@ -258,7 +266,7 @@ function getProcessingEntryStage(exercise, processingStage) {
   }
 }
 
-function getProcessingExitStage(exercise, processingStage) {
+function getProcessingexitStage(exercise, processingStage) {
   if (exercise._processingVersion >= 2) {
     switch (processingStage) {
     case 'all':
@@ -303,12 +311,12 @@ function getTimelineTasks(exercise, taskType) {
       TASK_TYPE.SITUATIONAL_JUDGEMENT,
       TASK_TYPE.QUALIFYING_TEST,
       TASK_TYPE.SCENARIO,
-      TASK_TYPE.SHORTLISTING_OUTCOME,
-      TASK_TYPE.ELIGIBILITY_SCC,
-      TASK_TYPE.STATUTORY_CONSULTATION,
-      TASK_TYPE.CHARACTER_AND_SELECTION_SCC,
+      // TASK_TYPE.SHORTLISTING_OUTCOME,
+      // TASK_TYPE.ELIGIBILITY_SCC,
+      // TASK_TYPE.STATUTORY_CONSULTATION,
+      // TASK_TYPE.CHARACTER_AND_SELECTION_SCC,
       TASK_TYPE.EMP_TIEBREAKER,
-      TASK_TYPE.PRE_SELECTION_DAY_QUESTIONNAIRE,
+      // TASK_TYPE.PRE_SELECTION_DAY_QUESTIONNAIRE,
       TASK_TYPE.SELECTION_DAY,
     ];
   } else {
@@ -320,6 +328,7 @@ function getTimelineTasks(exercise, taskType) {
       TASK_TYPE.EMP_TIEBREAKER,
     ];
   }
+  
   timelineTasks = timelineTasks.filter(task => supportedTaskTypes.indexOf(task.taskType) >= 0);
   if (timelineTasks.find((item) => item.taskType === TASK_TYPE.SHORTLISTING_OUTCOME)) {  // ensure shortlisting outcome comes after shortlisting methods!
     let shortlistingOutcomeIndex = -1;
@@ -426,12 +435,20 @@ function taskStatuses(taskType) { // also on DP
       ];
       break;
     case TASK_TYPE.SIFT:
+      availableStatuses = [
+        TASK_STATUS.DATA_INITIALISED,
+        TASK_STATUS.PANELS_INITIALISED,
+        TASK_STATUS.PANELS_ACTIVATED,
+        TASK_STATUS.FINALISED,
+        TASK_STATUS.COMPLETED,
+      ];
+      break;
     case TASK_TYPE.SELECTION_DAY:
       availableStatuses = [
         TASK_STATUS.DATA_INITIALISED,
-        TASK_STATUS.DATA_ACTIVATED,
-        // TASK_STATUS.PANELS_INITIALISED,
-        // TASK_STATUS.PANELS_ACTIVATED,
+        // TASK_STATUS.DATA_ACTIVATED,
+        TASK_STATUS.PANELS_INITIALISED,
+        TASK_STATUS.PANELS_ACTIVATED,
         TASK_STATUS.FINALISED,
         TASK_STATUS.COMPLETED,
       ];
@@ -455,6 +472,7 @@ const MERIT_LIST_TASK_TYPES = [
   TASK_TYPE.SIFT,
   TASK_TYPE.SELECTION_DAY,
 ];
+
 function getMeritListTaskTypes(exercise) {
   // if we have Qualifying Test then remove SJ & CA
   let taskTypes = getTaskTypes(exercise);
@@ -491,7 +509,18 @@ function taskEntryStatus(exercise, type) {
   if (type === TASK_TYPE.EMP_TIEBREAKER) return APPLICATION_STATUS.SCC_TO_RECONSIDER;  // TODO: remove this eventually: override entry status for EMP tie-breakers
   const prevTaskType = previousTaskType(exercise, type);
   if (prevTaskType) {
-    status = `${prevTaskType}Passed`;
+    switch (prevTaskType) {
+    case TASK_TYPE.CRITICAL_ANALYSIS:
+    case TASK_TYPE.SITUATIONAL_JUDGEMENT:
+    case TASK_TYPE.QUALIFYING_TEST:
+      status = APPLICATION_STATUS.QUALIFYING_TEST_PASSED;
+      break;
+    case TASK_TYPE.SCENARIO:
+      status = APPLICATION_STATUS.SCENARIO_TEST_PASSED;
+      break;
+    default:
+      status = `${prevTaskType}Passed`;
+    }
   }
   return status;
 }
@@ -578,14 +607,17 @@ function isReadyForApproval(data) {
   if (data === null) return false;
   return data.state === 'ready';
 }
+
 function isReadyForApprovalFromAdvertType(data) {
   if (data === null) return false;
   return (!data.advertType || [ADVERT_TYPES.FULL, ADVERT_TYPES.EXTERNAL, ADVERT_TYPES.LISTING].includes(data.advertType));
 }
+
 function isApprovalRejected(data) {
   if (data === null) return false;
   return ['draft', 'ready'].includes(data.state) && data._approval && data._approval.status === 'rejected';
 }
+
 function isEditable(data) {
   if (data === null) return false;
   switch (data.state) {
@@ -596,6 +628,7 @@ function isEditable(data) {
       return false;
   }
 }
+
 function isArchived(data) {
   if (!data) return false;
   switch (data.state) {
@@ -605,10 +638,7 @@ function isArchived(data) {
       return false;
   }
 }
-function isPublished(data) {
-  if (!data) return false;
-  return data.published;
-}
+
 function isApproved(data) {
   if (!data) return false;
   switch (data.state) {
@@ -625,7 +655,7 @@ function isProcessing(exercise) {
 }
 function isClosed(exercise) {
   if (!exercise) { return false; }
-  return isApproved && exercise.applicationCloseDate && exercise.applicationCloseDate <= new Date();
+  return isApproved(exercise) && exercise.applicationCloseDate && exercise.applicationCloseDate <= new Date();
 }
 function applicationCounts(exercise) {
   return exercise && exercise._applications ? exercise._applications : {};

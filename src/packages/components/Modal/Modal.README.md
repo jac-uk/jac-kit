@@ -19,7 +19,7 @@ example usage:
   </div>
 </template>
 <script>
-import Modal from '@/draftComponents/Modal';
+import Modal from '@/packages/draftComponents/Modal';
 import { auth } from '@/firebase';
 
 export default {
