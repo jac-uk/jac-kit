@@ -13,7 +13,6 @@ import mitt from 'mitt';
  */
 const emitter = mitt();
 
-
 // Root instance
 const vueApp = createApp(App);
 
