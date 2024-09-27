@@ -8,7 +8,7 @@
       :id="`${id}-answer-${index}`"
       v-model="localVModel"
       :name="`${id}-answer-${index}`"
-      :value="answer.id"
+      :value="answer.id ? answer.id : answer.answer"
       type="radio"
       class="govuk-radios__input"
     >

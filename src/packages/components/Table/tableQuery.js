@@ -1,6 +1,6 @@
 import vuexfireSerialize from '../../helpers/vuexfireSerialize';
 import { formatSearchTerm } from '../../helpers/search';
-import { query, where, orderBy as firesoterOrderBy, limit, startAfter as firestoreStarAfter, endBefore as firestoreEndBefore, documentId, limitToLast, getDocs } from "firebase/firestore";
+import { query, where, orderBy as firestoreOrderBy, limit, startAfter as firestoreStarAfter, endBefore as firestoreEndBefore, documentId, limitToLast, getDocs } from "firebase/firestore";
 
 const search = (searchValue) => {
   let returnValue = null;
@@ -84,7 +84,7 @@ const filteredQuery = (ref, params) => {
           queryRef,
           where(params.search[0], '>=', returnSearch.value1),
           where(params.search[0], '<', returnSearch.value2),
-         firesoterOrderBy(params.search[0], 'asc'),
+          firestoreOrderBy(params.search[0], 'asc'),
         );
         orderBy = [params.search[0]];
       }
@@ -93,9 +93,9 @@ const filteredQuery = (ref, params) => {
     const direction = params.direction ? params.direction : 'asc';
     orderBy.forEach(field => {
       if (field === 'documentId') {
-        queryRef = query(queryRef,firesoterOrderBy(documentId(), direction));
+        queryRef = query(queryRef,firestoreOrderBy(documentId(), direction));
       } else {
-        queryRef = query(queryRef,firesoterOrderBy(field, direction));
+        queryRef = query(queryRef,firestoreOrderBy(field, direction));
       }
     });
   }
@@ -175,11 +175,11 @@ const paginatedQuery = async (data, ref, params, orderBy) => {
 
         // should query first to update startAfter position if jump more than 1 page
         if (params.pageChange > 1) {
-          const limit = params.pageSize * (params.pageChange - 1);
+          const limitSize = params.pageSize * (params.pageChange - 1);
           const tmpRef = query(
             queryRef,
             firestoreStarAfter(...startAfter),
-            limit(limit),
+            limit(limitSize),
           );
           const snap = await getDocs(tmpRef);
           const tmpData = [];

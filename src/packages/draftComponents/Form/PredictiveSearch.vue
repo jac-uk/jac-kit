@@ -63,8 +63,8 @@
 </template>
 
 <script>
-import FormField from '@jac-uk/jac-kit/draftComponents/Form/FormField.vue';
-import FormFieldError from '@jac-uk/jac-kit/draftComponents/Form/FormFieldError.vue';
+import FormField from '.FormField.vue';
+import FormFieldError from './FormFieldError.vue';
 
 export default {
   components: {
@@ -107,6 +107,7 @@ export default {
       return !!this.errorMessage;
     },
   },
+
   watch: {
     modelValue(newValue) {
       this.searchTerm = newValue;
