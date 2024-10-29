@@ -3,7 +3,7 @@
 </template>
 <script>
 import { splitWords } from '../../helpers/splitWords';
-import { isValidInternationalMobile } from '@/helpers/validatePhone';
+import { isValidInternationalMobile } from '../../helpers/validatePhone';
 export default {
   props: {
     id: {
