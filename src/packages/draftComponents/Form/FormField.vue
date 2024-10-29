@@ -3,6 +3,7 @@
 </template>
 <script>
 import { splitWords } from '../../helpers/splitWords';
+import { isValidInternationalMobile } from '@/helpers/validatePhone';
 export default {
   props: {
     id: {
@@ -132,6 +133,13 @@ export default {
           if (this.type === 'tel') {
             if (!this.regex.tel.test(value.replace(/ /g,''))) {
               this.setError(`Enter a valid phone number for ${this.label}`);
+            }
+          }
+
+          if (this.type === 'mobile') {
+            if (!isValidInternationalMobile(value)) {
+              //this.setError(`Enter a valid mobile number for ${this.label}`);
+              this.setError('Enter a valid international mobile number beginning with a + symbol');
             }
           }
 
