@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import FormField from '.FormField.vue';
+import FormField from './FormField.vue';
 import FormFieldError from './FormFieldError.vue';
 
 export default {
