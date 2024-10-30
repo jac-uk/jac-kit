@@ -6,7 +6,7 @@ export {
 };
 
 function isValidUKMobile(number, countryCode = 'GB') {
-  // Ensure the number starts with a local prefix (like '0' for the UK)
+  // Ensure the number starts with a local prefix (eg '0' for the UK)
   if (!number.startsWith('0')) {
     return false;
   }
