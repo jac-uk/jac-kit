@@ -3,7 +3,7 @@
 </template>
 <script>
 import { splitWords } from '../../helpers/splitWords';
-import { isValidInternationalMobile } from '../../helpers/Form/validatePhone';
+import { isValidUKMobile } from '../../helpers/Form/validatePhone';
 export default {
   props: {
     id: {
@@ -137,7 +137,7 @@ export default {
           }
 
           if (this.type === 'mobile') {
-            if (!isValidInternationalMobile(value)) {
+            if (!isValidUKMobile(value)) {
               //this.setError(`Enter a valid mobile number for ${this.label}`);
               this.setError('Enter a valid international mobile number beginning with a + symbol');
             }

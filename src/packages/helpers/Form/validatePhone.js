@@ -1,18 +1,15 @@
 /*eslint func-style: ["error", "declaration"]*/
-import { parsePhoneNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 export {
-  isValidInternationalMobile
+  isValidUKMobile
 };
 
-function isValidInternationalMobile(number) {
-  if (!number.startsWith('+')) {
+function isValidUKMobile(number, countryCode = 'GB') {
+  // Ensure the number starts with a local prefix (like '0' for the UK)
+  if (!number.startsWith('0')) {
     return false;
   }
-  const phoneNumber = parsePhoneNumberFromString(number);
-  return (
-    phoneNumber &&
-    phoneNumber.isValid() &&
-    phoneNumber.getType() === 'MOBILE'
-  );
+  const phoneNumber = parsePhoneNumberFromString(number, countryCode);
+  return phoneNumber && phoneNumber.isValid() && phoneNumber.getType() === 'MOBILE';
 }
