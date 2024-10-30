@@ -139,7 +139,7 @@ export default {
           if (this.type === 'mobile') {
             if (!isValidUKMobile(value)) {
               //this.setError(`Enter a valid mobile number for ${this.label}`);
-              this.setError('Enter a valid international mobile number beginning with a + symbol');
+              this.setError('Enter a valid UK mobile number');
             }
           }
 
