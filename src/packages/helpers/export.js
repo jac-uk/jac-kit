@@ -6,7 +6,7 @@ import { saveSync } from 'save-file';
  *
  * @param {Array} data
  * @param {Object} options
- * @param {Object} styles Set up styles for rows and columns. 
+ * @param {Object} styles Set up styles for rows and columns.
  * Check all available styles in https://github.com/dtjohnson/xlsx-populate?tab=readme-ov-file#styles-1.
  * ex. {
  *       column: {
@@ -39,8 +39,8 @@ const downloadXLSX = async (data, options, styles) => {
 
   if (styles) {
     // Set up styles for specific columns
-    const columStyles = styles.column || {};
-    for (const [colNo, colStyle] of Object.entries(columStyles)) {
+    const columnStyles = styles.column || {};
+    for (const [colNo, colStyle] of Object.entries(columnStyles)) {
       sheet.column(colNo).style(colStyle);
     }
 
@@ -49,6 +49,19 @@ const downloadXLSX = async (data, options, styles) => {
     for (const [rowNo, rowStyle] of Object.entries(rowStyles)) {
       sheet.column(rowNo).style(rowStyle);
     }
+
+    // Set up styles for specific cells
+    const cellStyles = styles.cell || {};
+    for (const [cellNo, cellStyle] of Object.entries(cellStyles)) {
+      sheet.cell(cellNo).style(cellStyle);
+    }
+  }
+
+  // Merge cells
+  if (Array.isArray(options.merges) && options.merges.length) {
+    options.merges.forEach((merge) => {
+      sheet.range(merge).merged(true);
+    });
   }
 
   sheet.freezePanes(0, 1);
