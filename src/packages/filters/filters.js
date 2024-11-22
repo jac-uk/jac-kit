@@ -391,6 +391,8 @@ const lookup = (value) => {
       'schedule-2-d': 'Schedule 2(d)',
       'schedule-2-3': 'Schedule 3(d)',
       // 'xxx': 'xxx',
+      'roma': 'Roma',
+      'arab': 'Arab',
     };
     // STAGES
     lookup[APPLICATION_STATUS.PASSED_SIFT] = 'Passed Sift';
