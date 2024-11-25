@@ -81,6 +81,9 @@ export default {
         case 'number':
           this.$emit('update:modelValue', val ? parseFloat(val) : '');
           break;
+        case 'email':
+          this.$emit('update:modelValue', val ? val.toLowerCase() : '');
+          break;
         default:
           this.$emit('update:modelValue', val);
         }
