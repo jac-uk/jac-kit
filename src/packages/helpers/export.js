@@ -2,6 +2,19 @@ import XLSXPopulate from 'xlsx-populate';
 import { saveSync } from 'save-file';
 
 /**
+ * Sanitise cell data to ensure that values starting with special characters
+ * (e.g., '=', '+', '-', '@') are treated as plain text.
+ * @param {string} input - The cell data to be sanitised.
+ * @returns {string} - The sanitised cell data.
+ */
+const sanitiseForExcel = (input) => {
+  if (input && /^[=+\-@]/.test(input)) {
+    return `'${input}`;
+  }
+  return input;
+};
+
+/**
  * Download data as .xlsx file
  *
  * @param {Array} data
@@ -31,7 +44,10 @@ const downloadXLSX = async (data, options, styles) => {
    */
   sheet.name(options.sheetName.replace(/[^\w\s-]/gi, '').substring(0, 30));
 
-  sheet.cell('A1').value(data);
+  // Sanitize data before populating the sheet
+  const sanitizedData = data.map(row => row.map(cell => sanitiseForExcel(cell)));  // Sanitize each cell
+
+  sheet.cell('A1').value(sanitizedData);
   sheet.row(1).style({
     bold: true,
     fill: 'eeeeee',
@@ -47,7 +63,7 @@ const downloadXLSX = async (data, options, styles) => {
     // Set up styles for specific rows
     const rowStyles = styles.row || {};
     for (const [rowNo, rowStyle] of Object.entries(rowStyles)) {
-      sheet.column(rowNo).style(rowStyle);
+      sheet.row(rowNo).style(rowStyle);
     }
 
     // Set up styles for specific cells
