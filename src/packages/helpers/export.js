@@ -6,7 +6,7 @@ import { saveSync } from 'save-file';
  *
  * @param {Array} data
  * @param {Object} options
- * @param {Object} styles Set up styles for rows and columns.
+ * @param {Object} options.styles Set up styles for rows and columns.
  * Check all available styles in https://github.com/dtjohnson/xlsx-populate?tab=readme-ov-file#styles-1.
  * ex. {
  *       column: {
@@ -15,8 +15,10 @@ import { saveSync } from 'save-file';
  *         },
  *       },
  *     }
+ * @param {Array} options.freezePanes Set up freeze panes. (ex. [{ xSplit: 0, ySplit: 1 }])
+ * @param {Array} options.merges Set up merges. (ex. ['A1:B1'])
  */
-const downloadXLSX = async (data, options, styles) => {
+const downloadXLSX = async (data, options) => {
   const workbook = await XLSXPopulate.fromBlankAsync();
 
   workbook.property({
@@ -32,29 +34,46 @@ const downloadXLSX = async (data, options, styles) => {
   sheet.name(options.sheetName.replace(/[^\w\s-]/gi, '').substring(0, 30));
 
   sheet.cell('A1').value(data);
-  sheet.row(1).style({
-    bold: true,
-    fill: 'eeeeee',
-  });
 
-  if (styles) {
-    // Set up styles for specific columns
-    const columnStyles = styles.column || {};
-    for (const [colNo, colStyle] of Object.entries(columnStyles)) {
-      sheet.column(colNo).style(colStyle);
-    }
+  if (!options.styles) {
+    options.styles = {
+      row: {
+        1: {
+          bold: true,
+          fill: 'eeeeee',
+        },
+      },
+    };
+  }
+  if (!options.freezePanes) {
+    options.freezePanes = [
+      {
+        xSplit: 0,
+        ySplit: 1,
+      },
+    ];
+  }
 
-    // Set up styles for specific rows
-    const rowStyles = styles.row || {};
-    for (const [rowNo, rowStyle] of Object.entries(rowStyles)) {
-      sheet.column(rowNo).style(rowStyle);
-    }
-
-    // Set up styles for specific cells
-    const cellStyles = styles.cell || {};
-    for (const [cellNo, cellStyle] of Object.entries(cellStyles)) {
-      sheet.cell(cellNo).style(cellStyle);
-    }
+  const { row, column, cell, range } = options.styles;
+  // Set up styles for specific columns
+  const columnStyles = column || {};
+  for (const [colNo, colStyle] of Object.entries(columnStyles)) {
+    sheet.column(colNo).style(colStyle);
+  }
+  // Set up styles for specific rows
+  const rowStyles = row || {};
+  for (const [rowNo, rowStyle] of Object.entries(rowStyles)) {
+    sheet.row(rowNo).style(rowStyle);
+  }
+  // Set up styles for specific cells
+  const cellStyles = cell || {};
+  for (const [cellNo, cellStyle] of Object.entries(cellStyles)) {
+    sheet.cell(cellNo).style(cellStyle);
+  }
+  // Set up styles for specific ranges
+  const rangeStyles = range || {};
+  for (const [rangeNo, rangeStyle] of Object.entries(rangeStyles)) {
+    sheet.range(rangeNo).style(rangeStyle);
   }
 
   // Merge cells
@@ -64,7 +83,15 @@ const downloadXLSX = async (data, options, styles) => {
     });
   }
 
-  sheet.freezePanes(0, 1);
+  // Freeze panes
+  if (Array.isArray(options.freezePanes) && options.freezePanes.length) {
+    options.freezePanes.forEach((pane) => {
+      if (typeof pane.xSplit === 'number' && typeof pane.ySplit === 'number')
+        sheet.freezePanes(pane.xSplit, pane.ySplit);
+      else if (pane.topLeftCell)
+        sheet.freezePanes(pane.topLeftCell);
+    });
+  }
 
   const blob = await workbook.outputAsync();
   saveSync(blob, options.fileName);
