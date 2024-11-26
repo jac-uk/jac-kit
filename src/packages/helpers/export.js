@@ -54,23 +54,26 @@ const downloadXLSX = async (data, options) => {
     ];
   }
 
-  const { row, column, cell } = options.styles;
+  const { row, column, cell, range } = options.styles;
   // Set up styles for specific columns
   const columnStyles = column || {};
   for (const [colNo, colStyle] of Object.entries(columnStyles)) {
     sheet.column(colNo).style(colStyle);
   }
-
   // Set up styles for specific rows
   const rowStyles = row || {};
   for (const [rowNo, rowStyle] of Object.entries(rowStyles)) {
     sheet.row(rowNo).style(rowStyle);
   }
-
   // Set up styles for specific cells
   const cellStyles = cell || {};
   for (const [cellNo, cellStyle] of Object.entries(cellStyles)) {
     sheet.cell(cellNo).style(cellStyle);
+  }
+  // Set up styles for specific ranges
+  const rangeStyles = range || {};
+  for (const [rangeNo, rangeStyle] of Object.entries(rangeStyles)) {
+    sheet.range(rangeNo).style(rangeStyle);
   }
 
   // Merge cells
