@@ -1,7 +1,7 @@
 import XLSXPopulate from 'xlsx-populate';
 import { save } from 'save-file';
 
-// Sanitisation function
+// Sanitisation function =, +, -, or @
 const sanitiseForExcel = (input) => {
   if (input && /^[=+\-@]/.test(input)) {
     return `'${input}`;
