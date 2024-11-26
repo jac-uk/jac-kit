@@ -1,6 +1,6 @@
 {
   "name": "@jac-uk/helpers",
-  "version": "0.0.25-sanitise.0",
+  "version": "4.0.12",
   "publishConfig": {
     "access": "public"
   },
