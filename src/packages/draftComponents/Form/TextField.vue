@@ -61,6 +61,10 @@ export default {
       default: 'on',
       type: String,
     },
+    toLowerCase: {
+      default: false,
+      type: Boolean,
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -75,6 +79,7 @@ export default {
       set(val) {
         if (typeof val === 'string') {
           val = val.trim();
+          val = this.toLowerCase ? val.toLowerCase() : val;
         }
 
         switch (this.type) {
