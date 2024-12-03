@@ -19,7 +19,6 @@ const sanitiseForExcel = (input) => {
  *
  * @param {Array} data
  * @param {Object} options
- * @param {Object} styles Set up styles for rows and columns.
  * Check all available styles in https://github.com/dtjohnson/xlsx-populate?tab=readme-ov-file#styles-1.
  * ex. {
  *       column: {
@@ -29,7 +28,7 @@ const sanitiseForExcel = (input) => {
  *       },
  *     }
  */
-const downloadXLSX = async (data, options, styles) => {
+const downloadXLSX = async (data, options) => {
   const workbook = await XLSXPopulate.fromBlankAsync();
 
   workbook.property({
@@ -40,34 +39,51 @@ const downloadXLSX = async (data, options, styles) => {
   const sheet = workbook.sheet(0);
 
   /* NOTE:
-   Sheet name length should not be more than 31 and not contain special characters
-   */
+    Sheet name length should not be more than 31 and not contain special characters
+  */
   sheet.name(options.sheetName.replace(/[^\w\s-]/gi, '').substring(0, 30));
 
   // Sanitize data before populating the sheet
   const sanitizedData = data.map(row => row.map(cell => sanitiseForExcel(cell)));  // Sanitize each cell
 
   sheet.cell('A1').value(sanitizedData);
-  sheet.row(1).style({
-    bold: true,
-    fill: 'eeeeee',
-  });
 
-  if (styles) {
+  if (!options.styles) {
+    options.styles = {
+      row: {
+        1: {
+          bold: true,
+          fill: 'eeeeee',
+        }
+      }
+    }
+  }
+
+  if (!options.freezePanes) {
+    options.freezePanes = [
+      {
+        xSplit: 0,
+        ySplit: 1,
+      },
+    ];
+    sheet.freezePanes(0, 1);
+  }
+
+  if (options.styles) {
     // Set up styles for specific columns
-    const columnStyles = styles.column || {};
+    const columnStyles = options.styles.column || {};
     for (const [colNo, colStyle] of Object.entries(columnStyles)) {
       sheet.column(colNo).style(colStyle);
     }
 
     // Set up styles for specific rows
-    const rowStyles = styles.row || {};
+    const rowStyles = options.styles.row || {};
     for (const [rowNo, rowStyle] of Object.entries(rowStyles)) {
       sheet.row(rowNo).style(rowStyle);
     }
 
     // Set up styles for specific cells
-    const cellStyles = styles.cell || {};
+    const cellStyles = options.styles.cell || {};
     for (const [cellNo, cellStyle] of Object.entries(cellStyles)) {
       sheet.cell(cellNo).style(cellStyle);
     }
@@ -80,7 +96,15 @@ const downloadXLSX = async (data, options, styles) => {
     });
   }
 
-  sheet.freezePanes(0, 1);
+  // Freeze panes
+  if (Array.isArray(options.freezePanes) && options.freezePanes.length) {
+    options.freezePanes.forEach((pane) => {
+      if (typeof pane.xSplit === 'number' && typeof pane.ySplit === 'number')
+        sheet.freezePanes(pane.xSplit, pane.ySplit);
+      else if (pane.topLeftCell)
+        sheet.freezePanes(pane.topLeftCell);
+    });
+  }
 
   const blob = await workbook.outputAsync();
   saveSync(blob, options.fileName);

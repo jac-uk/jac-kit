@@ -1,6 +1,6 @@
 {
   "name": "@jac-uk/jac-kit",
-  "version": "4.1.46-alpha.0",
+  "version": "4.1.49",
   "publishConfig": {
     "access": "public"
   },
@@ -12,6 +12,7 @@
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^38.1.0",
     "@ckeditor/ckeditor5-vue": "^5.1.0",
+    "floating-vue": "^5.2.2",
     "save-file": "^2.3.1",
     "stream-browserify": "^3.0.0",
     "uid": "^2.0.2",
