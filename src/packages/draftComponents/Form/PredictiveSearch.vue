@@ -135,7 +135,7 @@ export default {
       const searchTerm = this.searchTerm.toLowerCase();
       this.filteredResults = this.data.filter(item => {
         return this.searchFields.some(field =>
-          item[field].toLowerCase().includes(searchTerm)
+          item[field] && item[field].toLowerCase().includes(searchTerm)
         );
       }).slice(0, 50);
       this.listVisible = true;
