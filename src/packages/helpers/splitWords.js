@@ -1,6 +1,6 @@
 const splitWords = (textStr) => {
   return [].concat(...textStr
-    .split(/[^a-z’'-]/i) //split into array at every occurance of a character which is NOT: a-z or ’ or ' or -
+    .split(/[^a-z’'`-]/i) //split into array at every occurrence of a character which is NOT: a-z or ’ or ' or ` or -
     .filter(item => item != '') // remove any empty items from array
     .filter(item => item != '\'') // remove any items which are just a apostrophe
     .filter(item => item != '-') // remove any items which are just a hyphen
