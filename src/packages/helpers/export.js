@@ -8,6 +8,11 @@ import { saveSync } from 'save-file';
  * @returns {string} - The sanitised cell data.
  */
 const sanitiseForExcel = (input) => {
+  // if input is a number, return it as is
+  if (typeof input === 'number') {
+    return input;
+  }
+  // if input is a string starting with special characters, return it with single quote
   if (input && /^[=+\-@]/.test(input)) {
     return `'${input}`;
   }
