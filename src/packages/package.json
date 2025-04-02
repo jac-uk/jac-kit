@@ -1,6 +1,6 @@
 {
   "name": "@jac-uk/jac-kit",
-  "version": "4.1.54-fix-apostrophe-xlsx-export.0",
+  "version": "4.1.53",
   "publishConfig": {
     "access": "public"
   },
